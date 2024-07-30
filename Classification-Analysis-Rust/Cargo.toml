@@ -1,5 +1,5 @@
 [workspace]
-members = ["KNN"]
+members = ["KNN", "data_frame_plotter"]
 
 [package]
 name = "Classification-Analysis-Rust"

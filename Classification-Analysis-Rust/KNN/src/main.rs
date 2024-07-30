@@ -1,6 +1,6 @@
-use plotly::common::{Mode, Title};
-use plotly::{ Layout, Plot};
-use plotly::Scatter;
+use plotly::common::{Title};
+use plotly::{Layout, Plot};
+use data_frame_plotter::relational_plot;
 use polars::prelude::DataFrame;
 use polars_io::prelude::{CsvReader, CsvReadOptions};
 use polars_io::SerReader;
@@ -8,22 +8,16 @@ use std::path::PathBuf;
 use plotly::ImageFormat::PNG;
 use plotly::layout::Axis;
 
-fn relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &DataFrame) {
-    let x = data.column(x_name).expect("x column not found");
-    let y = data.column(y_name).unwrap();
-    let z = data.column(z_name).unwrap();
+fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &DataFrame) {
+    // let x = data.column(x_name).expect("x column not found");
+    // let y = data.column(y_name).unwrap();
+    // let z = data.column(z_name).unwrap();
+    //
+    // let x_values: Vec<f64> = x.f64().unwrap().into_iter().map(|v| v.unwrap()).collect();
+    // let y_values: Vec<f64> = y.f64().unwrap().into_iter().map(|v| v.unwrap()).collect();
+    // let z_values: Vec<&str> = z.str().unwrap().into_iter().map(|v| v.unwrap()).collect();
 
-    let x_values: Vec<f64> = x.f64().unwrap().into_iter().map(|v| v.unwrap()).collect();
-    let y_values: Vec<f64> = y.f64().unwrap().into_iter().map(|v| v.unwrap()).collect();
-    let z_values: Vec<&str> = z.str().unwrap().into_iter().map(|v| v.unwrap()).collect();
-
-    let trace = Scatter::new(x_values, y_values)
-        .mode(Mode::Markers)
-        .marker(plotly::common::Marker::new().color_array(z_values.iter().map(|&v| match v {
-            "M" => "blue",
-            "B" => "red",
-            _ => "black",
-        }).collect()));
+    let trace = relational_plot(x_name, y_name, z_name, data);
 
     let mut plot = Plot::new();
     plot.add_trace(trace);
@@ -53,5 +47,5 @@ fn main() {
     println!("{:?}", data_frame);
 
     // Plotting the data
-    relational_plot("radius_mean", "texture_mean", "diagnosis", &data_frame);
+    plotting_relational_plot("radius_mean", "texture_mean", "diagnosis", &data_frame);
 }

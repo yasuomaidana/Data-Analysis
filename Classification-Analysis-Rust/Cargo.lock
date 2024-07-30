@@ -10,6 +10,7 @@ version = "0.1.0"
 name = "KNN"
 version = "0.1.0"
 dependencies = [
+ "data_frame_plotter",
  "plotly",
  "polars",
  "polars-io",
@@ -481,6 +482,14 @@ dependencies = [
  "darling_core",
  "quote",
  "syn 2.0.72",
+]
+
+[[package]]
+name = "data_frame_plotter"
+version = "0.1.0"
+dependencies = [
+ "plotly",
+ "polars",
 ]
 
 [[package]]
