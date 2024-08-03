@@ -9,21 +9,20 @@ use plotly::ImageFormat::PNG;
 use plotly::layout::Axis;
 
 fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &DataFrame) {
-    // let x = data.column(x_name).expect("x column not found");
-    // let y = data.column(y_name).unwrap();
-    // let z = data.column(z_name).unwrap();
-    //
-    // let x_values: Vec<f64> = x.f64().unwrap().into_iter().map(|v| v.unwrap()).collect();
-    // let y_values: Vec<f64> = y.f64().unwrap().into_iter().map(|v| v.unwrap()).collect();
-    // let z_values: Vec<&str> = z.str().unwrap().into_iter().map(|v| v.unwrap()).collect();
 
     let trace = single_relational_plot(x_name, y_name, z_name, data);
 
+    let x_axis = Vec::from([Some(Box::new(Axis::new().title(Title::from(x_name))))]);
+    let y_axis = Vec::from([Some(Box::new(Axis::new().title(Title::from(y_name))))]);
+
+
     let mut plot = Plot::new();
     plot.add_trace(trace);
-    let layout = Layout::new().x_axis(Axis::new().title(Title::from("X Axis")))
-        .y_axis(Axis::new().title(Title::from("Y Axis")))
-        .title(Title::from("My Plot"));
+
+    let layout = Layout::new()
+        .x_axis(x_axis)
+        .y_axis(y_axis)
+        .title(Title::from("My Plot title"));
     plot.set_layout(layout);
 
     // plot.show(); showup the plot in the browser
