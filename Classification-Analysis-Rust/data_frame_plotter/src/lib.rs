@@ -18,7 +18,7 @@ pub fn cast_column_to_numeric(data: &DataFrame, column_name: &str) -> Vec<f64> {
 }
 
 // TO DO: Add the column
-pub fn relational_plot(x_name: &str, y_name: &str, hue: &str, data: &DataFrame) -> Box<Scatter<f64, f64>> {
+pub fn single_relational_plot(x_name: &str, y_name: &str, hue: &str, data: &DataFrame) -> Box<Scatter<f64, f64>> {
     let z = data.column(hue).expect("hue column not found");
 
     let categories = z.unique().unwrap();
@@ -49,6 +49,6 @@ mod tests {
         let s2 = Series::new("c", ["M", "M", "B"].as_ref());
         let df = DataFrame::new(vec![s0, s1, s2]).unwrap();
 
-        relational_plot("a", "b", "c", &df);
+        single_relational_plot("a", "b", "c", &df);
     }
 }

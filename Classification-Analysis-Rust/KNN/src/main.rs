@@ -1,6 +1,6 @@
 use plotly::common::{Title};
 use plotly::{Layout, Plot};
-use data_frame_plotter::relational_plot;
+use data_frame_plotter::single_relational_plot;
 use polars::prelude::DataFrame;
 use polars_io::prelude::{CsvReader, CsvReadOptions};
 use polars_io::SerReader;
@@ -17,7 +17,7 @@ fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &Dat
     // let y_values: Vec<f64> = y.f64().unwrap().into_iter().map(|v| v.unwrap()).collect();
     // let z_values: Vec<&str> = z.str().unwrap().into_iter().map(|v| v.unwrap()).collect();
 
-    let trace = relational_plot(x_name, y_name, z_name, data);
+    let trace = single_relational_plot(x_name, y_name, z_name, data);
 
     let mut plot = Plot::new();
     plot.add_trace(trace);
