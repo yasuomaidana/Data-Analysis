@@ -1,5 +1,7 @@
+use std::collections::HashMap;
 use colors_transform::{Color, Hsl};
 use plotly::color::Rgb;
+use polars::frame::DataFrame;
 
 pub(crate) fn generate_palette(n: usize) -> Vec<Rgb> {
     let mut palette = Vec::new();
@@ -14,4 +16,14 @@ pub(crate) fn generate_palette(n: usize) -> Vec<Rgb> {
     }
 
     palette
+}
+
+pub(crate) fn generate_color_map(column:&str, data: &DataFrame) -> HashMap<String, Rgb> {
+    let z = data.column(column).expect("hue column not found");
+    let categories = z.unique().unwrap();
+    let colors = generate_palette(categories.len());
+
+    categories.str().unwrap()
+        .iter().enumerate().map(|(i, v)| (String::from(v.unwrap()), colors[i]))
+        .collect::<HashMap<String, Rgb>>()
 }
