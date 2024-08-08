@@ -6,9 +6,14 @@
 use std::collections::HashMap;
 use plotly::color::Rgb;
 use plotly::common::Marker;
-use plotly::Scatter;
+use plotly:: Scatter;
+// use plotly::{Layout, Scatter};
+// use plotly::layout::GridPattern::Independent;
+// use plotly::layout::LayoutGrid;
 use polars::frame::DataFrame;
 use polars::prelude::DataType::Float64;
+use polars::prelude::{col, lit, IntoLazy};
+
 mod color_caster;
 use crate::color_caster::generate_color_map;
 
@@ -32,10 +37,15 @@ pub fn single_relational_plot_with_colors(
 }
 
 // TO DO: Add the column
-pub fn single_relational_plot(x_name: &str, y_name: &str, hue: &str, data: &DataFrame) -> Box<Scatter<f64, f64>> {
+pub fn single_relational_plot(x_name: &str, y_name: &str, hue: &str, data: &DataFrame) -> Vec<Box<Scatter<f64, f64>>> {
 
     let categories_colors = generate_color_map(hue, data);
-    single_relational_plot_with_colors(x_name, y_name, hue, data, &categories_colors)
+
+    categories_colors.keys().map(|category| {
+        let category_data = data.clone().lazy().filter(col(hue).eq(lit(category.as_str()))).collect().unwrap();
+        let trace = single_relational_plot_with_colors(x_name, y_name, hue, &category_data, &categories_colors);
+        trace.name(category)
+    }).collect()
 }
 
 #[cfg(test)]
