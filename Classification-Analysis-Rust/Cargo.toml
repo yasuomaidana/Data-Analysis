@@ -7,6 +7,6 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace.dependencies]
-polars = "0.41.3"
+polars = { version = "0.41.3", features = ["lazy"] }
 polars-io = "0.41.3"
 plotly = { git = "https://github.com/yasuomaidana/plotly.rs", branch = "multiples-axis", features = ["kaleido"] }
