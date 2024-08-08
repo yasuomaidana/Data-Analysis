@@ -10,14 +10,16 @@ use plotly::layout::Axis;
 
 fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &DataFrame) {
 
-    let trace = single_relational_plot(x_name, y_name, z_name, data);
+    let traces = single_relational_plot(x_name, y_name, z_name, data);
 
     let x_axis = Vec::from([Some(Box::new(Axis::new().title(Title::from(x_name))))]);
     let y_axis = Vec::from([Some(Box::new(Axis::new().title(Title::from(y_name))))]);
 
 
     let mut plot = Plot::new();
-    plot.add_trace(trace);
+    for trace in traces {
+        plot.add_trace(trace);
+    }
 
     let layout = Layout::new()
         .x_axis(x_axis)
