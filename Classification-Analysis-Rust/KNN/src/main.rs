@@ -49,4 +49,5 @@ fn main() {
 
     // Plotting the data
     plotting_relational_plot("radius_mean", "texture_mean", "diagnosis", &data_frame);
+    let a = Some(2);
 }

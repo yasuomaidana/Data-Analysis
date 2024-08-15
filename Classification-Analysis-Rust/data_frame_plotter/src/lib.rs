@@ -48,6 +48,27 @@ pub fn single_relational_plot(x_name: &str, y_name: &str, hue: &str, data: &Data
     }).collect()
 }
 
+
+// pub fn relational_plot(x_name: &str, y_name: &str, hue: &str, columns: Vec<&str>, data: &DataFrame) {
+//
+//     let rows = (columns.len() as f64).sqrt().ceil() as usize;
+//     let layout = Layout::new()
+//         .grid(LayoutGrid::new().rows(rows).columns(rows).pattern(Independent))
+//         .height(columns.len()*200);
+//
+//     let mut plot = plotly::Plot::new();
+//     for i in 0..columns.len() {
+//         let x_axis = match i { 0 => "x", _ => &*format!("x{}", i) };
+//         let y_axis = match i { 0 => "y",  _ => &*format!("y{}", i)};
+//
+//         let trace = single_relational_plot(x_name, y_name, hue, data)
+//             .x_axis(x_axis)
+//             .y_axis(y_axis);
+//         plot.add_trace(trace);
+//     }
+//     plot.show();
+// }
+
 #[cfg(test)]
 mod tests {
     use super::*;

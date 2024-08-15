@@ -1,5 +1,5 @@
 [workspace]
-members = ["KNN", "data_frame_plotter"]
+members = ["KNN", "data_frame_plotter", "google-data-fetcher"]
 
 [package]
 name = "Classification-Analysis-Rust"
