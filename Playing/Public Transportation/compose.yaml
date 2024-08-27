@@ -6,10 +6,15 @@ services:
       - "7474:7474"
       - "7687:7687"
     volumes:
-      - ./neo4j:/data
-      - ./neo4j:/logs
-      - ./neo4j:/import
-      - ./neo4j:/plugins
+      - ./neo4j_docker:/data
+      - ./neo4j_docker:/logs
+      - ./neo4j_docker:/import
+      - ./neo4j_docker:/plugins
     environment:
       - NEO4J_AUTH=neo4j/test
       - NEO4J_dbms_security_auth__minimum__password__length=4
+volumes:
+  neo4j-data:
+  neo4j-logs:
+  neo4j-import:
+  neo4j-plugins:

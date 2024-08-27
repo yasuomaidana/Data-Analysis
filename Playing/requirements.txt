@@ -6,3 +6,4 @@ matplotlib
 seaborn
 kaggle
 statsmodels
+neo4j
