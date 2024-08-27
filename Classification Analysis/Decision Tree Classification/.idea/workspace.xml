@@ -4,17 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f553ae2-a661-4dde-84cc-7f18f4f25faf" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/Decision Tree Classification.iml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/Decision Tree Classification.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/inspectionProfiles/Project_Default.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Case-DecisionTree-BreastCancer.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Case-DecisionTree-Iris-Binary.ipynb" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/Case-DecisionTree-Iris-multiclass.ipynb" beforeDir="false" />
-    </list>
+    <list default="true" id="4f553ae2-a661-4dde-84cc-7f18f4f25faf" name="Changes" comment="Fixing broken files" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,11 +61,34 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1724745747744</updated>
-      <workItem from="1724745749158" duration="700000" />
+      <workItem from="1724745749158" duration="862000" />
     </task>
+    <task id="LOCAL-00001" summary="Fixing broken files">
+      <option name="closed" value="true" />
+      <created>1724746554933</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1724746554933</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
     <option name="version" value="3" />
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Fixing broken files" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing broken files" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
+          <url>file://$PROJECT_DIR$/entropy.py</url>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
