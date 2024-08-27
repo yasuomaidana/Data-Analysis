@@ -5,16 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d1b6327c-a4d1-42b6-a329-6f6b1aae18d9" name="Changes" comment="Starting data exploration">
-      <change afterPath="$PROJECT_DIR$/.idea/GraphDatabaseSupport_DataSourcesState.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Public Transportation/.gitignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Public Transportation/Data/adding_constraint.cypher" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/Public Transportation/load_to_neo4j.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public Transportation/Data Explorer.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/Public Transportation/Data Explorer.ipynb" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public Transportation/Data/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/Public Transportation/Data/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public Transportation/compose.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/Public Transportation/compose.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/Public Transportation/neo4j/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/requirements.txt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Public Transportation/load_to_neo4j.py" beforeDir="false" afterPath="$PROJECT_DIR$/Public Transportation/load_to_neo4j.py" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +74,7 @@
       <recent name="$PROJECT_DIR$/Public Transportation/Data" />
     </key>
   </component>
-  <component name="RunManager" selected="Docker.Public Transportation/compose.yaml: Compose Deployment">
+  <component name="RunManager">
     <configuration name="load_data" type="PythonConfigurationType" factoryName="Python" temporary="true" nameIsGenerated="true">
       <module name="Playing" />
       <option name="ENV_FILES" value="" />
@@ -155,7 +147,7 @@
       <workItem from="1724746612933" duration="1647000" />
       <workItem from="1724748284145" duration="2105000" />
       <workItem from="1724750398530" duration="1357000" />
-      <workItem from="1724752468882" duration="1779000" />
+      <workItem from="1724752468882" duration="3046000" />
     </task>
     <task id="LOCAL-00001" summary="Ignoring generated data">
       <option name="closed" value="true" />
@@ -197,7 +189,15 @@
       <option name="project" value="LOCAL" />
       <updated>1724748678048</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="Loading data to neo4j">
+      <option name="closed" value="true" />
+      <created>1724754277029</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1724754277029</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -207,10 +207,11 @@
     <MESSAGE value="Ignoring generated data" />
     <MESSAGE value="Idea files" />
     <MESSAGE value="Starting data exploration" />
-    <option name="LAST_COMMIT_MESSAGE" value="Starting data exploration" />
+    <MESSAGE value="Loading data to neo4j" />
+    <option name="LAST_COMMIT_MESSAGE" value="Loading data to neo4j" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/Playing$load_to_neo4j.coverage" NAME="load_to_neo4j Coverage Results" MODIFIED="1724753789325" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Public Transportation" />
+    <SUITE FILE_PATH="coverage/Playing$load_to_neo4j.coverage" NAME="load_to_neo4j Coverage Results" MODIFIED="1724754707281" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Public Transportation" />
     <SUITE FILE_PATH="coverage/Playing$load_data.coverage" NAME="load_data Coverage Results" MODIFIED="1724747008845" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Public Transportation" />
     <SUITE FILE_PATH="coverage/Playing$data_loader.coverage" NAME="data_loader Coverage Results" MODIFIED="1724746740947" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="coverage.py" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" WORKING_DIRECTORY="$PROJECT_DIR$/Rick and Morty" />
   </component>
