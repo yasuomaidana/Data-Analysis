@@ -2,9 +2,9 @@ use std::fs::File;
 use std::io::Write;
 use scraper::{Html, Selector};
 use data_scrapper::remove_using_regex;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Deserialize)]
+#[derive(Debug, Deserialize, Serialize)]
 struct Book {
     title: String,
     price: String,
@@ -25,27 +25,27 @@ fn main() {
             availability_text.contains("In stock")
         })
         .map(|book| {
-        let title_selector = Selector::parse("h3 a").unwrap();
-        let price_selector = Selector::parse(".price_color").unwrap();
+            let title_selector = Selector::parse("h3 a").unwrap();
+            let price_selector = Selector::parse(".price_color").unwrap();
 
-        let title = book.select(&title_selector).next().unwrap().inner_html();
-        let price = book.select(&price_selector).next().unwrap().inner_html();
+            let title_element = book.select(&title_selector).next().unwrap();
+            let title = title_element.attr("title").unwrap_or_default();
 
-        let cleaned_title = remove_using_regex(&title, ALPHANUMERIC_PATTERN, "");
-        let cleaned_price = remove_using_regex(&price, ALPHANUMERIC_PATTERN, "");
+            let price = book.select(&price_selector).next().unwrap().inner_html();
 
-        Book {
-            title: cleaned_title,
-            price: cleaned_price,
-        }
-    }).collect::<Vec<Book>>();
+            let cleaned_title = remove_using_regex(&title, ALPHANUMERIC_PATTERN, "");
 
-    let file_path = "books.txt";
+            Book {
+                title: cleaned_title,
+                price
+            }
+        }).collect::<Vec<Book>>();
+
+    let json_books = serde_json::to_string(&books).unwrap();
+
+    let file_path = "books.json";
     let mut file = File::create(file_path).unwrap();
-    for book in books {
-        let title = book.title;
-        let price = book.price;
-        let entry = format!("{}, {}\n", title, price);
-        file.write_all(entry.as_bytes()).unwrap();
-    }
+    file.write_all(json_books.as_bytes()).unwrap();
+
+    println!("Books data saved to {}", file_path);
 }
