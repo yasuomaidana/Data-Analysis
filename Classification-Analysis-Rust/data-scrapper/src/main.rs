@@ -1,8 +1,12 @@
+use std::error::Error;
+use std::fs;
 use std::fs::File;
 use std::io::Write;
 use scraper::{Html, Selector};
 use data_scrapper::remove_using_regex;
 use serde::{Deserialize, Serialize};
+use termion::{color};
+
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Book {
@@ -10,15 +14,16 @@ struct Book {
     price: String,
 }
 
-const ALPHANUMERIC_PATTERN: &str = r"[^a-zA-Z0-9 ]";
+fn main() -> Result<(), Box<dyn Error>> {
+    const URL: &str = "https://books.toscrape.com/catalogue/page-1.html";
+    const ALPHANUMERIC_PATTERN: &str = r"[^a-zA-Z0-9 ]";
 
-fn main() {
-    let content = reqwest::blocking::get("https://books.toscrape.com/catalogue/page-1.html")
+    let content = reqwest::blocking::get(URL)
         .expect("Failed to send request");
     let document = Html::parse_document(&content.text().expect("Failed to parse response"));
 
     let book_selector = Selector::parse(".product_pod").unwrap();
-    let books = document.select(&book_selector)
+    let books: Vec<Book> = document.select(&book_selector)
         .filter(|book| {
             let availability_selector = Selector::parse(".availability").unwrap();
             let availability_text = book.select(&availability_selector).next().unwrap().inner_html();
@@ -35,17 +40,30 @@ fn main() {
 
             let cleaned_title = remove_using_regex(&title, ALPHANUMERIC_PATTERN, "");
 
-            Book {
-                title: cleaned_title,
-                price
-            }
-        }).collect::<Vec<Book>>();
+            Book { title: cleaned_title, price}
+        })
+        .collect();
 
-    let json_books = serde_json::to_string(&books).unwrap();
+    let json_data = serde_json::json!(books);
 
     let file_path = "books.json";
-    let mut file = File::create(file_path).unwrap();
-    file.write_all(json_books.as_bytes()).unwrap();
+    let mut file = File::create(file_path)?;
+    let json_string = serde_json::to_string(&json_data)?;
+    file.write_all(json_string.as_bytes())?;
 
-    println!("Books data saved to {}", file_path);
+    print_books_from_json(file_path);
+    fs::remove_file(file_path)?;
+
+    Ok(())
+}
+
+fn print_books_from_json(filename: &str) {
+    let data = std::fs::read_to_string(filename).unwrap();
+    let books: Vec<Book> = serde_json::from_str(&data).unwrap();
+
+    for book in books {
+        let title_green = format!("{}{}", color::Fg(color::Green), book.title);
+        let price_orange = format!("{}{}", color::Fg(color::LightRed), book.price);
+        println!("{}: {}", title_green, price_orange);
+    }
 }
