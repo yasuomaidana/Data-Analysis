@@ -1,0 +1,9 @@
+[package]
+name = "data-scrapper"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+reqwest = {workspace = true}
+scraper = {workspace = true}
+rand = {workspace = true}

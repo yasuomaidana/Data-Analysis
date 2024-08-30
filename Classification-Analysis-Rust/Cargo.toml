@@ -1,5 +1,5 @@
 [workspace]
-members = ["KNN", "data_frame_plotter", "google-data-fetcher"]
+members = ["KNN", "data_frame_plotter", "google-data-fetcher", "data-scrapper"]
 
 [package]
 name = "Classification-Analysis-Rust"
@@ -10,3 +10,6 @@ edition = "2021"
 polars = { version = "0.41.3", features = ["lazy"] }
 polars-io = "0.41.3"
 plotly = { git = "https://github.com/yasuomaidana/plotly.rs", branch = "multiples-axis", features = ["kaleido"] }
+reqwest = { version = "0.12.7", features = ["blocking"] }
+scraper = "0.20.0"
+rand = "0.8.4"
