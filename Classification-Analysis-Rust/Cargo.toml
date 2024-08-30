@@ -13,3 +13,4 @@ plotly = { git = "https://github.com/yasuomaidana/plotly.rs", branch = "multiple
 reqwest = { version = "0.12.7", features = ["blocking"] }
 scraper = "0.20.0"
 rand = "0.8.4"
+serde = { version = "1.0.204", features = ["derive"] }
