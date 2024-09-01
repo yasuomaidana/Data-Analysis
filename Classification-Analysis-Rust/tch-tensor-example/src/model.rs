@@ -8,24 +8,21 @@ struct MNIST_CNN {
     fc2: nn::Linear,
 }
 
-impl MNIST_CNN {
-    fn new(vs: &nn::Path) -> Self {
-        let conv1 = nn::conv2d(vs, 1, 32, 5, Default::default());
-        let conv2 = nn::conv2d(vs, 32, 64, 5, Default::default());
-        let fc1 = nn::linear(vs, 1024, 256, Default::default());
-        let fc2 = nn::linear(vs, 256, 10, Default::default());
-
-        MNIST_CNN { conv1, conv2, fc1, fc2 }
-    }
-}
-
 impl Debug for MNIST_CNN {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
         write!(f, "MNIST_CNN")
     }
 }
 
-impl Module for MNIST_CNN {
+impl MNIST_CNN {
+    fn new(vs: &nn::Path) -> Self {
+        let conv1 = nn::conv2d(vs, 1, 32, 5, Default::default());
+        let conv2 = nn::conv2d(vs, 32, 64, 5, Default::default());
+        let fc1 = nn::linear(vs, 7*7*64, 256, Default::default());
+        let fc2 = nn::linear(vs, 256, 10, Default::default());
+        MNIST_CNN { conv1, conv2, fc1, fc2 }
+    }
+
     fn forward(&self, xs: &Tensor) -> Tensor {
         let mut x = xs.apply(&self.conv1);
         x = x.relu();

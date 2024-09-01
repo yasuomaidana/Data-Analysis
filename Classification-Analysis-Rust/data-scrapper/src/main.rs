@@ -1,12 +1,11 @@
+use data_scrapper::remove_using_regex;
+use scraper::{Html, Selector};
+use serde::{Deserialize, Serialize};
 use std::error::Error;
 use std::fs;
 use std::fs::File;
 use std::io::Write;
-use scraper::{Html, Selector};
-use data_scrapper::remove_using_regex;
-use serde::{Deserialize, Serialize};
-use termion::{color};
-
+use termion::color;
 
 #[derive(Debug, Deserialize, Serialize)]
 struct Book {
@@ -18,15 +17,19 @@ fn main() -> Result<(), Box<dyn Error>> {
     const URL: &str = "https://books.toscrape.com/catalogue/page-1.html";
     const ALPHANUMERIC_PATTERN: &str = r"[^a-zA-Z0-9 ]";
 
-    let content = reqwest::blocking::get(URL)
-        .expect("Failed to send request");
+    let content = reqwest::blocking::get(URL).expect("Failed to send request");
     let document = Html::parse_document(&content.text().expect("Failed to parse response"));
 
     let book_selector = Selector::parse(".product_pod").unwrap();
-    let books: Vec<Book> = document.select(&book_selector)
+    let books: Vec<Book> = document
+        .select(&book_selector)
         .filter(|book| {
             let availability_selector = Selector::parse(".availability").unwrap();
-            let availability_text = book.select(&availability_selector).next().unwrap().inner_html();
+            let availability_text = book
+                .select(&availability_selector)
+                .next()
+                .unwrap()
+                .inner_html();
             availability_text.contains("In stock")
         })
         .map(|book| {
@@ -40,7 +43,10 @@ fn main() -> Result<(), Box<dyn Error>> {
 
             let cleaned_title = remove_using_regex(&title, ALPHANUMERIC_PATTERN, "");
 
-            Book { title: cleaned_title, price}
+            Book {
+                title: cleaned_title,
+                price,
+            }
         })
         .collect();
 

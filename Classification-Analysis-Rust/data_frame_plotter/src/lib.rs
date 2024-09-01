@@ -3,10 +3,10 @@
 //! It tries to provide a high-level API for creating plots by imitating SNS and Matplotlib common
 //! plots
 
-use std::collections::HashMap;
 use plotly::color::Rgb;
 use plotly::common::Marker;
-use plotly:: Scatter;
+use plotly::Scatter;
+use std::collections::HashMap;
 // use plotly::{Layout, Scatter};
 // use plotly::layout::GridPattern::Independent;
 // use plotly::layout::LayoutGrid;
@@ -19,35 +19,69 @@ use crate::color_caster::generate_color_map;
 
 pub fn cast_column_to_numeric(data: &DataFrame, column_name: &str) -> Vec<f64> {
     let column = data.column(column_name).expect("column not found");
-    column.cast(&Float64).unwrap().f64().unwrap().into_iter().map(|v| v.unwrap()).collect()
+    column
+        .cast(&Float64)
+        .unwrap()
+        .f64()
+        .unwrap()
+        .into_iter()
+        .map(|v| v.unwrap())
+        .collect()
 }
 
-
 pub fn single_relational_plot_with_colors(
-    x_name: &str, y_name: &str, hue: &str,
-    data: &DataFrame, hue_colors: &HashMap<String, Rgb>) -> Box<Scatter<f64, f64>> {
-    let z = data.column(hue).expect("hue column not found")
+    x_name: &str,
+    y_name: &str,
+    hue: &str,
+    data: &DataFrame,
+    hue_colors: &HashMap<String, Rgb>,
+) -> Box<Scatter<f64, f64>> {
+    let z = data
+        .column(hue)
+        .expect("hue column not found")
         .str()
-        .unwrap().into_iter()
-        .map(|v| hue_colors[v.unwrap()]).collect::<Vec<Rgb>>();
+        .unwrap()
+        .into_iter()
+        .map(|v| hue_colors[v.unwrap()])
+        .collect::<Vec<Rgb>>();
 
-    Scatter::new(cast_column_to_numeric(data, x_name), cast_column_to_numeric(data, y_name))
-        .mode(plotly::common::Mode::Markers)
-        .marker(Marker::new().color_array(z))
+    Scatter::new(
+        cast_column_to_numeric(data, x_name),
+        cast_column_to_numeric(data, y_name),
+    )
+    .mode(plotly::common::Mode::Markers)
+    .marker(Marker::new().color_array(z))
 }
 
 // TO DO: Add the column
-pub fn single_relational_plot(x_name: &str, y_name: &str, hue: &str, data: &DataFrame) -> Vec<Box<Scatter<f64, f64>>> {
-
+pub fn single_relational_plot(
+    x_name: &str,
+    y_name: &str,
+    hue: &str,
+    data: &DataFrame,
+) -> Vec<Box<Scatter<f64, f64>>> {
     let categories_colors = generate_color_map(hue, data);
 
-    categories_colors.keys().map(|category| {
-        let category_data = data.clone().lazy().filter(col(hue).eq(lit(category.as_str()))).collect().unwrap();
-        let trace = single_relational_plot_with_colors(x_name, y_name, hue, &category_data, &categories_colors);
-        trace.name(category)
-    }).collect()
+    categories_colors
+        .keys()
+        .map(|category| {
+            let category_data = data
+                .clone()
+                .lazy()
+                .filter(col(hue).eq(lit(category.as_str())))
+                .collect()
+                .unwrap();
+            let trace = single_relational_plot_with_colors(
+                x_name,
+                y_name,
+                hue,
+                &category_data,
+                &categories_colors,
+            );
+            trace.name(category)
+        })
+        .collect()
 }
-
 
 // pub fn relational_plot(x_name: &str, y_name: &str, hue: &str, columns: Vec<&str>, data: &DataFrame) {
 //
