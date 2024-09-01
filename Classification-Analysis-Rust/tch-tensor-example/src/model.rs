@@ -75,19 +75,19 @@ impl MnistCnn {
             // run all the images divided in batches  -> for loop
             for _ in 0..n_it {
                 // get the batch
-                let batch_indices = generate_random_index(train_size as i64, batch_size);
+                let batch_indices = generate_random_index(train_size as i64, batch_size).to_device(device).to_kind(Kind::Int64);
                 let batch_images = train_data.index_select(0, &batch_indices).to_device(device).to_kind(Kind::Float);
                 let batch_labels = train_labels.index_select(0, &batch_indices).to_device(device).to_kind(Kind::Int64);
                 // forward pass
-                let output = &self.forward_t(&batch_images, true);
+                let output = &self.forward_t(&batch_images, true).to_device(device);
                 // compute loss
-                let loss = criterion(&output, &batch_labels);
+                let loss = criterion(&output, &batch_labels).to_device(device);
                 // compute gradients
                 optimizer.backward_step(&loss);
             }
             // compute accuracy
             let val_accuracy =
-                &self.batch_accuracy_for_logits(&val_data, &val_labels, device, 1024);
+                &self.batch_accuracy_for_logits(&val_data, &val_labels, device, batch_size);
             println!("epoch: {:4} test acc: {:5.2}%", epoch, 100. * val_accuracy);
         }
     }
@@ -129,7 +129,6 @@ impl ModuleT for MnistCnn {
 #[cfg(test)]
 mod tests {
     use std::fs;
-    use std::time::Instant;
     use super::*;
     use tch::nn::VarStore;
     use tch::{Device, Kind};
