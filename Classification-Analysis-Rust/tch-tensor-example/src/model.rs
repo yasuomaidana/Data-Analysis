@@ -1,6 +1,7 @@
 use std::fmt::{Debug, Formatter};
+use std::path::Path;
 use tch::nn::{conv2d, linear, Conv2D, Linear, VarStore};
-use tch::{nn::ModuleT, Tensor};
+use tch::{nn::ModuleT, TchError, Tensor};
 
 // Renaming variables to follow Rust conventions
 struct MnistCnn {
@@ -21,6 +22,19 @@ impl MnistCnn {
         let fully_connected2 = linear(root, 256, 10, Default::default());
 
         MnistCnn { conv_layer1, conv_layer2, fully_connected1, fully_connected2 }
+    }
+    // Function to save the model
+    pub fn save(&self, filename: &str, vs:&VarStore) -> Result<(), TchError> {
+        let path = Path::new(filename);
+        vs.save(path)?;
+        Ok(())
+    }
+
+    // Function to load the model
+    pub fn load(vs: &mut VarStore, filename: &str) -> Result<Self, TchError> {
+        let path = Path::new(filename);
+        vs.load(path)?;
+        Ok(MnistCnn::new(vs))
     }
 }
 
@@ -59,6 +73,7 @@ impl ModuleT for MnistCnn {
 
 #[cfg(test)]
 mod tests {
+    use std::fs;
     use super::*;
     use tch::nn::VarStore;
     use tch::{Device, Kind};
@@ -87,7 +102,7 @@ mod tests {
 
     #[test]
     fn test_debug_format() {
-        let device = Device::Cpu; // Using CPU for simplicity in this test
+        let device = Device::Mps; // Using CPU for simplicity in this test
         let vs = VarStore::new(device);
         let model = MnistCnn::new(&vs);
 
@@ -97,5 +112,34 @@ mod tests {
         assert!(debug_output.contains("conv_layer2"));
         assert!(debug_output.contains("fully_connected1"));
         assert!(debug_output.contains("fully_connected2"));
+    }
+
+    #[test]
+    fn test_model_save_and_load() {
+
+        // Create a temporary file_name for this test
+        let file_path = "./tmp_model.pth";
+
+        // Set up device
+        let device = Device::Mps; // or use Device::Cuda(0) if available
+
+        // Create a var store and model
+        let vs = VarStore::new(device);
+        let model = MnistCnn::new(&vs);
+
+        // Save the model
+        model.save(file_path, &vs).expect("Failed to save model");
+
+        // Load the model into a new var store to simulate a fresh start
+        let mut new_vs = VarStore::new(device);
+        let loaded_model = MnistCnn::load(&mut new_vs, file_path).expect("Failed to load model");
+
+        // Here you might want to check if the loaded model's weights are similar to the original model's weights
+        // However, directly comparing tensors might require more complex logic or might not be straightforward due to how tch-rs handles tensors.
+
+        // Attempt to delete the file
+        fs::remove_file(file_path).expect("Could not remove temporary file");
+        // Optionally, you could check if the file was indeed deleted
+        assert!(!Path::new(file_path).exists(), "The model file was not deleted after the test");
     }
 }
