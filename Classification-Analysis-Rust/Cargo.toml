@@ -1,5 +1,5 @@
 [workspace]
-members = ["KNN", "data_frame_plotter", "google-data-fetcher", "data-scrapper"]
+members = ["KNN", "data_frame_plotter", "google-data-fetcher", "data-scrapper", "tch-tensor-example"]
 
 [package]
 name = "Classification-Analysis-Rust"
@@ -16,3 +16,4 @@ rand = "0.8.4"
 serde = { version = "1.0.204", features = ["derive"] }
 serde_json = "1.0.120"
 termion = "4.0.2"
+tch = "0.17.0"

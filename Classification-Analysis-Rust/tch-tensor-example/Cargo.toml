@@ -1,0 +1,8 @@
+[package]
+name = "tch-tensor-example"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+tch = {workspace = true}
+mnist = {version = "0.6.0", features = ["download"]}
