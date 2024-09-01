@@ -134,6 +134,13 @@ mod tests {
         let mut new_vs = VarStore::new(device);
         let loaded_model = MnistCnn::load(&mut new_vs, file_path).expect("Failed to load model");
 
+        let debug_output = format!("{:?}", loaded_model);
+        assert!(debug_output.contains("MnistCnn"));
+        assert!(debug_output.contains("conv_layer1"));
+        assert!(debug_output.contains("conv_layer2"));
+        assert!(debug_output.contains("fully_connected1"));
+        assert!(debug_output.contains("fully_connected2"));
+
         // Here you might want to check if the loaded model's weights are similar to the original model's weights
         // However, directly comparing tensors might require more complex logic or might not be straightforward due to how tch-rs handles tensors.
 
