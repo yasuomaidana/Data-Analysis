@@ -26,7 +26,12 @@ impl MnistCnn {
 
 impl Debug for MnistCnn {
     fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
-        write!(f, "MnistCnn")
+        f.debug_struct("MnistCnn")
+            .field("conv_layer1", &self.conv_layer1)
+            .field("conv_layer2", &self.conv_layer2)
+            .field("fully_connected1", &self.fully_connected1)
+            .field("fully_connected2", &self.fully_connected2)
+            .finish()
     }
 }
 
