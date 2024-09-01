@@ -1,7 +1,7 @@
 use std::fmt::{Debug, Formatter};
 use std::path::Path;
-use tch::nn::{conv2d, linear, Conv2D, Linear, VarStore};
-use tch::{nn::ModuleT, TchError, Tensor};
+use tch::nn::{conv2d, linear, Adam, Conv2D, Linear, Optimizer, OptimizerConfig, VarStore};
+use tch::{kind, nn::ModuleT, Device, Kind, TchError, Tensor};
 
 // Renaming variables to follow Rust conventions
 struct MnistCnn {
@@ -9,6 +9,59 @@ struct MnistCnn {
     conv_layer2: Conv2D,
     fully_connected1: Linear,
     fully_connected2: Linear,
+}
+
+pub fn generate_random_index(array_size: i64, batch_size: i64) -> Tensor{
+    let random_indices = Tensor::randint(array_size, &[batch_size], kind::INT64_CPU);
+    random_indices
+}
+
+fn train(model: &mut MnistCnn, vs: &VarStore, train_data: &Tensor,
+         train_labels: &Tensor,
+         train_size: usize,
+         val_data: &Tensor,
+         val_labels: &Tensor,
+         batch_size: i64,
+         n_epochs: i64,
+         optimizer: &mut Optimizer,
+         criterion: &dyn Fn(&Tensor, &Tensor) -> Tensor) {
+
+    // set up optimizer
+    let n_it = (train_size as i64)/batch_size; // already round down
+    println!("Number of iteration with given batch size: {:?}", n_it);
+    // run epochs
+    for epoch in 0..n_epochs {
+        // generate random indices for batch size
+        // run all the images divided in batches  -> for loop
+        for _ in 0..n_it {
+            // get the batch
+            let batch_indices = generate_random_index(train_size as i64, batch_size);
+            let batch_images = train_data.index_select(0, &batch_indices).to_device(vs.device()).to_kind(Kind::Float);
+            let batch_labels = train_labels.index_select(0, &batch_indices).to_device(vs.device()).to_kind(Kind::Int64);
+            // forward pass
+            let output = model.forward_t(&batch_images, true);
+            // compute loss
+            let loss = criterion(&output, &batch_labels);
+            // compute gradients
+            optimizer.backward_step(&loss);
+        }
+        // compute accuracy
+        let val_accuracy =
+            model.batch_accuracy_for_logits(&val_data, &val_labels, vs.device(), 1024);
+        println!("epoch: {:4} test acc: {:5.2}%", epoch, 100. * val_accuracy);
+    }
+
+}
+
+fn test(model: &MnistCnn, vs: &VarStore, test_data: &Tensor, test_labels: &Tensor) -> f64 {
+    // test accuracy
+    let test_accuracy = model.batch_accuracy_for_logits(&test_data, &test_labels, vs.device(), 1024);
+    println!("Final test accuracy {:5.2}%", 100.*test_accuracy);
+    test_accuracy
+}
+
+fn with_no_grad<F>(f: F) where F: FnOnce() {
+    tch::no_grad(f);
 }
 
 impl MnistCnn {
@@ -74,6 +127,7 @@ impl ModuleT for MnistCnn {
 #[cfg(test)]
 mod tests {
     use std::fs;
+    use std::time::Instant;
     use super::*;
     use tch::nn::VarStore;
     use tch::{Device, Kind};
@@ -149,4 +203,31 @@ mod tests {
         // Optionally, you could check if the file was indeed deleted
         assert!(!Path::new(file_path).exists(), "The model file was not deleted after the test");
     }
+
+    #[test]
+    fn test_train_and_test_model() {
+        let device = Device::Mps; // or Device::Cuda(0) if CUDA is available
+        let vs = VarStore::new(device);
+        let mut model = MnistCnn::new(&vs);
+        let mut optimizer = Adam::default().build(&vs, 0.001).unwrap();
+        let criterion = |x: &Tensor, y: &Tensor| x.cross_entropy_for_logits(y);
+
+        // Creating random datasets for simplicity
+        let train_data = Tensor::randn(&[64, 1, 28, 28], (Kind::Float, device)); // 64 random images
+        let train_labels = Tensor::randint(10, &[64], (Kind::Int64, device)); // 64 random labels
+
+        let test_data = Tensor::randn(&[64, 1, 28, 28], (Kind::Float, device));
+        let test_labels = Tensor::randint(10, &[64], (Kind::Int64, device));
+
+        let start_time = Instant::now();
+        train(&mut model, &vs, &train_data, &train_labels, 64, &test_data, &test_labels, 64, 5, &mut optimizer, &criterion);
+        let elapsed_time = start_time.elapsed();
+
+        println!("Training time: {:?}", elapsed_time);
+
+        let accuracy = test(&model, &vs, &test_data, &test_labels);
+        println!("Test accuracy: {}", accuracy);
+        assert_ne!(accuracy, 0.0, "Model accuracy should be something different than 0.0");
+    }
+
 }
