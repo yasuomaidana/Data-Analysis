@@ -2,15 +2,11 @@ mod model;
 
 use mnist::{Mnist, MnistBuilder};
 use tch::nn::Module;
-use tch::{nn, Tensor};
+use tch::{nn, Device, Tensor};
 
-// const TRAIN_SIZE: usize = 50000;
-// const VAL_SIZE: usize = 10000;
-// const TEST_SIZE: usize =10000;
-
-const TRAIN_SIZE: usize = 5000;
-const VAL_SIZE: usize = 1000;
-const TEST_SIZE: usize =1000;
+const TRAIN_SIZE: usize = 50000;
+const VAL_SIZE: usize = 10000;
+const TEST_SIZE: usize =10000;
 
 pub fn image_to_tensor(data: Vec<u8>, dim1: usize, dim2: usize, dim3: usize) -> Tensor {
     // Convert vector of u8 to vector of f64
@@ -30,15 +26,14 @@ pub fn labels_to_tensor(data: Vec<u8>, dim1: usize, dim2: usize) -> Tensor {
 }
 
 fn main() {
-    let device = tch::Device::Mps;
     // Create a simple neural network model
-    let vs = nn::VarStore::new(device);
+    let vs = nn::VarStore::new(Device::Mps);
     let net = nn::seq()
         .add(nn::linear(&vs.root(), 10, 5, Default::default()))
         .add(nn::linear(&vs.root(), 5, 10, Default::default()));
 
     // Create a dummy input tensor
-    let input = Tensor::randn(&[1, 10], (tch::Kind::Float, tch::Device::Cpu));
+    let input = Tensor::randn(&[1, 10], (tch::Kind::Float, Device::Mps));
 
     // Forward pass
     let output = net.forward(&input);
