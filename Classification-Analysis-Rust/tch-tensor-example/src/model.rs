@@ -37,18 +37,23 @@ impl Debug for MnistCnn {
 
 impl ModuleT for MnistCnn {
     fn forward_t(&self, xs: &Tensor, _train: bool) -> Tensor {
+        // Initial input shape: (batch_size, 1, 28, 28)
         xs
-            .apply(&self.conv_layer1)
+            // After conv_layer1: (batch_size, 32, 28, 28) -> (batch_size, 32, 12, 12) due to padding and pooling
+            .apply(&self.conv_layer1)  //(batch_size, 32, 24, 24)
             .relu()
-            .max_pool2d_default(2)
-            .apply(&self.conv_layer2)
+            .max_pool2d_default(2) //(batch_size, 32, 12, 12)
+            // After conv_layer2: (batch_size, 64, 12, 12) -> (batch_size, 64, 4, 4)
+            .apply(&self.conv_layer2) //(batch_size, 64, 8, 8)
             .relu()
-            .max_pool2d_default(2)
-            // Flattening the output for the fully connected layer
+            .max_pool2d_default(2) //(batch_size, 64, 4, 4)
+            // Flattening the output for the fully connected layer (batch_size, 64, 4, 4) -> (batch_size, 1024)
             .view([-1, 1024])
+            // After fully_connected1: (batch_size, 256)
             .apply(&self.fully_connected1)
             .relu()
-            .apply(&self.fully_connected2)
+            // After fully_connected2: (batch_size, 10) for 10 classes of MNIST
+            .apply(&self.fully_connected2) //(batch_size, 10)
     }
 }
 
@@ -78,5 +83,19 @@ mod tests {
 
         // Check if output shape is as expected (batch size 1, 10 classes)
         assert_eq!(output.size(), [1, 10]);
+    }
+
+    #[test]
+    fn test_debug_format() {
+        let device = Device::Cpu; // Using CPU for simplicity in this test
+        let vs = VarStore::new(device);
+        let model = MnistCnn::new(&vs);
+
+        let debug_output = format!("{:?}", model);
+        assert!(debug_output.contains("MnistCnn"));
+        assert!(debug_output.contains("conv_layer1"));
+        assert!(debug_output.contains("conv_layer2"));
+        assert!(debug_output.contains("fully_connected1"));
+        assert!(debug_output.contains("fully_connected2"));
     }
 }
