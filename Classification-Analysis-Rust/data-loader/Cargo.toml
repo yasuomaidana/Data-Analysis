@@ -1,0 +1,8 @@
+[package]
+name = "data-loader"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+kaggle = "1.0.3"
+tokio = { version = "0.2.25", features = ["full"] }
