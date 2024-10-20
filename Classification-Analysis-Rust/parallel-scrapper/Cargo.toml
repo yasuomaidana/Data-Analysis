@@ -1,0 +1,9 @@
+[package]
+name = "parallel-scrapper"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+scraper = {workspace = true}
+reqwest = {workspace = true}
+regex = {workspace = true}
