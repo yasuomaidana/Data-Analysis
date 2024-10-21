@@ -20,7 +20,7 @@ tch = "0.18.0"
 # when updating tch
 # Run the following commands after the warning popup occurs so as to delete the macOS quarantine flag from all the files inside of /path/to/libtorch/lib folder
 # xattr -r -d com.apple.quarantine /path/to/libtorch/lib
-regex = "1.10.6"
+regex = "1.11.0"
 tokio = { version = "1.40.0", features = ["full"] }
 data-loader = { path = "data-loader" }
 tokio-compat-02 = "0.2.0"
