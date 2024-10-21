@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="d1b6327c-a4d1-42b6-a329-6f6b1aae18d9" name="Changes" comment="Enhancing data loading to neo4j" />
+    <list default="true" id="d1b6327c-a4d1-42b6-a329-6f6b1aae18d9" name="Changes" comment="Enhancing data loading to neo4j">
+      <change beforePath="$PROJECT_DIR$/../Classification Analysis/Decision Tree Classification/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../Classification Analysis/Decision Tree Classification/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -128,8 +130,7 @@
   <component name="SharedIndexes">
     <attachedChunks>
       <set>
-        <option value="bundled-js-predefined-d6986cc7102b-410509235cf1-JavaScript-PY-242.20224.428" />
-        <option value="bundled-python-sdk-80e8e15d2b92-39cff9de6eef-com.jetbrains.pycharm.pro.sharedIndexes.bundled-PY-242.20224.428" />
+        <option value="bundled-python-sdk-80a6976e5986-7ba1f540c4e9-com.jetbrains.pycharm.ds.sharedIndexes.bundled-DS-242.22855.78" />
       </set>
     </attachedChunks>
   </component>

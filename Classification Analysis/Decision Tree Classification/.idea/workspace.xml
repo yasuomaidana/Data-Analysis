@@ -4,9 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f553ae2-a661-4dde-84cc-7f18f4f25faf" name="Changes" comment="Fixing broken files">
-      <change beforePath="$PROJECT_DIR$/../../Playing/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../../Playing/.idea/workspace.xml" afterDir="false" />
-    </list>
+    <list default="true" id="4f553ae2-a661-4dde-84cc-7f18f4f25faf" name="Changes" comment="Fixing broken files" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -21,12 +19,12 @@
     &quot;assignee&quot;: &quot;yasuomaidana&quot;
   }
 }</component>
-  <component name="GithubPullRequestsUISettings"><![CDATA[{
-  "selectedUrlAndAccountId": {
-    "url": "https://github.com/yasuomaidana/Data-Analysis.git",
-    "accountId": "14379e9c-1199-4e12-b942-bf37e12d4934"
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/yasuomaidana/Data-Analysis.git&quot;,
+    &quot;accountId&quot;: &quot;14379e9c-1199-4e12-b942-bf37e12d4934&quot;
   }
-}]]></component>
+}</component>
   <component name="ProjectColorInfo">{
   &quot;associatedIndex&quot;: 7
 }</component>
@@ -65,6 +63,7 @@
       <updated>1724745747744</updated>
       <workItem from="1724745749158" duration="862000" />
       <workItem from="1725153884093" duration="1250000" />
+      <workItem from="1725354833575" duration="50000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing broken files">
       <option name="closed" value="true" />
