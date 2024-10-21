@@ -3,6 +3,7 @@ use kaggle::archive::unzip;
 use kaggle::KaggleApiClient;
 use tokio::fs::remove_file;
 
+#[derive(Debug, Clone)]
 pub struct KaggleFile{
     dataset: String,
     name: String,
@@ -19,6 +20,10 @@ impl KaggleFile{
     }
     pub fn file_name(&self) -> String{
         format!("{}.{}", self.name, self.file_type)
+    }
+
+    pub fn full_name(&self) -> String{
+        format!("data/{}", self.file_name())
     }
 }
 
