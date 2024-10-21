@@ -1,5 +1,5 @@
 [workspace]
-members = ["KNN", "data_frame_plotter", "google-data-fetcher", "data-scrapper", "tch-tensor-example"]
+members = ["KNN", "data_frame_plotter", "google-data-fetcher", "data-scrapper", "tch-tensor-example", "parallel-scrapper", "sort-by-column", "data-loader"]
 
 [package]
 name = "Classification-Analysis-Rust"
@@ -7,8 +7,8 @@ version = "0.1.0"
 edition = "2021"
 
 [workspace.dependencies]
-polars = { version = "0.41.3", features = ["lazy"] }
-polars-io = "0.41.3"
+polars = { version = "0.43.1", features = ["lazy"] }
+polars-io = "0.43.1"
 plotly = { git = "https://github.com/yasuomaidana/plotly.rs", branch = "multiples-axis", features = ["kaleido"] }
 reqwest = { version = "0.12.7", features = ["blocking"] }
 scraper = "0.20.0"
