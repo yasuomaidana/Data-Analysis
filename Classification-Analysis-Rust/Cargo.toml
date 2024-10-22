@@ -1,5 +1,5 @@
 [workspace]
-members = ["KNN", "data_frame_plotter", "google-data-fetcher", "data-scrapper", "tch-tensor-example", "parallel-scrapper", "sort-by-column", "data-loader"]
+members = ["KNN", "data_frame_plotter", "google-data-fetcher", "data-scrapper", "tch-tensor-example", "parallel-scrapper", "sort-by-column", "data-loader", "excel-generator"]
 
 [package]
 name = "Classification-Analysis-Rust"

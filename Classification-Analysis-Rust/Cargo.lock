@@ -1198,6 +1198,14 @@ source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "b90ca2580b73ab6a1f724b76ca11ab632df820fd6040c336200d2c1df7b3c82c"
 
 [[package]]
+name = "excel-generator"
+version = "0.1.0"
+dependencies = [
+ "polars",
+ "rust_xlsxwriter",
+]
+
+[[package]]
 name = "fallible-streaming-iterator"
 version = "0.1.9"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -2951,7 +2959,7 @@ dependencies = [
  "dunce",
  "serde",
  "serde_json",
- "zip 2.1.5",
+ "zip 2.2.0",
 ]
 
 [[package]]
@@ -3766,6 +3774,15 @@ dependencies = [
  "spin",
  "untrusted",
  "windows-sys 0.52.0",
+]
+
+[[package]]
+name = "rust_xlsxwriter"
+version = "0.79.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "7559b53ef12183c895f2433822b1a711bfdc7e2979d41788272cd5c43934625c"
+dependencies = [
+ "zip 2.2.0",
 ]
 
 [[package]]
@@ -5444,9 +5461,9 @@ dependencies = [
 
 [[package]]
 name = "zip"
-version = "2.1.5"
+version = "2.2.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "b895748a3ebcb69b9d38dcfdf21760859a4b0d0b0015277640c2ef4c69640e6f"
+checksum = "dc5e4288ea4057ae23afc69a4472434a87a2495cafce6632fd1c4ec9f5cf3494"
 dependencies = [
  "aes",
  "arbitrary",
