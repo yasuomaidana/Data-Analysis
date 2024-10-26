@@ -8,6 +8,7 @@ edition = "2021"
 
 [workspace.dependencies]
 polars = { version = "0.43.1", features = ["lazy"] }
+polars-core = "0.43.1"
 polars-io = "0.43.1"
 plotly = { git = "https://github.com/yasuomaidana/plotly.rs", branch = "multiples-axis", features = ["kaleido"] }
 reqwest = { version = "0.12.7", features = ["blocking"] }
@@ -26,3 +27,4 @@ data-loader = { path = "data-loader" }
 tokio-compat-02 = "0.2.0"
 linfa = "0.7.0"
 linfa-clustering = "0.7.0"
+ndarray = "0.16.1"

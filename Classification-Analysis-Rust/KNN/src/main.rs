@@ -1,12 +1,17 @@
+use std::fmt::Debug;
 use data_frame_plotter::single_relational_plot;
 use plotly::common::Title;
 use plotly::layout::Axis;
 use plotly::ImageFormat::PNG;
 use plotly::{Layout, Plot};
-use polars::prelude::DataFrame;
+use polars::prelude::{DataFrame, Float64Type, IndexOrder};
 use polars_io::prelude::{CsvReadOptions, CsvReader};
 use polars_io::SerReader;
 use std::path::PathBuf;
+use linfa::Dataset;
+use linfa::prelude::{Fit, Predict};
+use linfa_clustering::KMeans;
+use polars_core::prelude::{NamedFrom, Series};
 use tokio_compat_02::FutureExt;
 use data_loader::{download_file, KaggleFile};
 
@@ -28,7 +33,7 @@ fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &Dat
     plot.set_layout(layout);
 
     // plot.show(); showup the plot in the browser
-    plot.write_image("KNN/relational_plot.png", PNG, 800, 600, 1.0);
+    plot.write_image(format!("KNN/{title}.png"), PNG, 800, 600, 1.0);
 }
 
 #[tokio::main]
@@ -59,5 +64,35 @@ async fn main() {
                              "SepalWidthCm",
                              "Species", &data_frame,
                              "Iris Dataset");
+
+    let x = data_frame
+        .select(["SepalLengthCm","SepalWidthCm"])
+        .unwrap();
+    let y = data_frame.select(["Species"]).unwrap();
+    let features = x.to_ndarray::<Float64Type>(IndexOrder::C).unwrap();
+    let target = y.to_ndarray::<Float64Type>(IndexOrder::C).unwrap();
+
+    let dataset = Dataset::new(features, target);
+    let n_clusters = 3;
+
+    let k_means = KMeans::params(n_clusters)
+        .tolerance(1e-4)
+        .max_n_iterations(300)
+        .fit(&dataset)
+        .unwrap();
+
+    let labels = k_means.predict(&dataset);
+    println!("{:?}", labels);
+
+    // let mut data_frame = data_frame.clone();
+    let labels = labels.iter().map(|&x| x.to_string()).collect::<Vec<String>>();
+    let labels = Series::new("labels".into(), labels);
+    let mut binding = data_frame.clone();
+    let data_frame = binding.replace_or_add("labels".into(), labels).unwrap();
+
+    plotting_relational_plot("SepalLengthCm",
+                             "SepalWidthCm",
+                             "labels", &data_frame,
+                             "Predicted labels");
 
 }

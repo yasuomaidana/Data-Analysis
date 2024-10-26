@@ -4,7 +4,8 @@ version = "0.1.0"
 edition = "2021"
 
 [dependencies]
-polars = {workspace = true}
+polars = {workspace = true, features = ["ndarray"]}
+polars-core = {workspace = true}
 polars-io = {workspace = true}
 plotly = { workspace = true }
 data_frame_plotter = {path = "../data_frame_plotter"}
@@ -13,3 +14,4 @@ linfa-clustering = {workspace = true}
 data-loader = {workspace = true}
 tokio-compat-02 = { workspace = true }
 tokio = { workspace = true, features = ["rt", "rt-multi-thread", "macros"] }
+ndarray = {workspace = true}
