@@ -8,3 +8,8 @@ polars = {workspace = true}
 polars-io = {workspace = true}
 plotly = { workspace = true }
 data_frame_plotter = {path = "../data_frame_plotter"}
+linfa = {workspace = true}
+linfa-clustering = {workspace = true}
+data-loader = {workspace = true}
+tokio-compat-02 = { workspace = true }
+tokio = { workspace = true, features = ["rt", "rt-multi-thread", "macros"] }

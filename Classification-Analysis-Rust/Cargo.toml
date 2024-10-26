@@ -24,3 +24,5 @@ regex = "1.11.0"
 tokio = { version = "1.40.0", features = ["full"] }
 data-loader = { path = "data-loader" }
 tokio-compat-02 = "0.2.0"
+linfa = "0.7.0"
+linfa-clustering = "0.7.0"
