@@ -33,7 +33,7 @@ fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &Dat
     plot.set_layout(layout);
 
     // plot.show(); showup the plot in the browser
-    plot.write_image(format!("KNN/{title}.png"), PNG, 800, 600, 1.0);
+    plot.write_image(format!("k_means/{title}.png"), PNG, 800, 600, 1.0);
 }
 
 #[tokio::main]

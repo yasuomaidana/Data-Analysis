@@ -2,7 +2,6 @@
 <module type="EMPTY_MODULE" version="4">
   <component name="NewModuleRootManager">
     <content url="file://$MODULE_DIR$">
-      <sourceFolder url="file://$MODULE_DIR$/KNN/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data_frame_plotter/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data-scrapper/src" isTestSource="false" />
@@ -12,6 +11,7 @@
       <sourceFolder url="file://$MODULE_DIR$/sort-by-column/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/data-loader/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/excel-generator/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/k_means/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
