@@ -12,6 +12,7 @@ version = "0.1.0"
 dependencies = [
  "data-loader",
  "data_frame_plotter",
+ "itertools 0.13.0",
  "linfa",
  "linfa-clustering",
  "ndarray 0.16.1",

@@ -14,6 +14,7 @@ use linfa_clustering::KMeans;
 use polars_core::prelude::{NamedFrom, Series};
 use tokio_compat_02::FutureExt;
 use data_loader::{download_file, KaggleFile};
+use itertools::Itertools;
 
 fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &DataFrame, title: &str) {
     let traces = single_relational_plot(x_name, y_name, z_name, data);
@@ -34,6 +35,60 @@ fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &Dat
 
     // plot.show(); showup the plot in the browser
     plot.write_image(format!("k_means/{title}.png"), PNG, 800, 600, 1.0);
+}
+
+fn refine_labels(dataframe: &mut DataFrame, y_column: &str, y_pred_column: &str) {
+    let categories = dataframe.select_series([y_column])
+        .unwrap().get(0).expect("Non existent series").unique().unwrap();
+
+
+    println!("{:?}", categories);
+    let predicted_categories = dataframe.select_series([y_pred_column])
+        .unwrap().get(0).unwrap().unique().unwrap();
+
+    let mut best_labels: Series = Default::default();
+    let mut best_label_count = 0;
+    for perm in (0..predicted_categories.len()).permutations(predicted_categories.len()) {
+        /*let casted_labels = dataframe.column(y_pred_column)
+            .unwrap().iter().map(
+            |x| {
+                categories.get(x.get_str().unwrap()
+                    .to_string().parse::<usize>()
+                    .unwrap()).unwrap()
+            }
+        );
+        let casted_labels = casted_labels.collect::<Vec<_>>();
+
+        println!("{:?}", casted_labels);*/
+        let casted_labels: Series = dataframe.column(y_pred_column)
+            .unwrap().iter().map(
+            |x| {
+                categories.get(
+                    perm[x.get_str().unwrap()
+                        .to_string().parse::<usize>()
+                        .unwrap()]
+                )
+                    .unwrap().get_str().unwrap().to_string()
+            }
+        ).collect();
+        // println!("{:?}", casted_labels);
+        let check: usize = casted_labels.iter()
+            .zip(dataframe.column(y_column).unwrap().iter())
+            .map(|(x, y)| {
+                let x = x.get_str().unwrap();
+                let y = y.get_str().unwrap();
+                if x == y {
+                    1
+                } else {
+                    0
+                }
+            }).sum();
+        if check > best_label_count {
+            best_label_count = check;
+            best_labels = casted_labels;
+        }
+    }
+    dataframe.replace_or_add(y_pred_column.into(), best_labels).unwrap();
 }
 
 #[tokio::main]
@@ -66,7 +121,7 @@ async fn main() {
                              "Iris Dataset");
 
     let x = data_frame
-        .select(["SepalLengthCm","SepalWidthCm"])
+        .select(["SepalLengthCm", "SepalWidthCm"])
         .unwrap();
     let y = data_frame.select(["Species"]).unwrap();
     let features = x.to_ndarray::<Float64Type>(IndexOrder::C).unwrap();
@@ -90,9 +145,12 @@ async fn main() {
     let mut binding = data_frame.clone();
     let data_frame = binding.replace_or_add("labels".into(), labels).unwrap();
 
+    refine_labels(data_frame, "Species", "labels");
+
     plotting_relational_plot("SepalLengthCm",
                              "SepalWidthCm",
                              "labels", &data_frame,
                              "Predicted labels");
+
 
 }

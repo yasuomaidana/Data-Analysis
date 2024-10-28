@@ -15,3 +15,4 @@ data-loader = {workspace = true}
 tokio-compat-02 = { workspace = true }
 tokio = { workspace = true, features = ["rt", "rt-multi-thread", "macros"] }
 ndarray = {workspace = true}
+itertools = "0.13.0"
