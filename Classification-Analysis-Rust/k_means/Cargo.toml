@@ -9,10 +9,13 @@ polars-core = {workspace = true}
 polars-io = {workspace = true}
 plotly = { workspace = true }
 data_frame_plotter = {path = "../data_frame_plotter"}
-linfa = {workspace = true}
-linfa-clustering = {workspace = true}
+linfa = {workspace = true, features = ["serde"]}
+linfa-clustering = {workspace = true, features = ["serde"]}
 data-loader = {workspace = true}
 tokio-compat-02 = { workspace = true }
 tokio = { workspace = true, features = ["rt", "rt-multi-thread", "macros"] }
 ndarray = {workspace = true}
 itertools = "0.13.0"
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+linfa-nn = {workspace = true, features = ["serde"]}

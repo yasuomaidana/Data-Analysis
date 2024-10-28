@@ -15,11 +15,14 @@ dependencies = [
  "itertools 0.13.0",
  "linfa",
  "linfa-clustering",
+ "linfa-nn",
  "ndarray 0.16.1",
  "plotly",
  "polars",
  "polars-core",
  "polars-io",
+ "serde",
+ "serde_json",
  "tokio 1.40.0",
  "tokio-compat-02",
 ]
@@ -2229,6 +2232,7 @@ dependencies = [
  "ndarray 0.15.6",
  "num-traits",
  "rand 0.8.5",
+ "serde",
  "sprs",
  "thiserror",
 ]
@@ -2248,6 +2252,7 @@ dependencies = [
  "noisy_float",
  "num-traits",
  "rand_xoshiro",
+ "serde",
  "space",
  "thiserror",
 ]
@@ -2276,6 +2281,7 @@ dependencies = [
  "noisy_float",
  "num-traits",
  "order-stat",
+ "serde",
  "thiserror",
 ]
 
@@ -2559,6 +2565,7 @@ dependencies = [
  "num-traits",
  "rawpointer",
  "rayon",
+ "serde",
 ]
 
 [[package]]
@@ -4371,7 +4378,7 @@ version = "0.11.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "704ef26d974e8a452313ed629828cd9d4e4fa34667ca1ad9d6b1fffa43c6e166"
 dependencies = [
- "ndarray 0.15.6",
+ "ndarray 0.16.1",
  "num-complex",
  "num-traits",
  "smallvec",

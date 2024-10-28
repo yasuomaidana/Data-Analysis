@@ -1,4 +1,4 @@
-use std::fmt::Debug;
+use std::fs;
 use data_frame_plotter::single_relational_plot;
 use plotly::common::Title;
 use plotly::layout::Axis;
@@ -15,6 +15,8 @@ use polars_core::prelude::{NamedFrom, Series};
 use tokio_compat_02::FutureExt;
 use data_loader::{download_file, KaggleFile};
 use itertools::Itertools;
+use linfa_nn::distance::Distance;
+use serde::{Deserialize, Serialize};
 
 fn plotting_relational_plot(x_name: &str, y_name: &str, z_name: &str, data: &DataFrame, title: &str) {
     let traces = single_relational_plot(x_name, y_name, z_name, data);
@@ -91,6 +93,11 @@ fn refine_labels(dataframe: &mut DataFrame, y_column: &str, y_pred_column: &str)
     dataframe.replace_or_add(y_pred_column.into(), best_labels).unwrap();
 }
 
+#[derive(Serialize,Deserialize)]
+struct KMeansModel<F: linfa::Float,D:Distance<F>>{
+    model: KMeans<F, D>,
+}
+
 #[tokio::main]
 async fn main() {
     let kaggle_file = KaggleFile::new_csv(
@@ -153,4 +160,10 @@ async fn main() {
                              "Predicted labels");
 
 
+    let model = KMeansModel {
+        model: k_means,
+    };
+
+    let model = serde_json::to_string(&model).unwrap();
+    fs::write("generated/k_means_model.json", model).expect("Unable to write file");
 }
