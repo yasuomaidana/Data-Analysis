@@ -51,17 +51,6 @@ fn refine_labels(dataframe: &mut DataFrame, y_column: &str, y_pred_column: &str)
     let mut best_labels: Series = Default::default();
     let mut best_label_count = 0;
     for perm in (0..predicted_categories.len()).permutations(predicted_categories.len()) {
-        /*let casted_labels = dataframe.column(y_pred_column)
-            .unwrap().iter().map(
-            |x| {
-                categories.get(x.get_str().unwrap()
-                    .to_string().parse::<usize>()
-                    .unwrap()).unwrap()
-            }
-        );
-        let casted_labels = casted_labels.collect::<Vec<_>>();
-
-        println!("{:?}", casted_labels);*/
         let casted_labels: Series = dataframe.column(y_pred_column)
             .unwrap().iter().map(
             |x| {
