@@ -6,6 +6,9 @@ name = "Classification-Analysis-Rust"
 version = "0.1.0"
 edition = "2021"
 
+[dependencies]
+mushroom-clustering = { path = "mushroom-clustering" }
+
 [workspace.dependencies]
 polars = { version = "0.43.1", features = ["lazy"] }
 polars-core = "0.43.1"
@@ -29,3 +32,4 @@ linfa = "0.7.0"
 linfa-clustering = "0.7.0"
 linfa-nn = "0.7.0"
 ndarray = "0.16.1"
+mushroom-clustering = { path = "mushroom-clustering" }
