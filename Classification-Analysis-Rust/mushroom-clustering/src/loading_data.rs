@@ -1,10 +1,9 @@
+use polars::export::rayon::iter::IntoParallelRefIterator;
+use polars::export::rayon::iter::ParallelIterator;
 use polars::frame::DataFrame;
 use polars_io::prelude::{CsvReadOptions, CsvReader};
 use polars_io::SerReader;
 use std::path::PathBuf;
-use polars::export::rayon::iter::IntoParallelRefIterator;
-use polars::export::rayon::iter::ParallelIterator;
-
 
 pub fn read_dataframe(file_name: &str) -> DataFrame {
     // Read the data
@@ -24,7 +23,6 @@ pub fn read_dataframe(file_name: &str) -> DataFrame {
 }
 
 pub fn find_columns_with_single_values(df: &DataFrame) -> Vec<String> {
-    
     df.get_columns()
         .par_iter()
         .filter_map(|series| {

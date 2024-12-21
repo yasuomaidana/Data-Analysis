@@ -1,11 +1,11 @@
+use regex::Regex;
+use scraper::{Html, Selector};
 use std::collections::HashMap;
 use std::error::Error;
 use std::fs::File;
 use std::io::{BufRead, BufReader, Write};
 use std::sync::{Arc, Mutex};
 use std::thread;
-use scraper::{Html, Selector};
-use regex::Regex;
 
 #[derive(Debug)]
 struct ScrapedData {
@@ -29,14 +29,12 @@ fn main() -> Result<(), Box<dyn Error>> {
     for url in urls {
         let word_counts = Arc::clone(&word_counts);
         let selectors = selectors.clone();
-        let handle = thread::spawn(move || {
-            match process_url(&url, &selectors) {
-                Ok(scraped_data) => {
-                    let mut word_counts = word_counts.lock().unwrap();
-                    count_words(&scraped_data.text, &mut word_counts);
-                }
-                Err(err) => eprintln!("Error processing {}: {}", url, err),
+        let handle = thread::spawn(move || match process_url(&url, &selectors) {
+            Ok(scraped_data) => {
+                let mut word_counts = word_counts.lock().unwrap();
+                count_words(&scraped_data.text, &mut word_counts);
             }
+            Err(err) => eprintln!("Error processing {}: {}", url, err),
         });
         handles.push(handle);
     }
@@ -72,7 +70,10 @@ fn read_selectors_from_file(filename: &str) -> Result<Vec<Vec<String>>, Box<dyn 
     let mut selectors = Vec::new();
     for line in reader.lines() {
         let selector_str = line?;
-        let parts: Vec<String> = selector_str.split_whitespace().map(|s| s.to_string()).collect();
+        let parts: Vec<String> = selector_str
+            .split_whitespace()
+            .map(|s| s.to_string())
+            .collect();
         selectors.push(parts);
     }
     Ok(selectors)

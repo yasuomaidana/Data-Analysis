@@ -1,20 +1,19 @@
 mod model;
 
-use std::time::Instant;
+use crate::model::MnistCnn;
 use mnist::{Mnist, MnistBuilder};
+use std::time::Instant;
 use tch::nn::{Adam, Module, OptimizerConfig};
 use tch::{nn, Device, Tensor};
-use crate::model::{MnistCnn};
 
 const TRAIN_SIZE: usize = 50000;
 const VAL_SIZE: usize = 10000;
-const TEST_SIZE: usize =10000;
+const TEST_SIZE: usize = 10000;
 const BATCH_SIZE: i64 = 256;
 // const N_EPOCHS: i64 = 50;
 const N_EPOCHS: i64 = 5;
 const HEIGHT: usize = 28;
 const WIDTH: usize = 28;
-
 
 pub fn image_to_tensor(data: Vec<u8>, dim1: usize, dim2: usize, dim3: usize) -> Tensor {
     // Convert vector of u8 to vector of f64
@@ -73,14 +72,24 @@ fn main() {
     let criterion = |x: &Tensor, y: &Tensor| x.cross_entropy_for_logits(y);
 
     let start_time = Instant::now();
-    model.train(&train_data, &train_lbl,
-                TRAIN_SIZE, &val_data, &val_lbl,
-                BATCH_SIZE, N_EPOCHS, &mut optimizer,
-                &criterion, device);
+    model.train(
+        &train_data,
+        &train_lbl,
+        TRAIN_SIZE,
+        &val_data,
+        &val_lbl,
+        BATCH_SIZE,
+        N_EPOCHS,
+        &mut optimizer,
+        &criterion,
+        device,
+    );
     let elapsed_time = start_time.elapsed();
     println!("Training time: {:?}", elapsed_time);
     let accuracy = model.test(&test_data, &test_lbl, device);
     println!("Test accuracy: {}", accuracy);
-    assert_ne!(accuracy, 0.0, "Model accuracy should be something different than 0.0");
-
+    assert_ne!(
+        accuracy, 0.0,
+        "Model accuracy should be something different than 0.0"
+    );
 }

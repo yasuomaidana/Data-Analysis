@@ -28,12 +28,17 @@ impl MnistCnn {
         let root = &vs.root();
         let conv_layer1 = conv2d(root, 1, 32, 5, Default::default());
         let conv_layer2 = conv2d(root, 32, 64, 5, Default::default()); // Assuming input size remains consistent
-        // Correcting the input size for fc layer considering the output from previous layers
-        // Assuming input image of 28x28, after convolutions and pooling, we get 7x7
+                                                                       // Correcting the input size for fc layer considering the output from previous layers
+                                                                       // Assuming input image of 28x28, after convolutions and pooling, we get 7x7
         let fully_connected1 = linear(root, 1024, 256, Default::default());
         let fully_connected2 = linear(root, 256, 10, Default::default());
 
-        MnistCnn { conv_layer1, conv_layer2, fully_connected1, fully_connected2 }
+        MnistCnn {
+            conv_layer1,
+            conv_layer2,
+            fully_connected1,
+            fully_connected2,
+        }
     }
     // Function to save the model
     pub fn save(&self, filename: &str, vs: &VarStore) -> Result<(), TchError> {
@@ -54,18 +59,19 @@ impl MnistCnn {
         self.batch_accuracy_for_logits(test_data, test_labels, device, 1024)
     }
 
-    pub fn train(&mut self, train_data: &Tensor,
-                 train_labels: &Tensor,
-                 train_size: usize,
-                 val_data: &Tensor,
-                 val_labels: &Tensor,
-                 batch_size: i64,
-                 n_epochs: i64,
-                 optimizer: &mut Optimizer,
-                 criterion: &dyn Fn(&Tensor, &Tensor) -> Tensor,
-                 device: Device,
+    pub fn train(
+        &mut self,
+        train_data: &Tensor,
+        train_labels: &Tensor,
+        train_size: usize,
+        val_data: &Tensor,
+        val_labels: &Tensor,
+        batch_size: i64,
+        n_epochs: i64,
+        optimizer: &mut Optimizer,
+        criterion: &dyn Fn(&Tensor, &Tensor) -> Tensor,
+        device: Device,
     ) {
-
         // set up optimizer
         let n_it = (train_size as i64) / batch_size; // already round down
         println!("Number of iteration with given batch size: {:?}", n_it);
@@ -75,9 +81,17 @@ impl MnistCnn {
             // run all the images divided in batches  -> for loop
             for _ in 0..n_it {
                 // get the batch
-                let batch_indices = generate_random_index(train_size as i64, batch_size).to_device(device).to_kind(Kind::Int64);
-                let batch_images = train_data.index_select(0, &batch_indices).to_device(device).to_kind(Kind::Float);
-                let batch_labels = train_labels.index_select(0, &batch_indices).to_device(device).to_kind(Kind::Int64);
+                let batch_indices = generate_random_index(train_size as i64, batch_size)
+                    .to_device(device)
+                    .to_kind(Kind::Int64);
+                let batch_images = train_data
+                    .index_select(0, &batch_indices)
+                    .to_device(device)
+                    .to_kind(Kind::Float);
+                let batch_labels = train_labels
+                    .index_select(0, &batch_indices)
+                    .to_device(device)
+                    .to_kind(Kind::Int64);
                 // forward pass
                 let output = &self.forward_t(&batch_images, true).to_device(device);
                 // compute loss
@@ -109,7 +123,7 @@ impl ModuleT for MnistCnn {
         // Initial input shape: (batch_size, 1, 28, 28)
         xs
             // After conv_layer1: (batch_size, 32, 28, 28) -> (batch_size, 32, 12, 12) due to padding and pooling
-            .apply(&self.conv_layer1)  //(batch_size, 32, 24, 24)
+            .apply(&self.conv_layer1) //(batch_size, 32, 24, 24)
             .relu()
             .max_pool2d_default(2) //(batch_size, 32, 12, 12)
             // After conv_layer2: (batch_size, 64, 12, 12) -> (batch_size, 64, 4, 4)
@@ -128,11 +142,10 @@ impl ModuleT for MnistCnn {
 
 #[cfg(test)]
 mod tests {
-    use std::fs;
     use super::*;
+    use std::fs;
     use tch::nn::VarStore;
     use tch::{Device, Kind};
-
 
     #[test]
     fn test_forward_pass() {
@@ -171,7 +184,6 @@ mod tests {
 
     #[test]
     fn test_model_save_and_load() {
-
         // Create a temporary file_name for this test
         let file_path = "./tmp_model.pth";
 
@@ -202,7 +214,10 @@ mod tests {
         // Attempt to delete the file
         fs::remove_file(file_path).expect("Could not remove temporary file");
         // Optionally, you could check if the file was indeed deleted
-        assert!(!Path::new(file_path).exists(), "The model file was not deleted after the test");
+        assert!(
+            !Path::new(file_path).exists(),
+            "The model file was not deleted after the test"
+        );
     }
 
     #[test]
@@ -222,7 +237,18 @@ mod tests {
 
         let criterion = |x: &Tensor, y: &Tensor| x.cross_entropy_for_logits(y);
 
-        model.train(&train_data, &train_labels, 64, &val_data, &val_labels, 32, 2, &mut optimizer, &criterion, device);
+        model.train(
+            &train_data,
+            &train_labels,
+            64,
+            &val_data,
+            &val_labels,
+            32,
+            2,
+            &mut optimizer,
+            &criterion,
+            device,
+        );
 
         let accuracy = model.test(&val_data, &val_labels, device);
         println!("Validation accuracy: {}", accuracy);
