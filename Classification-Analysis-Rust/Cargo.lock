@@ -5,9 +5,6 @@ version = 4
 [[package]]
 name = "Classification-Analysis-Rust"
 version = "0.1.0"
-dependencies = [
- "mushroom-clustering",
-]
 
 [[package]]
 name = "KNN"
