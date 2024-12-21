@@ -5,6 +5,11 @@ use crate::loading_data::{find_columns_with_single_values, read_dataframe};
 fn main() {
     let filename = "../Classification Analysis/KNN/Data-Mushroom/mushrooms.csv";
     let df = read_dataframe(filename);
+    
+    let header = df.clone().slice(0, 5);
+    println!("{:?}", header.collect().unwrap());
+    
+    let df = df.collect().unwrap();
     println!("Head");
     println!("{:?}", df.head(Some(5)));
 
