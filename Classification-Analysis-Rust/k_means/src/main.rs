@@ -4,7 +4,7 @@ use itertools::Itertools;
 use linfa::prelude::{Fit, Predict};
 use linfa::Dataset;
 use linfa_clustering::KMeans;
-use linfa_nn::distance::Distance;
+use linfa_nn::distance::{Distance, L2Dist};
 use plotly::common::Title;
 use plotly::layout::Axis;
 use plotly::ImageFormat::PNG;
@@ -181,5 +181,8 @@ async fn main() {
     let model = KMeansModel { model: k_means };
 
     let model = serde_json::to_string(&model).unwrap();
-    fs::write("generated/k_means_model.json", model).expect("Unable to write file");
+    fs::write("generated/k_means_model.json", model.clone()).expect("Unable to write file");
+    
+    let model: KMeansModel<f64, L2Dist> = serde_json::from_str(&model).unwrap();
+    model.model.predict(&dataset);
 }
