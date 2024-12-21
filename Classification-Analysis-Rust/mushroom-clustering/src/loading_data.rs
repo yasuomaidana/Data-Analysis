@@ -1,8 +1,6 @@
 use polars::export::rayon::iter::IntoParallelRefIterator;
 use polars::export::rayon::iter::ParallelIterator;
 use polars::frame::DataFrame;
-use polars_io::prelude::{CsvReadOptions};
-use polars_io::SerReader;
 use std::path::PathBuf;
 use polars::prelude::{LazyCsvReader, LazyFileListReader, LazyFrame};
 
