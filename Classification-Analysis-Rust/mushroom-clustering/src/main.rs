@@ -1,4 +1,5 @@
 pub mod loading_data;
+mod preprocessing_data;
 
 use crate::loading_data::{find_columns_with_single_values, read_dataframe};
 
@@ -21,4 +22,6 @@ fn main() {
     println!("Columns with single value");
     let columns_to_drop = find_columns_with_single_values(&x);
     println!("{:?}", columns_to_drop);
+    
+    
 }
