@@ -8,3 +8,4 @@ scikit-learn
 seaborn
 polars
 kmodes
+altair
