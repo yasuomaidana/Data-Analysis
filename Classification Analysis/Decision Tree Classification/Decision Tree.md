@@ -10,6 +10,7 @@
   * Stop condition.
     * Complete tree
     * Tree prunning
+        * Tree pruning
 
 ## Information Gain
 
@@ -24,7 +25,7 @@
 * Write as: $Info(D)$ $$Info(D)=-\sum_{i=1}^{m}p_i\log\left(p_i\right)$$ Where $m$ is the number of classes.
   $$p_i=\frac{\left|C_{i,D}\right|}{\left|D\right|}$$
   Where $\left|D\right|$ is the size of the set $D$, and $\left|C_{i,D}\right|$ is the size of the class $C_i$
-* Shorthad write: $I\left(C_1,C_2,\dots,C_m\right)$
+* Shorthand write: $I\left(C_1,C_2,\dots,C_m\right)$
 
 * Binary: $I(a, b)$ means $a$ data set has $a+b$ data points, and $a$ of them belong to class 1, and $b$ of them belong to class 2.
   $$I\left(a,b\right)=-\left(\frac{a}{a+b}\log_2\left(\frac{a}{a+n}\right)+\frac{b}{a+b}\log_2\left(\frac{b}{a+n}\right)\right)$$
@@ -92,5 +93,5 @@ $$SplitInfo_A(D)=-\sum_{j=1}^v\frac{\left|D_j\right|}{\left|D\right|}\times\log_
   * Too many branches, reflect anomalies due to noise or outliers
   * Poor accuracy for unseen data
 * Tree pruning to avoid over fitting
-  * Preprunning: halt tree construction early
-  * Postpruning: remove branches from a "fully-grown" tree
+    * Pre-pruning: halt tree construction early
+    * Post-pruning: remove branches from a "fully-grown" tree
