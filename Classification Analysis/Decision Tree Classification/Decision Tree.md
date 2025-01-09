@@ -52,11 +52,16 @@ classification.
 ### Gain Ratio (C4.5)
 
 Information gain measures biased towards attributes with a large number of values.
-C4.5 (a successor of ID3)
+
+* What is $Info_{CID}(D)$ and $Gain(CID)$ for previous example?
 
 * Select attribute with maximum gain ratio
   $$GainRatio_A(D)=\frac{Gain_A(D)}{SplitInfo_A(D)}$$
   $$SplitInfo_A(D)=-\sum_{j=1}^v\frac{\left|D_j\right|}{\left|D\right|}\times\log_2{\left(\frac{\left|D_j\right|}{\left|D\right|}\right)}$$
+
+> [Gain Ratio (C4.5)](https://en.wikipedia.org/wiki/C4.5_algorithm) (a successor
+> of [ID3](https://en.wikipedia.org/wiki/ID3_algorithm)) is used to overcome the bias of information gain towards
+> attributes with a large number
 
 ## Gini index
 
@@ -64,6 +69,15 @@ C4.5 (a successor of ID3)
 * Binary split with attribute $A$
   $$Gini_A(D)=\frac{\left|D_1\right|}{\left|D\right|}Gini(D_1)+\frac{\left|D_2\right|}{\left|D\right|}Gini(D_2)$$
 * Reduction in impurity $$\Delta Gini(A)=Gini(D)-Gini_A(D)$$
+
+### Attribute Selection Measures
+
+* Comparison of the three measures
+    * Good results in general but some biases
+    * Information gain: multivalued attributes
+    * Gain ratio: unbalanced splits
+    * Gain ratio: unbalanced splits
+    * Gini index: multivalued, equal-sized & pure partitions, not good when number of classes is large
 
 ## Considerations
 
