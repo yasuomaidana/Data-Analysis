@@ -4,9 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="4f553ae2-a661-4dde-84cc-7f18f4f25faf" name="Changes" comment="Adding K and R comparison">
-      <change afterPath="$PROJECT_DIR$/MushRoom Tree.ipynb" afterDir="false" />
+    <list default="true" id="4f553ae2-a661-4dde-84cc-7f18f4f25faf" name="Changes" comment="Training tree">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/MushRoom Tree.ipynb" beforeDir="false" afterPath="$PROJECT_DIR$/MushRoom Tree.ipynb" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,7 +82,8 @@
       <workItem from="1736460338007" duration="1204000" />
       <workItem from="1736470822628" duration="1216000" />
       <workItem from="1736526070867" duration="10000" />
-      <workItem from="1736529637194" duration="1059000" />
+      <workItem from="1736529637194" duration="1082000" />
+      <workItem from="1736530731778" duration="1859000" />
     </task>
     <task id="LOCAL-00001" summary="Fixing broken files">
       <option name="closed" value="true" />
@@ -108,7 +109,15 @@
       <option name="project" value="LOCAL" />
       <updated>1736470854598</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Training tree">
+      <option name="closed" value="true" />
+      <created>1736530705191</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1736530705191</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -120,7 +129,8 @@
     <MESSAGE value="Formatting file" />
     <MESSAGE value="Updating notes" />
     <MESSAGE value="Adding K and R comparison" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding K and R comparison" />
+    <MESSAGE value="Training tree" />
+    <option name="LAST_COMMIT_MESSAGE" value="Training tree" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
