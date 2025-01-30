@@ -92,6 +92,111 @@ When the data is not linearly separable, the kernel trick comes into play. It im
 higher-dimensional space where a linear hyperplane can separate the classes. This allows SVMs to efficiently handle
 non-linear data without the computational cost of explicitly performing the transformation.
 
+## Soft and Hard Margin Classification
+
+### Hard Margin SVMs
+
+**Goal**: Find the optimal hyperplane that maximally separates data points of different classes when the data is
+perfectly
+linearly separable.
+
+**Key Idea**: The hyperplane is positioned in such a way that the margin (the distance between the hyperplane and the
+nearest data points) is maximized.
+
+Assumptions:
+
+- The data is perfectly linearly separable.
+- No outliers or mislabeled data points exist.
+
+Strengths:
+
+- Conceptually simple.
+- Guaranteed to find a separating hyperplane if one exists.
+
+Limitations:
+
+- Very sensitive to outliers – a single outlier can drastically change the hyperplane.
+- Not applicable to data that is not linearly separable, which is common in real-world datasets.
+
+How it Works (Simplified)
+
+1. Linearly Separable Data: Imagine two distinct groups of data points that can be perfectly divided by a straight
+   line (in
+   2D) or a hyperplane (in higher dimensions).
+2. Maximum Margin: The algorithm aims to find the line/hyperplane that creates the largest possible "gap" (margin)
+   between
+   the two groups.
+3. Support Vectors: The data points closest to the hyperplane are called support vectors. These points are crucial in
+   defining the position and orientation of the hyperplane.
+
+> #### When to Use Hard Margin SVMs
+>
+> When you are absolutely certain that your data is linearly separable.
+> In some theoretical scenarios or educational examples.
+>
+> **Note**: In practice, hard margin SVMs are rarely used due to their sensitivity to outliers and the fact that most
+> real-world data is not perfectly linearly separable. Soft margin SVMs are a more common and versatile alternative.
+
+### Soft Margin SVMs
+
+**Goal**: Find the optimal hyperplane that "mostly" separates data points of different classes, allowing for some
+misclassifications or points within the margin.
+**Key Idea**: Introduce a "soft margin" that tolerates some violations of the margin constraints. This is done by adding
+slack variables to the optimization problem.
+
+Assumptions:
+
+- Data may not be perfectly linearly separable.
+- Outliers or noisy data points may exist.
+
+Strengths:
+
+- More flexible and applicable to a wider range of real-world datasets.
+- Less sensitive to outliers.
+
+Limitations:
+
+- Requires tuning of a regularization parameter (C) to control the trade-off between margin size and misclassifications.
+
+How it Works (Simplified)
+
+1. Mostly Linearly Separable Data: Imagine two groups of data points that are mostly separated by a line/hyperplane, but
+   there might be some overlap or outliers.
+
+2. Soft Margin: The algorithm still aims to find a hyperplane that maximizes the margin, but it allows some data points
+   to fall within the margin or even on the wrong side of the hyperplane.
+
+3. Slack Variables: These are variables that are introduced to measure the degree to which a data point violates the
+   margin constraint. A data point within the margin or on the wrong side will have a non-zero slack variable.
+
+4. Regularization Parameter ($C$): This parameter controls the trade-off between maximizing the margin and minimizing
+   the number of misclassifications.
+    - A large $C$ value: Tries to minimize misclassifications, potentially leading to a smaller margin.
+    - A small $C$ value: Allows more misclassifications, potentially leading to a larger margin.
+
+> #### When to Use Soft Margin SVMs
+>
+> * When your data is not perfectly linearly separable (which is often the case in real-world datasets).
+> * When you have outliers or noisy data.
+
+### Key Differences from Hard Margin SVMs
+
+- Flexibility: Soft margin SVMs are more flexible and can handle data that is not perfectly linearly separable.
+- Robustness: Soft margin SVMs are less sensitive to outliers.
+- Parameter Tuning: Soft margin SVMs require tuning of the regularization parameter $C$
+
+| Feature            | Hard Margin SVM                              | Soft Margin SVM                                  |
+|--------------------|----------------------------------------------|--------------------------------------------------|
+| Data Separability  | Perfectly linearly separable                 | Mostly linearly separable, allows some overlap   |
+| Outliers           | Very sensitive to outliers                   | Less sensitive to outliers                       |
+| Margin             | Maximizes the margin with no violations      | Maximizes the margin, allows some violations     |
+| Misclassifications | No misclassifications allowed                | Allows some misclassifications                   |
+| Slack Variables    | Not used                                     | Uses slack variables to handle margin violations |
+| Regularization     | Not needed                                   | Requires tuning of regularization parameter (C)  |
+| Applicability      | Limited to perfectly linearly separable data | Applicable to a wider range of real-world data   |
+| Complexity         | Simpler optimization problem                 | More complex optimization problem                |
+| Robustness         | Low robustness                               | Higher robustness                                |
+
 ## Applications of Support Vector Machines
 
 SVMs have found applications in various domains:
