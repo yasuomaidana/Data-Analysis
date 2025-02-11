@@ -70,4 +70,22 @@ P(A_1 \cap A_2 \cap \ldots \cap A_n) & = P(A_n | A_1 \cap \ldots \cap A_{n-1})\c
 \\ & = \prod_{k=1}^{n} P(A_k | \bigcap_{j=1}^{k-1} A_j)
 \\ & = P(A_1) \prod_{j=2}^{n} P(A_j | A_1 \cap \ldots \cap A_{j-1})
 \end{align}$$
-> 
+>
+
+## Naive Bayes Classifier
+
+* $X=\left(x_1,x_2,\dots,x_n \right)$ (i.e., $n$ features/attributes)
+* $M$ classes $C_1,C_2,\dots,C_M$
+* Classification: determine $P(C_k|X)$ for $k=1,2,\dots,M$
+* Naive Bayes assumption: features are conditionally independent given the class label
+    * $P(C_i|X) = \frac{P(X|C_i)P(C_i)}{P(X)}$
+* Since $P(X)$ is constant for all classes, we can ignore it in the optimization
+    * $P(C_i|X) \propto P(X|C_i)P(C_i)$
+
+> Naive assumption: features are conditionally independent given the class label (no dependencies/correlations between
+> features)
+
+$$\begin{align}
+P(X|C_i) &= \prod_{k=1}^nP(x_k|C_i) \\ 
+&= P(x_1|C_i)\times P(x_2|C_i)\times\dots\times P(x_n|C_i) 
+\end{align}$$
