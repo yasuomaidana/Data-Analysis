@@ -86,6 +86,32 @@ P(A_1 \cap A_2 \cap \ldots \cap A_n) & = P(A_n | A_1 \cap \ldots \cap A_{n-1})\c
 > features)
 
 $$\begin{align}
-P(X|C_i) &= \prod_{k=1}^nP(x_k|C_i) \\ 
-&= P(x_1|C_i)\times P(x_2|C_i)\times\dots\times P(x_n|C_i) 
+P(X|C_i) &= \prod_{k=1}^nP(x_k|C_i) \\
+&= P(x_1|C_i)\times P(x_2|C_i)\times\dots\times P(x_n|C_i)
 \end{align}$$
+
+## Avoiding 0-probability
+
+### The 0-probability problem
+
+$$P(X|C_i)=\prod_{k=1}^{n}P(x_k|C_i)=
+P(x_1|C_i)\times P(x_2|C_i)\times\dots\times P(x_n|C_i)
+$$
+
+If any $P(x_k|C_i)=0$, then $P(X|C_i)=0$. This is a problem because the product of probabilities will be zero, even
+though the other probabilities are not zero.
+
+### Solution
+The 0-probability problem can be avoided by using Laplace smoothing (add-one smoothing) or Lidstone smoothing.
+
+* Laplace smoothing:
+    * Add 1 to each count
+    * Add $n$ to the denominator
+    * $P(x_k|C_i)=\frac{count(x_k,C_i)+1}{count(C_i)+n}$
+
+## Advantages and Disadvantages
+
+| Advantages                   | Disadvantages                                         |
+|------------------------------|-------------------------------------------------------|
+| Simple and easy to implement | Assumption of independent features is not always true |
+
