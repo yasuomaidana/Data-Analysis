@@ -14,8 +14,8 @@
 ## Information Gain
 
 * The purer the data set is, the less information we need to remember.
-* The purer the data set is, the easier we can make prediction.
-* Entropy is to measure the impurity of a data set.
+* The purer the data set is, the easier it is to make predictions.
+* Entropy is used to measure the impurity of a data set.
 
 ### Entropy
 
@@ -31,7 +31,7 @@ classification.
   to class 2.
   $$I\left(a,b\right)=-\left(\frac{a}{a+b}\log_2\left(\frac{a}{a+b}\right)+\frac{b}{a+b}\log_2\left(\frac{b}{a+b}\right)\right)$$
 
-### Tree using information gains
+### Tree using information gains.
 
 * Information *needed* using attribute $A$ to classify $D$:
     * Write as $$info_A(D)$$

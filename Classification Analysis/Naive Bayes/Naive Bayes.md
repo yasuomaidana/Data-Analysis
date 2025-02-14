@@ -1,16 +1,14 @@
 # Naive Bayes Classification
 
-Naive Bayes is a classification algorithm that is based on the Bayes theorem. It is called "naive" because it makes the
-assumption that the features are independent of each other. This assumption simplifies the computation of the
-probabilities and makes the algorithm very efficient.
+Naive Bayes is a classification algorithm based on the Bayes theorem. It is called "naive" because it assumes that the features are independent of each other. This assumption simplifies the computation of the probabilities and makes the algorithm very efficient.
 
 * A statistical classifier:
     * Predicts class membership probabilities
-* Foundation: based on Bayes theorem
-* Performance (naive bayes classifier):
+* Foundation: based on Bayes' theorem
+* Performance (naive Bayes classifier):
     * Comparable to decision trees and logistic regression
-    * Some neural networks classifiers
-* Incremental learning: can be updated easily with new data
+    * Some neural network classifiers
+* Incremental learning: It can be updated easily with new data
 
 ## Bayes Theorem
 
