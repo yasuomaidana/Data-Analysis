@@ -1,0 +1,187 @@
+{
+  "main": {
+    "id": "553bf013f641dc3f",
+    "type": "split",
+    "children": [
+      {
+        "id": "1bd4b717bc9d38b2",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "a88e7cbbae623bfd",
+            "type": "leaf",
+            "state": {
+              "type": "markdown",
+              "state": {
+                "file": "Evaluation Criteria/Evaluation criteria.md",
+                "mode": "source",
+                "source": false
+              },
+              "icon": "lucide-file",
+              "title": "Evaluation criteria"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "vertical"
+  },
+  "left": {
+    "id": "1f3c43e877d9294c",
+    "type": "split",
+    "children": [
+      {
+        "id": "31451d150c7d55aa",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "1c13b592224a5201",
+            "type": "leaf",
+            "state": {
+              "type": "file-explorer",
+              "state": {
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-folder-closed",
+              "title": "Files"
+            }
+          },
+          {
+            "id": "08fb094fdcbdaf49",
+            "type": "leaf",
+            "state": {
+              "type": "search",
+              "state": {
+                "query": "",
+                "matchingCase": false,
+                "explainSearch": false,
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical"
+              },
+              "icon": "lucide-search",
+              "title": "Search"
+            }
+          },
+          {
+            "id": "e6023929b813a611",
+            "type": "leaf",
+            "state": {
+              "type": "bookmarks",
+              "state": {},
+              "icon": "lucide-bookmark",
+              "title": "Bookmarks"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300
+  },
+  "right": {
+    "id": "25a4c46362caddb4",
+    "type": "split",
+    "children": [
+      {
+        "id": "ff25a3cb070b1771",
+        "type": "tabs",
+        "children": [
+          {
+            "id": "13aadc5a2c39f81b",
+            "type": "leaf",
+            "state": {
+              "type": "backlink",
+              "state": {
+                "file": "Evaluation Criteria/Evaluation criteria.md",
+                "collapseAll": false,
+                "extraContext": false,
+                "sortOrder": "alphabetical",
+                "showSearch": false,
+                "searchQuery": "",
+                "backlinkCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-coming-in",
+              "title": "Backlinks for Evaluation criteria"
+            }
+          },
+          {
+            "id": "1f5bdec7000a1918",
+            "type": "leaf",
+            "state": {
+              "type": "outgoing-link",
+              "state": {
+                "file": "Evaluation Criteria/Evaluation criteria.md",
+                "linksCollapsed": false,
+                "unlinkedCollapsed": true
+              },
+              "icon": "links-going-out",
+              "title": "Outgoing links from Evaluation criteria"
+            }
+          },
+          {
+            "id": "4449b620b6d1ed9d",
+            "type": "leaf",
+            "state": {
+              "type": "tag",
+              "state": {
+                "sortOrder": "frequency",
+                "useHierarchy": true
+              },
+              "icon": "lucide-tags",
+              "title": "Tags"
+            }
+          },
+          {
+            "id": "8ab6d9cf1c9dd8ce",
+            "type": "leaf",
+            "state": {
+              "type": "outline",
+              "state": {
+                "file": "Evaluation Criteria/Evaluation criteria.md"
+              },
+              "icon": "lucide-list",
+              "title": "Outline of Evaluation criteria"
+            }
+          }
+        ]
+      }
+    ],
+    "direction": "horizontal",
+    "width": 300,
+    "collapsed": true
+  },
+  "left-ribbon": {
+    "hiddenItems": {
+      "switcher:Open quick switcher": false,
+      "graph:Open graph view": false,
+      "canvas:Create new canvas": false,
+      "daily-notes:Open today's daily note": false,
+      "templates:Insert template": false,
+      "command-palette:Open command palette": false
+    }
+  },
+  "active": "a88e7cbbae623bfd",
+  "lastOpenFiles": [
+    "Evaluation Criteria/Roc_curve.png",
+    "Evaluation Criteria/Roc_curve.svg.png",
+    "Evaluation Criteria/precision vs recall curve.png.jpeg",
+    "Evaluation Criteria/c1e6c30d-de84-431d-9f27-c960b0ad7664_Precision+-+Recall+-+Curve+-+Encord.png.jpeg",
+    "2025-02-14.md",
+    "Untitled.canvas",
+    "Evaluation Criteria/Evaluation criteria.md",
+    "Evaluation Criteria/precision vs recall.png",
+    "Evaluation Criteria/3efb9286-503a-4131-97d9-b325e695209b_Precision+vs+Recall+-+Encord.png",
+    "Evaluation Criteria/3efb9286-503a-4131-97d9-b325e695209b_Precision+vs+Recall+-+Encord.png.avif",
+    "Evaluation Criteria/Confusion matrix.jpeg",
+    "Evaluation Criteria/edfa849b-03fb-43d2-aba5-1f53a8884e6f_image5.png.jpeg",
+    "Decision Tree Classification/Decision Tree.md",
+    "Evaluation Criteria",
+    "Support Vector Machine/Support Vector Machine.md",
+    "Naive Bayes/Probability formulas.png",
+    "Naive Bayes/Bayes_theorem_visual_proof.png",
+    "Naive Bayes/Naive Bayes.md",
+    "Logistic Regression/Logistic Regression.md"
+  ]
+}
