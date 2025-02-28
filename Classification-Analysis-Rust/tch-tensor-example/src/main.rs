@@ -3,7 +3,8 @@ mod model;
 use crate::model::MnistCnn;
 use mnist::{Mnist, MnistBuilder};
 use std::time::Instant;
-use tch::nn::{Adam, Module, OptimizerConfig};
+// use tch::nn::{Adam, Module, OptimizerConfig};
+use tch::nn::{Adam, OptimizerConfig};
 use tch::{nn, Device, Tensor};
 
 const TRAIN_SIZE: usize = 50000;
