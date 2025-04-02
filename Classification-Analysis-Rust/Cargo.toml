@@ -1,10 +1,10 @@
 [workspace]
-members = ["k_means", "data_frame_plotter", "google-data-fetcher", "data-scrapper", "tch-tensor-example", "parallel-scrapper", "sort-by-column", "data-loader", "excel-generator", "mushroom-clustering"]
+members = ["k_means", "data_frame_plotter", "data-scrapper", "tch-tensor-example", "parallel-scrapper", "sort-by-column", "data-loader", "excel-generator", "mushroom-clustering"]
 
 [package]
 name = "Classification-Analysis-Rust"
 version = "0.1.0"
-edition = "2021"
+edition = "2024"
 
 [workspace.dependencies]
 polars = { version = "0.43.1", features = ["lazy"] }
@@ -12,8 +12,8 @@ polars-core = "0.43.1"
 polars-io = "0.43.1"
 plotly = { git = "https://github.com/yasuomaidana/plotly.rs", branch = "multiples-axis", features = ["kaleido"] }
 reqwest = { version = "0.12.7", features = ["blocking"] }
-scraper = "0.20.0"
-rand = "0.8.4"
+scraper = "0.23.1"
+rand = "0.9.0"
 serde = { version = "1.0.204", features = ["derive"] }
 serde_json = "1.0.120"
 termion = "4.0.2"
