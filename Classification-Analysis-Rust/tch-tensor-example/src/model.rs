@@ -1,6 +1,7 @@
 use std::fmt::{Debug, Formatter};
 use std::path::Path;
-use tch::nn::{conv2d, linear, Adam, Conv2D, Linear, Optimizer, OptimizerConfig, VarStore};
+// use tch::nn::{conv2d, linear, Adam, Conv2D, Linear, Optimizer, OptimizerConfig, VarStore};
+use tch::nn::{conv2d, linear, Conv2D, Linear, Optimizer, VarStore};
 use tch::{kind, nn::ModuleT, Device, Kind, TchError, Tensor};
 
 // Renaming variables to follow Rust conventions
@@ -16,12 +17,12 @@ pub fn generate_random_index(array_size: i64, batch_size: i64) -> Tensor {
     random_indices
 }
 
-fn with_no_grad<F>(f: F)
-where
-    F: FnOnce(),
-{
-    tch::no_grad(f);
-}
+// fn with_no_grad<F>(f: F)
+// where
+//     F: FnOnce(),
+// {
+//     tch::no_grad(f);
+// }
 
 impl MnistCnn {
     pub(crate) fn new(vs: &VarStore) -> Self {
@@ -145,6 +146,7 @@ mod tests {
     use super::*;
     use std::fs;
     use tch::nn::VarStore;
+    use tch::nn::{Adam, OptimizerConfig, VarStore};
     use tch::{Device, Kind};
 
     #[test]

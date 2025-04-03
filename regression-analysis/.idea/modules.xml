@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/google-data-fetcher.iml" filepath="$PROJECT_DIR$/.idea/google-data-fetcher.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/regression-analysis.iml" filepath="$PROJECT_DIR$/.idea/regression-analysis.iml" />
     </modules>
   </component>
 </project>

@@ -3,7 +3,8 @@ mod model;
 use crate::model::MnistCnn;
 use mnist::{Mnist, MnistBuilder};
 use std::time::Instant;
-use tch::nn::{Adam, Module, OptimizerConfig};
+// use tch::nn::{Adam, Module, OptimizerConfig};
+use tch::nn::{Adam, OptimizerConfig};
 use tch::{nn, Device, Tensor};
 
 const TRAIN_SIZE: usize = 50000;
@@ -35,8 +36,7 @@ pub fn labels_to_tensor(data: Vec<u8>, dim1: usize) -> Tensor {
 fn main() {
     // Create a simple neural network model
     let device = Device::Mps;
-    let vs = nn::VarStore::new(device);
-
+    let mut vs = nn::VarStore::new(device);
     let Mnist {
         trn_img,
         trn_lbl,
@@ -66,26 +66,41 @@ fn main() {
     // Convert labels to tensors
 
     // Define the model
-    let mut model = MnistCnn::new(&vs);
-    // Define the optimizer
-    let mut optimizer = Adam::default().build(&vs, 1e-3).unwrap();
-    let criterion = |x: &Tensor, y: &Tensor| x.cross_entropy_for_logits(y);
+    let model = match MnistCnn::load(&mut vs, "mnist_model.ot") {
+        Ok(model) => model,
+        Err(_) => {
+            let mut model = MnistCnn::new(&vs);
+            // Define the optimizer
+            let mut optimizer = Adam::default().build(&vs, 1e-3).unwrap();
+            let criterion = |x: &Tensor, y: &Tensor| x.cross_entropy_for_logits(y);
 
-    let start_time = Instant::now();
-    model.train(
-        &train_data,
-        &train_lbl,
-        TRAIN_SIZE,
-        &val_data,
-        &val_lbl,
-        BATCH_SIZE,
-        N_EPOCHS,
-        &mut optimizer,
-        &criterion,
-        device,
-    );
-    let elapsed_time = start_time.elapsed();
-    println!("Training time: {:?}", elapsed_time);
+            let start_time = Instant::now();
+
+            // Train the model
+            model.train(
+                &train_data,
+                &train_lbl,
+                TRAIN_SIZE,
+                &val_data,
+                &val_lbl,
+                BATCH_SIZE,
+                N_EPOCHS,
+                &mut optimizer,
+                &criterion,
+                device,
+            );
+
+            // Save the model
+            model
+                .save("mnist_model.ot", &vs)
+                .expect("Failed to save model");
+
+            let elapsed_time = start_time.elapsed();
+            println!("Training time: {:?}", elapsed_time);
+            model
+        }
+    };
+
     let accuracy = model.test(&test_data, &test_lbl, device);
     println!("Test accuracy: {}", accuracy);
     assert_ne!(

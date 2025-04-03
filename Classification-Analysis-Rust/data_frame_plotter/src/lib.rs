@@ -110,9 +110,9 @@ mod tests {
 
     #[test]
     fn test_relational_plot() {
-        let s0 = Series::new("a", [1, 2, 3].as_ref());
-        let s1 = Series::new("b", [1, 2, 3].as_ref());
-        let s2 = Series::new("c", ["M", "M", "B"].as_ref());
+        let s0 = Series::new("a".into(), [1, 2, 3].as_ref());
+        let s1 = Series::new("b".into(), [1, 2, 3].as_ref());
+        let s2 = Series::new("c".into(), ["M", "M", "B"].as_ref());
         let df = DataFrame::new(vec![s0, s1, s2]).unwrap();
 
         single_relational_plot("a", "b", "c", &df);

@@ -1,0 +1,24 @@
+[project]
+name = "regression-analysis"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+    "matplotlib>=3.10.1",
+    "notebook>=7.3.3",
+    "numpy>=2.2.4",
+    "pandas>=2.2.3",
+    "polars>=1.26.0",
+    "pyarrow>=19.0.1",
+    "scikit-learn>=1.6.1",
+    "seaborn>=0.13.2",
+]
+
+[dependency-groups]
+dev = [
+    "ipykernel>=6.29.5",
+]
+
+[tool.uv.workspace]
+members = ["data-loader"]

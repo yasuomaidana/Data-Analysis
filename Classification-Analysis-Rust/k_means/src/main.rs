@@ -1,18 +1,18 @@
 use data_frame_plotter::single_relational_plot;
-use data_loader::{download_file, KaggleFile};
+use data_loader::{KaggleFile, download_file};
 use itertools::Itertools;
-use linfa::prelude::{Fit, Predict};
 use linfa::Dataset;
+use linfa::prelude::{Fit, Predict};
 use linfa_clustering::KMeans;
 use linfa_nn::distance::{Distance, L2Dist};
+use plotly::ImageFormat::PNG;
 use plotly::common::Title;
 use plotly::layout::Axis;
-use plotly::ImageFormat::PNG;
 use plotly::{Layout, Plot};
 use polars::prelude::{DataFrame, Float64Type, IndexOrder};
 use polars_core::prelude::{NamedFrom, Series};
-use polars_io::prelude::{CsvReadOptions, CsvReader};
 use polars_io::SerReader;
+use polars_io::prelude::{CsvReadOptions, CsvReader};
 use serde::{Deserialize, Serialize};
 use std::fs;
 use std::path::PathBuf;
@@ -79,6 +79,7 @@ fn refine_labels(dataframe: &mut DataFrame, y_column: &str, y_pred_column: &str)
                     .to_string()
             })
             .collect();
+
         // println!("{:?}", casted_labels);
         let check: usize = casted_labels
             .iter()
@@ -86,11 +87,7 @@ fn refine_labels(dataframe: &mut DataFrame, y_column: &str, y_pred_column: &str)
             .map(|(x, y)| {
                 let x = x.get_str().unwrap();
                 let y = y.get_str().unwrap();
-                if x == y {
-                    1
-                } else {
-                    0
-                }
+                if x == y { 1 } else { 0 }
             })
             .sum();
         if check > best_label_count {
@@ -143,6 +140,7 @@ async fn main() {
     let x = data_frame
         .select(["SepalLengthCm", "SepalWidthCm"])
         .unwrap();
+
     let y = data_frame.select(["Species"]).unwrap();
     let features = x.to_ndarray::<Float64Type>(IndexOrder::C).unwrap();
     let target = y.to_ndarray::<Float64Type>(IndexOrder::C).unwrap();
@@ -182,7 +180,7 @@ async fn main() {
 
     let model = serde_json::to_string(&model).unwrap();
     fs::write("generated/k_means_model.json", model.clone()).expect("Unable to write file");
-    
+
     let model: KMeansModel<f64, L2Dist> = serde_json::from_str(&model).unwrap();
     model.model.predict(&dataset);
 }

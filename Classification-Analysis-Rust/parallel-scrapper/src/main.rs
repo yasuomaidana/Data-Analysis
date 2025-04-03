@@ -14,10 +14,16 @@ struct ScrapedData {
 
 fn main() -> Result<(), Box<dyn Error>> {
     // Read the list of URLs from a file
-    let urls = read_urls_from_file("urls.txt")?;
+    let urls = read_urls_from_file("urls.txt").unwrap_or_else(|err| {
+        eprintln!("Error reading URLs: {}\n\tretrieving default", err);
+        vec!["https://www.rust-lang.org".to_string()]
+    });
 
     // Read the selectors from a file
-    let selectors = read_selectors_from_file("selectors.txt")?;
+    let selectors = read_selectors_from_file("selectors.txt").unwrap_or_else(|err| {
+        eprintln!("Error reading selectors: {}\t\n\tretrieving default", err);
+        vec![vec!["p".to_string()]]
+    });
 
     // Shared map to store word counts across all threads
     let word_counts = Arc::new(Mutex::new(HashMap::new()));
