@@ -4,7 +4,7 @@ FROM postgres:latest
 
 # Set environment variables for the database
 # Replace 'your_password' with a strong password
-ENV POSTGRES_PASSWORD=your_password
+ENV POSTGRES_PASSWORD=123
 # Optionally, you can also set a specific user and database name
 # ENV POSTGRES_USER=myuser
 # ENV POSTGRES_DB=mydb
