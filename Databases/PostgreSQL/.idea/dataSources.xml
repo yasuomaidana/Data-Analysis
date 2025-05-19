@@ -15,10 +15,9 @@
       <jdbc-url>jdbc:postgresql://localhost:5432/people</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
     </data-source>
-    <data-source source="LOCAL" name="Coursera PostgreSQL" uuid="d2d9a459-ed96-410f-9d0f-3b840e3d3c02">
+    <data-source source="LOCAL" name="pg4e_ef46f8a539@pg.pg4e.com" uuid="3d66bff4-d22a-431a-9a59-378c97a3f036">
       <driver-ref>postgresql</driver-ref>
       <synchronize>true</synchronize>
-      <remarks>Used for course</remarks>
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://pg.pg4e.com:5432/pg4e_ef46f8a539</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>

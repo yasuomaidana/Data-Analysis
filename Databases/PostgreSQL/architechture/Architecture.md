@@ -32,3 +32,8 @@ Run `psql DATABASE USERNAME`
 ```postgresql
 CREATE TABLE users(name VARCHAR(128), email VARCHAR(128));
 ```
+## Inserting rows
+
+```postgresql
+INSERT INTO users (name, email) VALUES ('Somesh', 'somesh@umich.edu');
+```
