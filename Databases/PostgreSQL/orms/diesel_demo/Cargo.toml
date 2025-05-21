@@ -5,3 +5,15 @@ edition = "2024"
 
 [dependencies]
 clap = { version = "4.5.38", features = ["derive"] }
+reqwest = { version = "0.12.15", features = ["blocking"] }
+
+[workspace.dependencies]
+clap = { version = "4.5.38", features = ["derive"] }
+reqwest = { version = "0.12.15", features = ["blocking"] }
+
+[workspace]
+members = ["loading-csv-raw"]
+
+[[bin]]
+name = "raw_csv"
+path = "loading-csv-raw/src/main.rs"
