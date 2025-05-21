@@ -26,14 +26,3 @@ Run `\l` as a super user to list all **databases**; you should see 'postgres=#' 
 
 Run `psql DATABASE USERNAME`
 > `\dt`list tables in the current database
-
-## Create table
-
-```postgresql
-CREATE TABLE users(name VARCHAR(128), email VARCHAR(128));
-```
-## Inserting rows
-
-```postgresql
-INSERT INTO users (name, email) VALUES ('Somesh', 'somesh@umich.edu');
-```
