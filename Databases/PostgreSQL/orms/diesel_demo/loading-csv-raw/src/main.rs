@@ -1,7 +1,7 @@
 mod commands_implementations;
 mod postgres_config;
 
-use crate::commands_implementations::{create_table, download};
+use crate::commands_implementations::{clear_table, create_table, download, drop_table, show_track_raw};
 use clap::{Parser, Subcommand};
 use std::path::PathBuf;
 
@@ -18,11 +18,12 @@ struct RawCSVCommands {
 enum Commands {
     Download { url: String },
     Delete {
-        #[clap(short, long, default_value_t = false)]
+        #[clap(short, long, default_value_t = false, help = "Drop the table")]
         drop: bool
     },
     Upload,
     CreateTable,
+    Read,
 }
 
 impl RawCSVCommands {
@@ -33,6 +34,12 @@ impl RawCSVCommands {
             }
             Commands::Delete{drop} => {
                 println!("Deleting...");
+                let database_config = postgres_config::read_conf_from_env(&self.config);
+                if *drop {
+                    drop_table(&database_config);
+                }else{
+                    clear_table(&database_config);
+                }
             }
             Commands::Upload => {
                 println!("Uploading...");
@@ -42,6 +49,10 @@ impl RawCSVCommands {
             }
             Commands::CreateTable => {
                 create_table(&self.config);
+            }
+            Commands::Read => {
+                let database_config = postgres_config::read_conf_from_env(&self.config);
+                show_track_raw(&database_config);
             }
         }
     }
