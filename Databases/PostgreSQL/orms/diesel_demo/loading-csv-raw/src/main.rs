@@ -1,14 +1,15 @@
 mod commands_implementations;
+mod postgres_config;
 
-use std::path::PathBuf;
-use crate::commands_implementations::download;
+use crate::commands_implementations::{create_table, download};
 use clap::{Parser, Subcommand};
+use std::path::PathBuf;
 
 #[derive(Debug, Parser)]
 #[clap(author, version, about, long_about = None)]
 struct RawCSVCommands {
     #[clap(short, long, value_parser, default_value = ".env")]
-    config:PathBuf,
+    config: PathBuf,
     #[command(subcommand)]
     command: Commands,
 }
@@ -21,18 +22,26 @@ enum Commands {
     CreateTable,
 }
 
-impl Commands {
+impl RawCSVCommands {
     fn execute(&self) {
-        match self {
-            Commands::Download { url } => download(url),
-            Commands::Delete => println!("Deleting..."),
-            Commands::Upload => println!("Uploading..."),
-            Commands::CreateTable => println!("Creating table..."),
+        match &self.command {
+            Commands::Download { url } => {
+                download(url);
+            }
+            Commands::Delete => {
+                println!("Deleting...");
+            }
+            Commands::Upload => {
+                println!("Uploading...");
+            }
+            Commands::CreateTable => {
+                create_table(&self.config);
+            }
         }
     }
 }
 
 fn main() {
     let cmd = RawCSVCommands::parse();
-    cmd.command.execute();
+    cmd.execute();
 }
