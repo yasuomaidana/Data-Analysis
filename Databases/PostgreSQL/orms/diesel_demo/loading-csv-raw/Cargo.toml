@@ -1,0 +1,9 @@
+[package]
+name = "loading-csv-raw"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { workspace = true, features = ["derive"] }
+postgres = "0.19.10"
+reqwest = { workspace = true, features = ["blocking"] }

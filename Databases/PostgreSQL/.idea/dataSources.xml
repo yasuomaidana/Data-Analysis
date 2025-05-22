@@ -21,6 +21,10 @@
       <jdbc-driver>org.postgresql.Driver</jdbc-driver>
       <jdbc-url>jdbc:postgresql://pg.pg4e.com:5432/pg4e_ef46f8a539</jdbc-url>
       <working-dir>$ProjectFileDir$</working-dir>
+      <driver-properties>
+        <property name="connectTimeout" value="20" />
+        <property name="escapeSyntaxCallMode" value="select" />
+      </driver-properties>
     </data-source>
   </component>
 </project>
