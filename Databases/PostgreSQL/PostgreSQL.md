@@ -2,3 +2,11 @@
 2. [[Commands]]
 3. [[Data Types]]
 4. [[Database Keys and Indexes in PostgreSQL]]
+5. [[Relational Database Design]]
+	1. [[Keys]]
+	2. [[Database Normalization (3NF)]]
+	3. [[Creating Tables and Inserting Data]]
+	4. [[Using `JOIN` across tables]]
+6. Exercises
+	1. [[Inserting data]]
+	2. [[Retrieving data]]
