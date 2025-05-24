@@ -1,0 +1,21 @@
+## Relational Power
+By removing replicated data and replacing it with references to a single copy of each piece of data, we create a "web" of information that the relational database can access quickly, even for large amounts of data.
+Often, when you need data, it comes from multiple tables linked by these **foreign keys**.
+
+## The `JOIN` Operation
+The JOIN operation links data across multiple tables as part of a `SELECT` statement.
+You must tell the `JOIN` how to use the keys that make the connection between the tables using an `ON` clause.
+
+| JOIN Type                                     | Description                                                                            | Explanation                                                                                                                                                                                                                              |
+| --------------------------------------------- | -------------------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **INNER JOIN**                                | Returns records that have matching values in both tables.                              | Only rows where the join condition is met in *both* Table A and Table B are included. If there's no match, the row is excluded.                                                                                                          |
+| **LEFT JOIN** <br> (or **LEFT OUTER JOIN**)   | Returns all records from the left table, and the matched records from the right table. | All rows from Table A are included. If there's a match in Table B, the columns from Table B are populated; otherwise, they're filled with NULLs.                                                                                         |
+| **RIGHT JOIN** <br> (or **RIGHT OUTER JOIN**) | Returns all records from the right table, and the matched records from the left table. | All rows from Table B are included. If there's a match in Table A, the columns from Table A are populated; otherwise, they're filled with NULLs.                                                                                         |
+| **FULL JOIN** <br> (or **FULL OUTER JOIN**)   | Returns all records when there is a match in either left or right table.               | All rows from both Table A and Table B are included. If there's a match between the tables, the corresponding columns are populated. If there's no match for a row in one table, the columns from the other table are filled with NULLs. |
+| **SELF JOIN**                                 | A regular join, but the table is joined with itself.                                   | Used to compare rows within the same table. It requires using table aliases to distinguish between the "left" and "right" instances of the same table.                                                                                   |
+| **CROSS JOIN** <br> (or **CARTESIAN JOIN**)   | Returns the Cartesian product of the two tables.                                       | Every row from Table A is combined with every row from Table B. This generally results in a very large dataset and is used less frequently or with specific filtering.                                                                   |
+| **NATURAL JOIN**                              | Joins tables based on all columns with the same name and data type.                    | Implicitly joins on all common columns. It can be risky if common column names exist that aren't intended for the join condition. Not all database systems support it or recommend its use due to potential ambiguity.                   |
+## ON DELETE Choices
+- *Default* / **RESTRICT** - Don't allow changes that break the constraint
+- **CASCADE** - Adjust child rows by removing or updating to maintain consistency
+- **SET NULL** - Set the foreign key columns in the child rows to null
