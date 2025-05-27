@@ -7,6 +7,8 @@
 	2. [[Database Normalization (3NF)]]
 	3. [[Creating Tables and Inserting Data]]
 	4. [[Using `JOIN` across tables]]
+	5. [[Many-to-Many Relationships]]
 6. Exercises
 	1. [[Inserting data]]
 	2. [[Retrieving data]]
+	3. [[Building a many-to-many roster]]
