@@ -1,5 +1,6 @@
 1. [[Architecture]]
 2. [[Commands]]
+	1. [[Distinct - Group By]]
 3. [[Data Types]]
 	1. [[Dates]]
 4. [[Database Keys and Indexes in PostgreSQL]]
