@@ -13,7 +13,7 @@
 	4. [[Using `JOIN` across tables]]
 	5. [[Many-to-Many Relationships]]
 	6. [[Alter Table]]
-6. [[Stored Procedures]]
+6. [[Concurrency and Transactions]]
 7. Exercises
 	1. [[Inserting data]]
 	2. [[Retrieving data]]
