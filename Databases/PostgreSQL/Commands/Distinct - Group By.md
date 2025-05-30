@@ -1,0 +1,76 @@
+Reducing the result set
+- `DISTINCT` only returns unique rows in a result set - and row will only appear once
+- `DISTINCT ON` limits duplicate removal to a set of columns
+- `GROUP BY` is combined with aggregate functions like `COUNT()`, `MAX()`, `SUM()`, `AVE()` ...
+## Distinct
+```postgresql
+SELECT DISTINCT model FROM racing;
+```
+Returns only distinct model's values from racing
+## Distinct on
+```postgresql
+SELECT DISTINCT ON(model) make, model FROM racing;
+```
+Returns make and model on distinct models
+## Aggregate / `GROUP BY`
+```postgresql
+SELECT COUNT (abbrev), abbrev FROM pg_timezone_names GROUP BY abbrev;
+```
+## HAVING clause
+```postgresql
+SELECT COUNT (abbrev) AS ct, abbrev FROM pg_timezone_names 
+		WHERE is_dst= 't' --filters grouping
+			GROUP BY abbrey HAVING COUNT (abbrev) > 10; --groups after filtering, then applies having, you can't use where with COUNT
+```
+
+
+## Examples
+### Distinct
+```postgresql
+SELECT DISTINCT abbrev FROM pg_timezone_names;
+```
+The following command can retrieve repeated names, but it will only retrieve unique abbrev
+```postgresql
+SELECT DISTINCT ON (abbrev) name, abbrev FROM pg_timezone_names;
+```
+The following command will first order and limit, then it will begin searching for unique elements. It must respect the `distinct on` column's order.
+```postgresql
+SELECT DISTINCT ON (abbrev) name, abbrev FROM pg_timezone_names ORDER BY abbrev, name;
+```
+Counting different elements
+```postgresql
+SELECT COUNT(DISTINCT abbrev) FROM pg_timezone_names;
+```
+### Group by
+Counting the group's size
+```postgresql
+SELECT COUNT(abbrev) as ct, abbrev FROM pg_timezone_names GROUP BY abbrev;
+```
+Counting the group's size and ordering by count
+```postgresql
+SELECT COUNT(abbrev) as ct, abbrev FROM pg_timezone_names GROUP BY abbrev ORDER BY COUNT(abbrev);
+```
+Filtering using `WHERE`
+```postgresql
+-- WHERE is before GROUP BY, HAVING is after GROUP BY
+SELECT COUNT(abbrev) as ct, abbrev FROM pg_timezone_names where is_dst='t' GROUP BY abbrev ORDER BY COUNT(abbrev);
+```
+Filtering using `WHERE` and `HAVING`
+```postgresql
+-- WHERE is before GROUP BY, HAVING is after GROUP BY
+SELECT COUNT(abbrev) as ct, abbrev FROM pg_timezone_names where is_dst='t' GROUP BY abbrev HAVING count(abbrev)>10 ORDER BY COUNT(abbrev);
+```
+Using subqueries
+```postgresql
+-- WHERE is before GROUP BY, HAVING is after GROUP BY
+SELECT ct, abbrev 
+	FROM(SELECT COUNT(abbrev) AS ct, abbrev FROM pg_timezone_names 
+		WHERE is_dst='t' GROUP BY abbrev)
+	AS zap WHERE ct>10 ORDER BY ct;
+```
+
+| Approach                          | Advantages                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                       | Disadvantage                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                     | Use Cases                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                            |
+| --------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Using `WHERE` and `HAVING`        | <ul> <li><strong>Conciseness for Simple Cases:</strong> For straightforward filtering of groups based on a single aggregate value, this is often the most direct and compact SQL syntax.</li> <li><strong>Standard SQL Feature:</strong> <code>HAVING</code> is the dedicated SQL standard clause for filtering groups. Its purpose is clear to anyone familiar with SQL.</li> <li><strong>Direct Optimization Potential:</strong> Database optimizers are built to understand and efficiently process the <code>GROUP BY ... HAVING</code> pattern as a cohesive operation.</li> </ul>                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          | <ul> <li><strong>Repeating Aggregate Functions (Potentially):</strong> While many modern database systems (like PostgreSQL) are flexible and often allow you to use an alias from the <code>SELECT</code> list in the <code>HAVING</code> clause, the strict SQL standard (and some other database systems) requires you to repeat the entire aggregate function. This can make the query more verbose and prone to errors if the aggregate expression is complex.</li> <li><strong>Limited Scope for Complex Conditions:</strong> <code>HAVING</code> is primarily for conditions on aggregate results. If you need to compare an aggregate to a non-aggregated column from the group in a very complex way, or involve multiple different aggregates in a single condition, it can sometimes become less intuitive.</li> </ul> | <ul><li><strong>Simple Group Filtering:</strong> This is its primary use case. When you need to filter groups based on a <code>COUNT()</code>, <code>SUM()</code>, <code>AVG()</code>, <code>MAX()</code>, or <code>MIN()</code> of a column within those groups (e.g., "find departments with more than 10 employees" or "show products whose average sale price is over $50").</li> <li><strong>Readability for Standard Cases:</strong> When the query logic is a clear "group the data, then filter these groups based on some summary statistic."</li> <li><strong>Preference for Single-Level Queries:</strong> When you want to keep the query as a single, non-nested structure and the filtering logic is straightforward.</li></ul>                                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Subquery + `WHERE` in Outer Query | <ul> <li><strong>Clarity with Aliases:</strong> The aggregate function is computed and given an alias (e.g., <code>AS ct</code>) within the subquery. The outer query can then refer to this alias cleanly and directly in its <code>WHERE</code> clause (and also in its <code>SELECT</code> list and <code>ORDER BY</code> clause).</li> <li><strong>Modularity and Readability for Complex Logic:</strong> This approach breaks the problem into distinct logical steps (generate aggregates, then filter/operate on them), which can make complex queries easier to write, understand, debug, and maintain.</li> <li><strong>Reusability of Aggregated Values:</strong> Once an aggregate value is a column in the subquery's result set, you can use it multiple times in the outer query (e.g., in <code>SELECT</code>, <code>WHERE</code>, <code>ORDER BY</code>, or further calculations) without re-typing the original aggregate function.</li> <li><strong>Foundation for More Advanced Operations:</strong> If you need to perform additional joins, apply window functions, or conduct other operations on the results of an aggregation, using a subquery (or a Common Table Expression - CTE) is often the necessary and cleanest way.</li> </ul> | <ul> <li><strong>Verbosity for Very Simple Cases:</strong> For a very basic filter, writing a full subquery structure might seem like more characters than a simple <code>HAVING</code> clause.</li> <li><strong>Older Optimizer Concerns (Mostly Historical):</strong> In the past, some less sophisticated database optimizers might not have handled subqueries as efficiently. However, modern optimizers are generally very good at this, making performance differences often negligible for common scenarios.</li> </ul>                                                                                                                                                                                                                                                                                                  | <ul> <li><strong>Clean Alias Usage in Filters:</strong> When you want to use a clear alias for an aggregate in a filter condition (e.g., <code>WHERE calculated_count > 10</code>).</li> <li><strong>Complex Filtering Conditions on Groups:</strong> If your conditions for filtering groups are intricate, involve multiple aggregated values, or require comparing aggregated values with each other or with other derived values.</li> <li><strong>Multiple Uses of an Aggregated Value:</strong> If you need to select the aggregate, filter by it, and also order by it (or use it in further calculations in the outer query).</li> <li><strong>As a Building Block for Complex Queries:</strong> When the result of this aggregation and filtering is just one step in a larger, multi-step data transformation, analysis, or reporting query. </li> <li><strong>Enhancing Readability Through Logical Steps:</strong> Many SQL developers find that breaking down queries into logical, named steps using subqueries or CTEs significantly improves the overall clarity and maintainability of their code, especially as query complexity grows.</li> </ul> |
+

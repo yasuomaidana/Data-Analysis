@@ -1,6 +1,10 @@
 1. [[Architecture]]
 2. [[Commands]]
+	1. [[Distinct - Group By]]
+	2. [[Subqueries]]
+	3. [[Stored Procedures]]
 3. [[Data Types]]
+	1. [[Dates]]
 4. [[Database Keys and Indexes in PostgreSQL]]
 5. [[Relational Database Design]]
 	1. [[Keys]]
@@ -8,7 +12,9 @@
 	3. [[Creating Tables and Inserting Data]]
 	4. [[Using `JOIN` across tables]]
 	5. [[Many-to-Many Relationships]]
-6. Exercises
+	6. [[Alter Table]]
+6. [[Concurrency and Transactions]]
+7. Exercises
 	1. [[Inserting data]]
 	2. [[Retrieving data]]
 	3. [[Building a many-to-many roster]]
