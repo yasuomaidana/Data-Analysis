@@ -11,7 +11,7 @@ def show_albums(ctx: click.Context, limit: int):
     click.echo("Showing albums...")
     engine = create_engine(ctx.obj['DATABASE_URL'], echo=True)
     with Session(engine) as session:
-        statement = select(Album).order_by(Album.name)
+        statement = select(Album).order_by(Album.title)
         if limit:
             statement = statement.limit(limit)
         albums = session.exec(statement).all()
