@@ -22,4 +22,5 @@ class Track(SQLModel, table=True):
     rating: int | None = Field(index=True, description="Rating of the track (from source's rating)")
     count: int | None = Field(index=True, description="Number of tracks in the album (from source's count)")
 
-    album_id: int = Field(index=True, description="Unique identifier for the album (from source's album_id)")
+    album_id: int = Field(index=True, description="Unique identifier for the album (from source's album_id)",
+                          foreign_key="album.id")
