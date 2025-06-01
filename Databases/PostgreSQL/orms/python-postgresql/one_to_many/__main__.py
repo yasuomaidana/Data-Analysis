@@ -3,7 +3,7 @@ import os
 import click
 
 from dotenv import load_dotenv
-from show_tracks import show_tracks
+from .commands import show_tracks
 
 
 @click.group(invoke_without_command=True)  # Allow main to run if no subcommand, and to set up context
