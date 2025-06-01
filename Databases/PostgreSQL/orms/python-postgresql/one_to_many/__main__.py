@@ -3,7 +3,7 @@ import os
 import click
 
 from dotenv import load_dotenv
-from .commands import show_tracks
+from .commands import show_tracks, show_albums, load_csv
 
 
 @click.group(invoke_without_command=True)  # Allow main to run if no subcommand, and to set up context
@@ -47,6 +47,8 @@ def main(ctx, env_file):  # Add 'ctx' as the first parameter
 
 
 main.add_command(show_tracks)
+main.add_command(show_albums)
+main.add_command(load_csv)
 
 if __name__ == "__main__":
     main()
