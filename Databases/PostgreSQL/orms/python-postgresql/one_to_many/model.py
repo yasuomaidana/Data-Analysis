@@ -10,7 +10,8 @@ class Album(SQLModel, table=True):
     id: int = Field(primary_key=True, description="Unique identifier for the album (from source's album_id)")
 
     # This 'name' column corresponds to 'album TEXT' from your source data.
-    name: str = Field(index=True, description="Name of the album (from source's album text)")
+    title: str = Field(index=True, description="Title of the album (from source's album text)")
+
 
 class Track(SQLModel, table=True):
     __tablename__ = "track"
