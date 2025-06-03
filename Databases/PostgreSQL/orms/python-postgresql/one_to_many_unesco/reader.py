@@ -8,7 +8,7 @@ def model_caster(row: list[str]) -> tuple[Unesco, Iso, Region, State, Category]:
         description=row[1] if row[1] else None,
         year=int(row[3])
     )
-    iso = Iso(name=row[10])
+    iso = Iso(name=row[10]) if row[10] else None
     state = State(name=row[8])
     region = Region(name=row[9])
     category = Category(name=row[7])
