@@ -4,6 +4,7 @@ import click
 
 from dotenv import load_dotenv
 from .commands import *
+from env_loader import get_postgresql_url, get_variables
 
 
 @click.group(invoke_without_command=True)  # Allow main to run if no subcommand, and to set up context
@@ -27,16 +28,17 @@ def main(ctx, env_file):  # Add 'ctx' as the first parameter
         click.echo(f"Warning: Environment file '{env_path}' not found. Using system environment variables if set.",
                    err=True)
 
-    db_user = os.getenv("POSTGRES_USER")
-    db_password = os.getenv("POSTGRES_PASSWORD")
-    db_host = os.getenv("POSTGRES_HOST")
-    db_port = os.getenv("POSTGRES_PORT", "5432")  # Default Postgresql port
-    db_name = os.getenv("POSTGRES_DB")
-
-    ctx.obj['DATABASE_URL'] = f"postgresql://{db_user}:{db_password}@{db_host}:{db_port}/{db_name}"
+    get_postgresql_url(ctx)
 
     # This part runs if 'main' is invoked without a subcommand
     if ctx.invoked_subcommand is None:
+        variables = get_variables()
+        db_user = variables.get("db_user", "Not set")
+        db_password = variables.get("db_password", None)
+        db_host = variables.get("db_host", "localhost")
+        db_port = variables.get("db_port", "5432")
+        db_name = variables.get("db_name", "Not set")
+
         click.echo("--- Environment Configuration (No Subcommand) ---")
         click.echo(f"db_user: {db_user}")
         click.echo(f"db_password: {'********' if db_password else 'Not set'}")
