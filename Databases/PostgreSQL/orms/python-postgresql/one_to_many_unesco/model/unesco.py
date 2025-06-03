@@ -11,7 +11,7 @@ class Unesco(SQLModel, table=True):
     category_id: int = Field(foreign_key="category.id")
     state_id: int = Field(foreign_key="state.id")
     region_id: int = Field(foreign_key="region.id")
-    iso_id: int = Field(foreign_key="iso.id")
+    iso_id: int|None = Field(foreign_key="iso.id")
 
 
 class Category(SQLModel, table=True):

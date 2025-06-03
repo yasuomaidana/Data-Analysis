@@ -3,7 +3,7 @@ import os
 import click
 from dotenv import load_dotenv
 
-from one_to_many_unesco.commands import create_tables
+from .commands import create_tables, load_csv
 
 
 @click.group(invoke_without_command=True)  # Allow main to run if no subcommand, and to set up context
@@ -31,5 +31,6 @@ def main(ctx, env_file):  # Add 'ctx' as the first parameter
         click.echo(ctx.get_help())
 
 main.add_command(create_tables)
+main.add_command(load_csv)
 if __name__ == "__main__":
     main()
