@@ -3,6 +3,9 @@ import os
 import click
 from dotenv import load_dotenv
 
+from modify_mtm.commands.get_table_info import get_table_info
+
+
 @click.group(invoke_without_command=True)  # Allow main to run if no subcommand, and to set up context
 @click.option('--env-file', '-e-f', default=".env",
               help='Environment file path.',
@@ -10,7 +13,7 @@ from dotenv import load_dotenv
 @click.pass_context  # Ensure 'main' receives the context object
 def main(ctx, env_file):  # Add 'ctx' as the first parameter
     """
-    A CLI tool that modifies a SQL database.
+    A CLI tool that modifies an SQL database.
     """
     # Initialize ctx.obj if it's not already (important for groups)
     ctx.ensure_object(dict)
@@ -25,5 +28,6 @@ def main(ctx, env_file):  # Add 'ctx' as the first parameter
     if ctx.invoked_subcommand is None:
         click.echo(ctx.get_help())
 
+main.add_command(get_table_info)
 if __name__ == "__main__":
     main()
