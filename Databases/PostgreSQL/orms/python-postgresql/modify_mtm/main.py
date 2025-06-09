@@ -3,6 +3,7 @@ import os
 import click
 from dotenv import load_dotenv
 
+from modify_mtm.commands.drop_duplicated_albums import drop_duplicated_albums
 from modify_mtm.commands.get_table_info import get_table_info
 
 
@@ -29,5 +30,6 @@ def main(ctx, env_file):  # Add 'ctx' as the first parameter
         click.echo(ctx.get_help())
 
 main.add_command(get_table_info)
+main.add_command(drop_duplicated_albums)
 if __name__ == "__main__":
     main()
