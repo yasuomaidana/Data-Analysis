@@ -3,8 +3,7 @@ import os
 import click
 from dotenv import load_dotenv
 
-from modify_mtm.commands.drop_duplicated_albums import drop_duplicated_albums
-from modify_mtm.commands.get_table_info import get_table_info
+from modify_mtm.commands import *
 
 
 @click.group(invoke_without_command=True)  # Allow main to run if no subcommand, and to set up context
@@ -31,5 +30,6 @@ def main(ctx, env_file):  # Add 'ctx' as the first parameter
 
 main.add_command(get_table_info)
 main.add_command(drop_duplicated_albums)
+main.add_command(create_tables)
 if __name__ == "__main__":
     main()
