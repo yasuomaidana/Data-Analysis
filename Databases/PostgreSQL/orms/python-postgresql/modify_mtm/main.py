@@ -36,5 +36,6 @@ def main(ctx, env_file):  # Add 'ctx' as the first parameter
 main.add_command(get_table_info)
 main.add_command(drop_duplicated_albums)
 main.add_command(create_tables)
+main.add_command(update_info)
 if __name__ == "__main__":
     main()
