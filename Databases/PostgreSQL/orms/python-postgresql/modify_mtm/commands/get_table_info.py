@@ -10,12 +10,12 @@ import click
 
 @click.command("get-table-info")
 @click.pass_context
-@click.option('--tables', '-t', multiple=True, type=str, help="Name(s) of the table(s) to get information about. Can be used multiple times.")
+@click.option('--tables', '-t', multiple=True, type=str,
+              help="Name(s) of the table(s) to get information about. Can be used multiple times.")
 def get_table_info(ctx, tables):
     """Get information about the database tables."""
     get_postgresql_url(ctx)
     engine = ctx.obj['DATABASE_URL']
-    print(tables)
     with Session(create_engine(engine)) as session:
         with open(os.path.join(os.path.dirname(__file__), "..", "queries", "get_tables.sql")) as f:
             sql = f.read()
@@ -28,6 +28,10 @@ def get_table_info(ctx, tables):
         if not table_info:
             click.echo("No matching tables found.")
             return
+        missing_tables = set(tables) - set(table_info.keys())
+        if missing_tables:
+            click.echo(f"Warning: The following tables were not found: {', '.join(missing_tables)}")
+            click.echo("-" * 40)
     for table_name, columns in table_info.items():
         click.echo(f"Table: {table_name}")
         if columns:
