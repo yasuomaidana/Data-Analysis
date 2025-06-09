@@ -12,9 +12,7 @@ DROP TABLE IF EXISTS tracktoartist CASCADE;
 CREATE TABLE tracktoartist
 (
     id        SERIAL,                                           -- Unique identifier for the relationship
-    track     VARCHAR(128),                                     -- Name of the track (denormalized, optional)
     track_id  INTEGER REFERENCES track (id) ON DELETE CASCADE,  -- Foreign key to track table
-    artist    VARCHAR(128),                                     -- Name of the artist (denormalized, optional)
     artist_id INTEGER REFERENCES artist (id) ON DELETE CASCADE, -- Foreign key to artist table
     PRIMARY KEY (id)
 );
