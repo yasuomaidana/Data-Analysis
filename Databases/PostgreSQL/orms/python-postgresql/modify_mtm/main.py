@@ -14,6 +14,11 @@ from modify_mtm.commands import *
 def main(ctx, env_file):  # Add 'ctx' as the first parameter
     """
     A CLI tool that modifies an SQL database.
+    This CLI tool is the second part of the one-to-many tool.
+    Actually, mtm stands for many-to-many.
+    Here, I'll modify the database to handle many-to-many relationships.
+    The tool will create the necessary tables and drop duplicated albums.
+    It will also update the database with the new tables and relationships.
     """
     # Initialize ctx.obj if it's not already (important for groups)
     ctx.ensure_object(dict)
