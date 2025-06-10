@@ -5,6 +5,7 @@
 	3. [[Stored Procedures]]
 3. [[Data Types]]
 	1. [[Dates]]
+	2. [[Text]]
 4. [[Database Keys and Indexes in PostgreSQL]]
 5. [[Relational Database Design]]
 	1. [[Keys]]
