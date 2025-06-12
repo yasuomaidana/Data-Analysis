@@ -25,3 +25,64 @@ SELECT
 		END
 	) || generate_series(100000,200000)
 ```
+
+# 4. Retrieving information
+This query selects the `content` column from the `textfun` table. It filters the results to include only rows where the `content` column contains the string '150000' at the end. The `%` is a wildcard character that matches any sequence of zero or more characters.
+```postgresql
+SELECT content FROM textfun WHERE content LIKE '%150000'
+```
+
+EXAMPLE OUTPUT: `This is some content ending with 150000`
+
+---
+This query selects the `content` column from the `textfun` table, converting all characters in the `content` to uppercase using the `upper()` function. It filters the results to include only rows where the `content` column contains the string '150000' at the end.
+
+```postgresql
+SELECT upper(content) FROM textfun WHERE content LIKE '%150000'
+```
+
+EXAMPLE OUTPUT: `THIS IS SOME CONTENT ENDING WITH 150000`
+
+---
+This query selects the `content` column from the `textfun` table, converting all characters in the `content` to lowercase using the `lower()` function. It filters the results to include only rows where the `content` column contains the string '150000' at the end.
+```postgresql
+SELECT lower(content) FROM textfun WHERE content LIKE '%150000'
+```
+
+EXAMPLE OUTPUT: `this is some content ending with 150000
+
+---
+This query selects the last 4 characters of the `content` column from the `textfun` table using the `right()` function. It filters the results to include only rows where the `content` column contains the string '150000' anywhere within it.
+```postgresql
+SELECT right(content,4) FROM textfun WHERE content LIKE '%150000%';
+```
+
+EXAMPLE OUTPUT: ``
+
+---
+
+```postgresql
+SELECT left(content,4) FROM textfun WHERE content LIKE '%150000%';
+```
+EXAMPLE OUTPUT: ``
+
+---
+
+```postgresql
+SELECT strpos(content,'buuu') FROM textfun WHERE content LIKE '%150000%';
+```
+EXAMPLE OUTPUT: `0000`
+
+---
+
+```postgresql
+SELECT split_part(content,'/',4) FROM textfun WHERE content LIKE '%150000%';
+```
+EXAMPLE OUTPUT: ``
+
+---
+
+```postgresql
+SELECT translate(content,'th.p/','TH!P_') FROM textfun WHERE content LIKE '%150000%';
+```
+EXAMPLE OUTPUT: ``
