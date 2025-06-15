@@ -15,7 +15,8 @@
 	5. [[Many-to-Many Relationships]]
 	6. [[Alter Table]]
 6. [[Concurrency and Transactions]]
-7. Exercises
+7. [[Index strategies]]
+8. Exercises
 	1. [[Inserting data]]
 	2. [[Retrieving data]]
 	3. [[Building a many-to-many roster]]
