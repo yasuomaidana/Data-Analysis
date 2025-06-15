@@ -57,32 +57,57 @@ This query selects the last 4 characters of the `content` column from the `textf
 SELECT right(content,4) FROM textfun WHERE content LIKE '%150000%';
 ```
 
-EXAMPLE OUTPUT: ``
-
----
-
-```postgresql
-SELECT left(content,4) FROM textfun WHERE content LIKE '%150000%';
-```
-EXAMPLE OUTPUT: ``
-
----
-
-```postgresql
-SELECT strpos(content,'buuu') FROM textfun WHERE content LIKE '%150000%';
-```
 EXAMPLE OUTPUT: `0000`
 
 ---
+This query selects the first 4 characters of the `content` column from the `textfun` table using the `left()` function. It filters the results to include only rows where the `content` column contains the string '150000' anywhere within it.
+```postgresql
+SELECT left(content,4) FROM textfun WHERE content LIKE '%150000%';
+```
+EXAMPLE OUTPUT: `This`
 
+---
+This query finds the starting position of the substring 'buuu' within the `content` column using the `strpos()` function. If 'buuu' is not found, it returns 0. It filters the results to include only rows where the `content` column contains the string '150000' anywhere within it.
+```postgresql
+SELECT strpos(content,'buuu') FROM textfun WHERE content LIKE '%150000%';
+```
+EXAMPLE OUTPUT: 
+
+| strpos |
+| :----: |
+|   1    |
+|   0    |
+
+
+> This example works when `SELECT * FROM textfun WHERE content LIKE '%150000%';` retrieves: 
+
+| content                                    |
+| ------------------------------------------ |
+| buuu150000                                 |
+| https://www.funnypage.com/happy/path150000 |
+
+
+---
+This query splits the `content` string by the '/' delimiter and returns the 4th part of the resulting array using the `split_part()` function. It filters the results to include only rows where the `content` column contains the string '150000' anywhere within it.
 ```postgresql
 SELECT split_part(content,'/',4) FROM textfun WHERE content LIKE '%150000%';
 ```
 EXAMPLE OUTPUT: ``
 
----
+| split_part |
+| :--------: |
+|            |
+|   happy    |
 
+---
+This query replaces occurrences of characters in the `content` string. It replaces `'t'` with `'T'`, `'h'` with `'H'`, `'.'` with `'!'`, `'p'` with `'P'`, and `'/'` with `'_'` using the `translate()` function. It filters the results to include only rows where the content column contains the string '150000' anywhere within it.
 ```postgresql
 SELECT translate(content,'th.p/','TH!P_') FROM textfun WHERE content LIKE '%150000%';
 ```
-EXAMPLE OUTPUT: ``
+
+EXAMPLE OUTPUT: 
+
+|                 translate                  |
+| :----------------------------------------: |
+|                 buuu150000                 |
+| HTTPs:__www!funnyPage!com_HaPPy_PaTH150000 |
