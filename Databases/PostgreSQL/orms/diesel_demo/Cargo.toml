@@ -13,7 +13,7 @@ clap = { version = "4.5.38", features = ["derive"] }
 reqwest = { version = "0.12.15", features = ["blocking"] }
 
 [workspace]
-members = ["loading-csv-raw"]
+members = [ "bitwise-operations","loading-csv-raw"]
 
 [[bin]]
 name = "raw_csv"
