@@ -18,7 +18,11 @@ I'll cover from the docker configuration, migrations, and raw queries calling
    docker run --name my_postgres_container -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -p 5432:5432 -d my_postgres_image
     ```
 
+## Configuration
 
-## Installing 
+* [Cargo Config Toml](./rust-related-notes/Config%20Toml.md)
 
+## Troubleshooting
+
+If you have problems installing diesel and postgres in windows try running
 > windows `choco install postgresql --params "'/Components:postgresql-client'" -y`
