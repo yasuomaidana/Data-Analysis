@@ -1,0 +1,3 @@
+FROM postgres:latest
+ENV POSTGRES_DB=mydb
+EXPOSE 5432
