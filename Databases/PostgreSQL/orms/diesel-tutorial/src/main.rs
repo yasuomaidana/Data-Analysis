@@ -1,13 +1,15 @@
+use dotenvy::dotenv;
 use std::env;
 
 fn main() {
-    match env::var("DATABASE_URL") {
-        Ok(v) => println!("DATABASE_URL is: {}", v),
-        Err(e) => eprintln!("DATABASE_URL not set: {}", e),
+    match env::var("ENV_CONFIG") {
+        Ok(env_file) => {
+            dotenvy::from_path(env_file).ok();
+        }
+        Err(_) => {
+            dotenv().ok();
+        }
     }
-
-    match env::var("MY_WHOLE") {
-        Ok(v) => println!("MY_WHOLE is: {}", v),
-        Err(e) => eprintln!("MY_WHOLE not set: {}", e),
-    }
+    let db_url = env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    println!("Database URL: {}", db_url);
 }
