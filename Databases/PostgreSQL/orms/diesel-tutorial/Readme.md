@@ -17,4 +17,8 @@ I'll cover from the docker configuration, migrations, and raw queries calling
    docker build -t my_postgres_image .
    docker run --name my_postgres_container -e POSTGRES_USER=myuser -e POSTGRES_PASSWORD=mypassword -p 5432:5432 -d my_postgres_image
     ```
-   
+
+
+## Installing 
+
+> windows `choco install postgresql --params "'/Components:postgresql-client'" -y`
