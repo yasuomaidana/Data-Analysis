@@ -1,1 +1,4 @@
-DATABASE_URL=""
+[env]
+MY_PART = "world"
+MY_WHOLE = "hello ${MY_PART}"
+DATABASE_URL = "postgres://myuser:mypassword@localhost:5432/mydb"
