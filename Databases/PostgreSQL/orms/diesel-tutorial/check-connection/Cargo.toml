@@ -1,0 +1,7 @@
+[package]
+name = "check-connection"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+orm-module = { path = "../orm-module" }
