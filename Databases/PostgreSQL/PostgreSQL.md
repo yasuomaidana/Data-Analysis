@@ -16,7 +16,12 @@
 	6. [[Alter Table]]
 6. [[Concurrency and Transactions]]
 7. [[Index strategies]]
-8. Exercises
+8. [[Regular Expressions]]
+	1. [[Using regex]]
+	2. [[PostgreSQL/regex/Multiple matches]]
+9. Exercises
 	1. [[Inserting data]]
 	2. [[Retrieving data]]
 	3. [[Building a many-to-many roster]]
+	4. [[Inserting data using case]]
+	5. [[PostgreSQL/Exercises/Regex Example]]
