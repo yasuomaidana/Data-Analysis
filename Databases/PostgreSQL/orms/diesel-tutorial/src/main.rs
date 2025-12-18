@@ -1,5 +1,3 @@
-mod schema;
-
 use dotenvy::dotenv;
 use std::env;
 

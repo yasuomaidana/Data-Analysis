@@ -4,7 +4,11 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-diesel = "2.3.4"
+dotenvy = { workspace = true }
+
+[workspace.dependencies]
+diesel = { version = "2.3.4", features = ["postgres"] }
 dotenvy = "0.15.7"
-features = "0.10.0"
-postgres = "0.19.12"
+
+[workspace]
+members = ["orm-module"]
