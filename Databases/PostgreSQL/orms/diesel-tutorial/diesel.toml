@@ -5,8 +5,8 @@
 #file = "src/schema.rs"
 #custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 
-[print_schema.car]
-file = "src/schema/car_schema.rs"
+[print_schema.cars]
+file = "orm-module/src/schema/car_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 
 [migrations_directory]
