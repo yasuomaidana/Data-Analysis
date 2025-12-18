@@ -14,5 +14,8 @@ fn get_new_car() -> NewCar {
 }
 
 fn main() {
-    get_new_car();
+    let to_store = get_new_car();
+    let mut conn = orm_module::establish_connection();
+    let stored = to_store.create(&mut conn);
+    println!("Stored car {:?}", stored);
 }
