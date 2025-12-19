@@ -11,4 +11,4 @@ diesel = { version = "2.3.4", features = ["postgres"] }
 dotenvy = "0.15.7"
 
 [workspace]
-members = ["check-connection", "get-cars", "insert-cars","orm-module"]
+members = ["check-connection", "get-cars", "insert-cars","orm-module", "update-car"]
