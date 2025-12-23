@@ -22,6 +22,18 @@ I'll cover from the docker configuration, migrations, and raw queries calling
 
 * [Cargo Config Toml](./rust-related-notes/Config%20Toml.md)
 
+## Diesel related notes
+
+1. [Initial Setup](./diesel-notes/Initial%20setup.md)
+2. First Steps:
+    1. [Check Connection](./check-connection/src/main.rs)
+    2. [ORM Module](./orm-module/src/lib.rs)
+    3. [Insert Cars](./insert-cars/src/main.rs)
+    4. [Get Cars](./get-cars/src/main.rs)
+    5. [Update Car](./update-car/src/main.rs)
+    6. [One Off Update](./one-off-update/src/main.rs)
+    7. [Delete Car](./delete-car/src/main.rs)
+
 ## Troubleshooting
 
 If you have problems installing diesel and postgres in windows try running
