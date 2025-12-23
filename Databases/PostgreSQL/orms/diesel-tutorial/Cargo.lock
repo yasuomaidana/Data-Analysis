@@ -57,6 +57,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "delete-car"
+version = "0.1.0"
+dependencies = [
+ "diesel",
+ "orm-module",
+ "utils",
+]
+
+[[package]]
 name = "diesel"
 version = "2.3.4"
 source = "registry+https://github.com/rust-lang/crates.io-index"
