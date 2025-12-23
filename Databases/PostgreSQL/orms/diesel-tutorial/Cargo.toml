@@ -9,6 +9,7 @@ dotenvy = { workspace = true }
 [workspace.dependencies]
 diesel = { version = "2.3.4", features = ["postgres"] }
 dotenvy = "0.15.7"
+orm-module = { path = "./orm-module" }
 
 [workspace]
-members = ["check-connection", "get-cars", "insert-cars","orm-module", "update-car"]
+members = ["check-connection", "get-cars", "insert-cars", "orm-module", "update-car"]
