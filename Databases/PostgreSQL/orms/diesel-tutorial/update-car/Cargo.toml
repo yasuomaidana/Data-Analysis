@@ -6,3 +6,4 @@ edition = "2024"
 [dependencies]
 diesel = { workspace = true }
 orm-module = { workspace = true }
+utils = {workspace = true}
