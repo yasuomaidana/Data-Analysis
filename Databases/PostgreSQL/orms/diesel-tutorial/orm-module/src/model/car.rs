@@ -1,7 +1,15 @@
 use crate::schema::car_schema::cars;
-use diesel::{Insertable, PgConnection, Queryable, RunQueryDsl, Selectable};
+use diesel::{
+    AsChangeset, Identifiable, Insertable, PgConnection, Queryable, RunQueryDsl, Selectable,
+};
 
-#[derive(Queryable, Selectable, Debug)]
+/// Diesel derives used on `Car`:
+/// - `Queryable` — convert DB rows into `Car` instances (e.g. `cars::table.load::<Car>(&conn)`).
+/// - `Selectable` — allow `Car` to be used as a selectable projection in queries (`Car::as_select()`).
+/// - `Identifiable` — marks `id` as the primary key for Diesel helpers (used for updates/deletes).
+/// - `AsChangeset` — lets `Car` be used as an update payload in `diesel::update(...).set(&car)`.
+/// - `Debug` — enables `{:?}` formatting for debugging.
+#[derive(Queryable, Selectable, Debug, Identifiable, AsChangeset)]
 #[diesel(table_name = cars)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Car {
