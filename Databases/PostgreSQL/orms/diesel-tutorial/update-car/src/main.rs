@@ -6,34 +6,14 @@ use orm_module::establish_connection;
 use orm_module::model::car::Car;
 use orm_module::schema::car_schema::cars::dsl::cars;
 use orm_module::schema::car_schema::cars::{model, year};
-use std::io::{self, Write};
+use utils::reader::{get_arg_or_default, get_arg_or_prompt};
 
 fn main() {
     let mut connection = establish_connection();
+    println!("Updating car using modifying struct approach");
     let args: Vec<String> = std::env::args().collect();
-    let model_input: String = args
-        .get(1)
-        .and_then(|s| {
-            let t = s.trim();
-            if t.is_empty() {
-                None
-            } else {
-                Some(t.to_string())
-            }
-        })
-        .unwrap_or_else(|| {
-            print!("Enter model: ");
-            io::stdout().flush().unwrap();
-            let mut input = String::new();
-            io::stdin()
-                .read_line(&mut input)
-                .expect("Failed to read line");
-            input.trim().to_string()
-        });
-    let year_input: i32 = args
-        .get(2)
-        .and_then(|s| s.parse::<i32>().ok())
-        .unwrap_or(2015);
+    let model_input: String = get_arg_or_prompt(&args, 1, "Enter model: ");
+    let year_input: i32 = get_arg_or_default(&args, 2, 2015);
 
     // Use `Car::as_select()` so the projection explicitly matches the `Car` struct.
     // This improves type safety and is required for joins or custom projections.
@@ -47,25 +27,7 @@ fn main() {
         Ok(Some(mut stored_car)) => {
             println!("Updating car: {:?}", stored_car);
 
-            let new_year: i32 = args
-                .get(3)
-                .and_then(|s| {
-                    let t = s.trim();
-                    if t.is_empty() {
-                        None
-                    } else {
-                        t.parse::<i32>().ok()
-                    }
-                })
-                .unwrap_or_else(|| {
-                    print!("Enter new year: ");
-                    io::stdout().flush().unwrap();
-                    let mut input = String::new();
-                    io::stdin()
-                        .read_line(&mut input)
-                        .expect("Failed to read line");
-                    input.trim().parse::<i32>().unwrap_or(2015)
-                });
+            let new_year: i32 = get_arg_or_prompt(&args, 3, "Enter new year: ");
 
             stored_car.year = new_year;
             let new: Car = stored_car
