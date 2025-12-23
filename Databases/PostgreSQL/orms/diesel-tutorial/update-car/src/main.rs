@@ -1,6 +1,6 @@
 use diesel::{
     BoolExpressionMethods, ExpressionMethods, OptionalExtension, QueryDsl, RunQueryDsl,
-    SaveChangesDsl,
+    SaveChangesDsl, SelectableHelper,
 };
 use orm_module::establish_connection;
 use orm_module::model::car::Car;
@@ -35,8 +35,11 @@ fn main() {
         .and_then(|s| s.parse::<i32>().ok())
         .unwrap_or(2015);
 
+    // Use `Car::as_select()` so the projection explicitly matches the `Car` struct.
+    // This improves type safety and is required for joins or custom projections.
     let stored_car = cars
         .filter(model.eq(model_input).and(year.eq(year_input)))
+        .select(Car::as_select())
         .first::<Car>(&mut connection)
         .optional();
 
