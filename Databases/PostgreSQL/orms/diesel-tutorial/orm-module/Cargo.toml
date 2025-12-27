@@ -6,3 +6,5 @@ edition = "2024"
 [dependencies]
 diesel = { workspace = true }
 dotenvy = { workspace = true }
+diesel-derive-enum = { workspace = true }
+chrono = { workspace = true }
