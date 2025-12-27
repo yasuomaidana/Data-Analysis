@@ -8,6 +8,13 @@
 [print_schema.cars]
 file = "orm-module/src/schema/car_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["cars"] }
+
+
+[print_schema.users]
+file = "orm-module/src/schema/user_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["users"] }
 
 [migrations_directory]
 dir = "migrations"
