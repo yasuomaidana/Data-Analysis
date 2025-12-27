@@ -1,0 +1,11 @@
+[package]
+name = "all-about-select"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+diesel = { workspace = true }
+
+[[bin]]
+name = "without-from"
+path = "src/without_from.rs"

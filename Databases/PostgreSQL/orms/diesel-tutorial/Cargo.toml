@@ -13,4 +13,4 @@ orm-module = { path = "./orm-module" }
 utils= {path = "./utils"}
 
 [workspace]
-members = ["check-connection", "delete-car", "get-cars", "insert-cars", "one-off-update", "orm-module", "struct-encap-update", "update-car", "utils"]
+members = ["all-about-select","check-connection", "delete-car", "get-cars", "insert-cars", "one-off-update", "orm-module", "struct-encap-update", "update-car", "utils"]
