@@ -19,3 +19,7 @@ path = "src/fill_users.rs"
 [[bin]]
 name = "run-query-dsl"
 path = "src/run_query_dsl.rs"
+
+[[bin]]
+name = "via-query-dsl"
+path = "src/via_query_dsl.rs"
