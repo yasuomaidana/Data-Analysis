@@ -15,3 +15,7 @@ path = "src/without_from.rs"
 [[bin]]
 name = "fill-users"
 path = "src/fill_users.rs"
+
+[[bin]]
+name = "run-query-dsl"
+path = "src/run_query_dsl.rs"
