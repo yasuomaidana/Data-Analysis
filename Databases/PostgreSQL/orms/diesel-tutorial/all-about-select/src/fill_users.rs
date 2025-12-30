@@ -1,9 +1,11 @@
-use diesel::internal::derives::multiconnection::chrono;
-use diesel::{RunQueryDsl, insert_into};
+mod utils_;
+
+use diesel::{insert_into, RunQueryDsl};
 use orm_module::model::user::{NewUser, UserRole};
 use orm_module::schema::user_schema::users::dsl::users;
 use rand::distr::Alphanumeric;
-use rand::{Rng, random_bool, random_range, rng};
+use rand::{random_bool, random_range, rng, Rng};
+use crate::utils_::random_birth_date;
 
 fn random_string(len: usize) -> String {
     rng()
@@ -35,14 +37,7 @@ fn generate_random_user() -> NewUser {
     });
 
     let birth_date = if random_bool(2.0 / 3.0) {
-        Some(
-            chrono::NaiveDate::from_ymd_opt(
-                random_range(2000..2018),
-                random_range(1..13),
-                random_range(1..29),
-            )
-            .unwrap(),
-        )
+        Some(random_birth_date())
     } else {
         None
     };
