@@ -5,6 +5,8 @@ edition = "2024"
 
 [dependencies]
 orm-module = { workspace = true }
+diesel = { workspace = true }
+utils = { workspace = true }
 
 [[bin]]
 name = "check-connection"
@@ -13,3 +15,19 @@ path = "src/check_connection.rs"
 [[bin]]
 name = "insert-cars"
 path = "src/insert_cars.rs"
+
+[[bin]]
+name = "get-cars"
+path = "src/get_cars.rs"
+
+[[bin]]
+name = "update-cars"
+path = "src/update_cars.rs"
+
+[[bin]]
+name = "one-off-update-cars"
+path = "src/one_off_update.rs"
+
+[[bin]]
+name = "delete-car"
+path = "src/delete_car.rs"

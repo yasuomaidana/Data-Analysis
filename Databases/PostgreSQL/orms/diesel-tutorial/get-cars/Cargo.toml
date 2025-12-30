@@ -1,8 +1,0 @@
-[package]
-name = "get-cars"
-version = "0.1.0"
-edition = "2024"
-
-[dependencies]
-orm-module = { workspace = true }
-diesel = { workspace = true }
