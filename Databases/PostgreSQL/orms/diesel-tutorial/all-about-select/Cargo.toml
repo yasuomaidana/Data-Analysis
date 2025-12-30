@@ -23,3 +23,7 @@ path = "src/run_query_dsl.rs"
 [[bin]]
 name = "via-query-dsl"
 path = "src/via_query_dsl.rs"
+
+[[bin]]
+name = "has-query"
+path = "src/has_query.rs"

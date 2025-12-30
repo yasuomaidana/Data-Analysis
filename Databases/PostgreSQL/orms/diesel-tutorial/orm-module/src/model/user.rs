@@ -3,7 +3,8 @@ use chrono::{NaiveDate, NaiveDateTime};
 use diesel::dsl::insert_into;
 use diesel::result::Error;
 use diesel::{
-    AsChangeset, Identifiable, Insertable, OptionalExtension, Queryable, RunQueryDsl, Selectable,
+    AsChangeset, HasQuery, Identifiable, Insertable, OptionalExtension, Queryable, RunQueryDsl,
+    Selectable,
 };
 use diesel_derive_enum::DbEnum;
 
@@ -35,6 +36,14 @@ pub struct NewUser {
     pub email: String,
     pub role: Option<UserRole>,
     pub birth_date: Option<NaiveDate>,
+}
+
+#[derive(HasQuery, Debug)]
+#[diesel(table_name = users)]
+pub struct UserEmail {
+    pub id: i32,
+    pub name: String,
+    pub email: String,
 }
 
 impl NewUser {
