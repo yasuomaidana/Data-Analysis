@@ -15,4 +15,4 @@ diesel-derive-enum = { version = "3.0.0-beta.1", features = ["postgres"] }
 chrono = "0.4.42"
 
 [workspace]
-members = ["all-about-select", "check-connection", "delete-car", "get-cars", "insert-cars", "one-off-update", "orm-module", "struct-encap-update", "update-car", "utils"]
+members = ["all-about-select", "delete-car", "first-steps", "get-cars", "insert-cars", "one-off-update", "orm-module", "struct-encap-update", "update-car", "utils"]

@@ -1,0 +1,15 @@
+[package]
+name = "first-steps"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+orm-module = { workspace = true }
+
+[[bin]]
+name = "check-connection"
+path = "src/check_connection.rs"
+
+[[bin]]
+name = "insert-cars"
+path = "src/insert_cars.rs"
