@@ -17,16 +17,25 @@ pub enum UserRole {
     Admin,
 }
 
+//Identifiable with AsChangeset allows to use save method
 #[derive(Queryable, Selectable, Debug, Identifiable, AsChangeset)]
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct User {
     id: i32,
-    name: String,
-    email: String,
-    role: UserRole,
-    birth_date: Option<NaiveDate>,
+    pub name: String,
+    pub email: String,
+    pub role: UserRole,
+    pub birth_date: Option<NaiveDate>,
     // It includes date and time
-    updated: NaiveDateTime,
+    pub updated: NaiveDateTime,
+}
+
+#[derive(AsChangeset)]
+#[diesel(table_name = users)]
+pub struct UpdateUser {
+    pub name: Option<String>,
+    pub email: Option<String>,
+    pub birth_date: Option<Option<NaiveDate>>,
 }
 
 #[derive(Insertable)]

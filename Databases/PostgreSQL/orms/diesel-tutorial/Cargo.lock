@@ -9,6 +9,7 @@ dependencies = [
  "diesel",
  "orm-module",
  "rand",
+ "utils",
 ]
 
 [[package]]
