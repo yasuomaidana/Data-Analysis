@@ -10,7 +10,7 @@ use diesel::{
 /// - `AsChangeset` — lets `Car` be used as an update payload in `diesel::update(...).set(&car)`.
 /// - `Debug` — enables `{:?}` formatting for debugging.
 #[derive(Queryable, Selectable, Debug, Identifiable, AsChangeset)]
-#[diesel(table_name = cars)]
+// #[diesel(table_name = cars)] Not needed since the struct name is car
 #[diesel(check_for_backend(diesel::pg::Pg))]
 pub struct Car {
     pub id: i32,
