@@ -27,3 +27,7 @@ path = "src/via_query_dsl.rs"
 [[bin]]
 name = "has-query"
 path = "src/has_query.rs"
+
+[[bin]]
+name = "nested-tuples"
+path = "src/nested_tuples.rs"
