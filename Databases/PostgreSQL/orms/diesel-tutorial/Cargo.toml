@@ -12,7 +12,8 @@ dotenvy = "0.15.7"
 orm-module = { path = "./orm-module" }
 utils = { path = "./utils" }
 diesel-derive-enum = { version = "3.0.0-beta.1", features = ["postgres"] }
-chrono = "0.4.42"
-
+chrono = { version = "0.4.42", features = ["serde"] }
+serde = { version = "1.0.228", features = ["derive"] }
+serde_json = { version = "1.0.148" }
 [workspace]
 members = ["all-about-select", "first-steps", "orm-module", "struct-encap-update", "utils"]

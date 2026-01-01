@@ -7,8 +7,12 @@ use diesel::{
     Selectable,
 };
 use diesel_derive_enum::DbEnum;
+use serde::Deserialize;
+use std::fmt::Debug;
+use std::str::FromStr;
+use utils::reader::ReaderError;
 
-#[derive(DbEnum, Debug)]
+#[derive(DbEnum, Debug, Deserialize)]
 #[db_enum(existing_type_path = "crate::schema::user_schema::sql_types::UserRole")]
 pub enum UserRole {
     Guest,
@@ -38,13 +42,21 @@ pub struct UpdateUser {
     pub birth_date: Option<Option<NaiveDate>>,
 }
 
-#[derive(Insertable)]
+#[derive(Insertable, Deserialize, Debug)]
 #[diesel(table_name = users)]
 pub struct NewUser {
     pub name: String,
     pub email: String,
     pub role: Option<UserRole>,
     pub birth_date: Option<NaiveDate>,
+}
+
+impl FromStr for NewUser {
+    type Err = ReaderError<serde_json::error::Error>;
+    fn from_str(s: &str) -> Result<Self, Self::Err> {
+        let user = serde_json::from_str(s).map_err(|e| ReaderError::ParseError(e.into()))?;
+        Ok(user)
+    }
 }
 
 #[derive(HasQuery, Debug)]

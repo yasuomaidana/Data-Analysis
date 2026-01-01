@@ -31,3 +31,7 @@ path = "src/one_off_update.rs"
 [[bin]]
 name = "delete-car"
 path = "src/delete_car.rs"
+
+[[bin]]
+name = "insert-user-json"
+path = "src/insert_user_json.rs"
