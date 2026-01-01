@@ -1,0 +1,11 @@
+[package]
+name = "relations"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+
+[[bin]]
+name = "fill-books"
+path = "src/one_to_many/fill_books.rs"
+
