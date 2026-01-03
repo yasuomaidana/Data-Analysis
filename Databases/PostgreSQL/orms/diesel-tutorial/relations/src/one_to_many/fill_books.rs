@@ -1,8 +1,10 @@
 use clap::Parser;
-use diesel::{
-    ExpressionMethods, OptionalExtension, QueryDsl, RunQueryDsl, SelectableHelper,
-};
+use diesel::dsl::insert_into;
+use diesel::{ExpressionMethods, OptionalExtension, QueryDsl, RunQueryDsl, SelectableHelper};
+use orm_module::model::book::{Book, NewBook, NewPage, Page};
 use orm_module::model::user::User;
+use orm_module::schema::book_schema::books::dsl::books;
+use orm_module::schema::book_schema::pages::dsl::pages;
 use orm_module::schema::user_schema::users;
 
 #[derive(Parser, Debug)]
@@ -22,7 +24,7 @@ struct Args {
 
     /// Pages content (zero or more)
     #[arg(value_name = "PAGES", num_args = 0..)]
-    pages: Vec<String>,
+    pages_input: Vec<String>,
 }
 
 fn main() {
@@ -63,8 +65,35 @@ fn main() {
         None => println!("No user specified or found"),
     }
 
-    println!("Pages ({}):", args.pages.len());
-    for (i, page) in args.pages.iter().enumerate() {
-        println!("  {}: {}", i + 1, page);
+    let book = insert_into(books)
+        .values(NewBook {
+            title: args.book_title,
+            author_id: user.as_ref().map(|u| u.id),
+        })
+        .returning(Book::as_returning())
+        .get_result(&mut connection)
+        .expect("Failed to insert book");
+
+    println!("Created book: {:#?}", &book);
+
+    println!("Pages ({}):", args.pages_input.len());
+    let pages_input = args
+        .pages_input
+        .iter()
+        .enumerate()
+        .map(|(i, page)| NewPage {
+            page_number: (i + 1) as i32,
+            content: page.into(),
+            book_id: book.id,
+        })
+        .collect::<Vec<NewPage>>();
+
+    for page in insert_into(pages)
+        .values(&pages_input)
+        .returning(Page::as_returning())
+        .get_results(&mut connection)
+        .expect("Failed to insert page")
+    {
+        println!("Inserted page: {:#?}", page);
     }
 }
