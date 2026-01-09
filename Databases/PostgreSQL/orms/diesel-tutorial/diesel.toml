@@ -19,7 +19,12 @@ filter = { only_tables = ["users"] }
 [print_schema.books]
 file = "orm-module/src/schema/book_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
-filter = { only_tables = ["books", "pages", "user"] }
+filter = { only_tables = ["books", "pages"] }
+
+[print_schema.courses]
+file = "orm-module/src/schema/courses_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["courses", "enrollments"] }
 
 [migrations_directory]
 dir = "migrations"
