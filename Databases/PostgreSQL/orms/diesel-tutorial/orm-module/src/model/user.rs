@@ -7,7 +7,7 @@ use diesel::{
     Selectable,
 };
 use diesel_derive_enum::DbEnum;
-use serde::Deserialize;
+use serde::{Deserialize, Serialize};
 use std::fmt::Debug;
 use std::str::FromStr;
 use utils::reader::ReaderError;
@@ -59,9 +59,10 @@ impl FromStr for NewUser {
     }
 }
 
-#[derive(HasQuery, Debug)]
+#[derive(HasQuery, Debug, Serialize)]
 #[diesel(table_name = users)]
 pub struct UserEmail {
+    #[serde(skip_serializing)] // #[serde(skip)]
     pub id: i32,
     pub name: String,
     pub email: String,
