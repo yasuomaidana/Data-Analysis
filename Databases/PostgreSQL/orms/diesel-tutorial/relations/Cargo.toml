@@ -15,3 +15,7 @@ path = "src/one_to_many/fill_books.rs"
 [[bin]]
 name = "get-books"
 path = "src/one_to_many/get_books.rs"
+
+[[bin]]
+name = "enroll-student"
+path = "src/many_to_many/enroll_student.rs"
