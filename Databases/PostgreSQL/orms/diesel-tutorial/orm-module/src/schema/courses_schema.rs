@@ -1,11 +1,9 @@
-// @generated automatically by Diesel CLI.
-
 use crate::schema::user_schema::users;
 
 diesel::table! {
     courses (id) {
         id -> Int4,
-        title -> Nullable<Varchar>,
+        title -> Varchar,
     }
 }
 
