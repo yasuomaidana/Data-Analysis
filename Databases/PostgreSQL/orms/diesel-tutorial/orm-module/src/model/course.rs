@@ -11,13 +11,13 @@ pub struct Course {
 }
 
 #[derive(Identifiable, Selectable, Queryable, Associations, Debug, Insertable)]
-#[diesel(belongs_to(Course))]
+#[diesel(belongs_to(Course, foreign_key = course_id))]
 #[diesel(belongs_to(User, foreign_key = student_id))]
 #[diesel(table_name = enrollments)]
-#[diesel(primary_key(course_id, student_id))]
+#[diesel(primary_key(student_id, course_id))]
 pub struct Enrollment {
-    pub course_id: i32,
     pub student_id: i32,
+    pub course_id: i32,
 }
 
 #[derive(Selectable, Queryable)]
