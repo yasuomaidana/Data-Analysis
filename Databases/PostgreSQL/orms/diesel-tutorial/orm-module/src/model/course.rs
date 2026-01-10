@@ -1,7 +1,7 @@
 use crate::model::user::User;
 use crate::schema::courses_schema::{courses, enrollments};
 
-use diesel::{Associations, Identifiable, Queryable, Selectable};
+use diesel::{Associations, Identifiable, Insertable, Queryable, Selectable};
 
 #[derive(Identifiable, Selectable, Queryable, Debug)]
 pub struct Course {
@@ -9,7 +9,7 @@ pub struct Course {
     pub title: String,
 }
 
-#[derive(Identifiable, Selectable, Queryable, Associations, Debug)]
+#[derive(Identifiable, Selectable, Queryable, Associations, Debug, Insertable)]
 #[diesel(belongs_to(Course))]
 #[diesel(belongs_to(User, foreign_key = student_id))]
 #[diesel(table_name = enrollments)]
