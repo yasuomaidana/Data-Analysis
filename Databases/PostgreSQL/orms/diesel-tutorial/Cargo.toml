@@ -15,5 +15,6 @@ diesel-derive-enum = { version = "3.0.0-beta.1", features = ["postgres"] }
 chrono = { version = "0.4.42", features = ["serde"] }
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.148" }
+itertools = "0.14.0"
 [workspace]
 members = ["all-about-select", "first-steps", "orm-module", "relations", "struct-encap-update", "utils"]
