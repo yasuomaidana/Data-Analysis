@@ -12,7 +12,7 @@ use orm_module::schema::user_schema::users;
 #[command(about = "Show enrollments")]
 struct Args {
     #[arg(short = 'm', long = "max")]
-    max: Option<i32>,
+    max: Option<i64>,
 
     #[arg(help = "Username or email", short = 'u', long = "user")]
     user_name: Option<String>,
@@ -30,9 +30,16 @@ struct Args {
 }
 
 fn get_all(connection: &mut diesel::PgConnection, args: &Args) {
-    let enrolled_student_ids = enrollments::table
+    let mut query = enrollments::table
         .select(enrollments::student_id)
         .distinct()
+        .into_boxed();
+
+    if let Some(max) = args.max {
+        query = query.limit(max);
+    }
+
+    let enrolled_student_ids = query
         .get_results::<i32>(connection)
         .expect("Error loading enrollments");
 
