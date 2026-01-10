@@ -7,14 +7,14 @@ edition = "2024"
 dotenvy = { workspace = true }
 
 [workspace.dependencies]
-diesel = { version = "2.3.5", features = ["postgres", "chrono"] }
+diesel = { version = "2.3.5", features = ["postgres", "chrono", "serde_json"] }
 dotenvy = "0.15.7"
 orm-module = { path = "./orm-module" }
 utils = { path = "./utils" }
 diesel-derive-enum = { version = "3.0.0-beta.1", features = ["postgres"] }
 chrono = { version = "0.4.42", features = ["serde"] }
 serde = { version = "1.0.228", features = ["derive"] }
-serde_json = { version = "1.0.148" }
+serde_json = { version = "1.0.149" }
 itertools = "0.14.0"
 [workspace]
-members = ["all-about-select", "first-steps", "orm-module", "relations", "stored-procedures", "struct-encap-update", "utils"]
+members = ["all-about-select", "first-steps", "graphs", "orm-module", "relations", "stored-procedures", "struct-encap-update", "utils"]
