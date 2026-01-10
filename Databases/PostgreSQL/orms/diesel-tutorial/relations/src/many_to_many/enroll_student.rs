@@ -8,7 +8,7 @@ use orm_module::schema::courses_schema::{courses, enrollments};
 use orm_module::schema::user_schema::users;
 
 #[derive(Parser, Debug)]
-#[command(author, version, about = "Create a book", long_about = None)]
+#[command(author, version, about = "Enroll an existing user to a course", long_about = None)]
 struct Args {
     #[arg(help = "Username or email")]
     user_name: String,
