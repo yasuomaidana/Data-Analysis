@@ -1,5 +1,6 @@
 use crate::model::user::User;
 use crate::schema::courses_schema::{courses, enrollments};
+use crate::schema::user_schema::users;
 
 use diesel::{Associations, Identifiable, Insertable, Queryable, Selectable};
 
@@ -17,4 +18,15 @@ pub struct Course {
 pub struct Enrollment {
     pub course_id: i32,
     pub student_id: i32,
+}
+
+#[derive(Selectable, Queryable)]
+#[diesel(table_name = users)]
+pub struct Student {
+    pub name: String,
+    pub email: String,
+}
+pub struct StudentData {
+    pub student: User,
+    pub courses: Vec<Course>,
 }
