@@ -26,6 +26,12 @@ file = "orm-module/src/schema/courses_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 filter = { only_tables = ["courses", "enrollments"] }
 
+
+[print_schema.graph]
+file = "orm-module/src/schema/graph_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["entities", "relationships"] }
+
 [migrations_directory]
 dir = "migrations"
 
