@@ -1,7 +1,7 @@
 CREATE TABLE courses
 (
     id    SERIAL PRIMARY KEY,
-    title VARCHAR UNIQUE
+    title VARCHAR UNIQUE NOT NULL
 );
 
 CREATE TABLE enrollments
