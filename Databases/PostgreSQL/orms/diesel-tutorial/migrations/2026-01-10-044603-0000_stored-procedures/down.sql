@@ -1,0 +1,1 @@
+DROP FUNCTION IF EXISTS get_users_enrolled_in_course(TEXT);
