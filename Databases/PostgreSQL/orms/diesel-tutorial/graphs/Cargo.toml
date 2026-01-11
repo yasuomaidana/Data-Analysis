@@ -18,3 +18,7 @@ path = "src/fill.rs"
 [[bin]]
 name = "with-recursive"
 path = "src/with_recursive.rs"
+
+[[bin]]
+name = "find-prs"
+path = "src/find_prs.rs"
