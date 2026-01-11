@@ -6,7 +6,6 @@ edition = "2024"
 [dependencies]
 orm-module = { workspace = true }
 diesel = { workspace = true }
-utils = { workspace = true }
 serde_json = { workspace = true }
 diesel-cte-ext = { version = "0.1", default-features = false, features = [
     "postgres",
