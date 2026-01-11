@@ -14,3 +14,7 @@ diesel-cte-ext = { version = "0.1", default-features = false, features = [
 [[bin]]
 name = "fill"
 path = "src/fill.rs"
+
+[[bin]]
+name = "with-recursive"
+path = "src/with_recursive.rs"
