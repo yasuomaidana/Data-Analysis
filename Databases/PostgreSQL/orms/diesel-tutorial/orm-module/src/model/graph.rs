@@ -37,3 +37,11 @@ pub struct AccountRelationshipReturn {
     pub metadata: Option<serde_json::Value>,
     pub relationship_class: Option<String>,
 }
+
+#[derive(Selectable, Queryable, Debug)]
+#[diesel(table_name = entities)]
+pub struct EntityReturn {
+    pub id: String,
+    pub _type: String,
+    pub metadata: Option<serde_json::Value>,
+}
