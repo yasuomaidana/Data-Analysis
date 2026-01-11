@@ -1,27 +1,13 @@
-use diesel::ExpressionMethods;
-use diesel::dsl::{select, sql};
-use diesel::pg::Pg;
-use diesel::sql_types::Integer;
+use diesel::{ExpressionMethods, RunQueryDsl};
 use diesel::{JoinOnDsl, QueryDsl};
 use diesel_cte_ext::{Columns, RecursiveCTEExt, RecursiveParts};
 use orm_module::establish_connection;
-use orm_module::schema::graph_schema::{entities, relationships};
-
-diesel::table! {
-    account_relationships (id) {
-        id -> Text,
-        _type -> Text,
-        metadata -> Nullable<Jsonb>,
-        relationship_class -> Nullable<Text>,
-        target_entity_id -> Text,
-    }
-}
+use orm_module::schema::graph_schema::{account_relationships, entities, relationships};
 
 fn main() {
     let mut conn = establish_connection();
 
     // 1. Define the Anchor (The initial SELECT)
-    // SELECT *, r._class AS relationship_class FROM public.entity e JOIN public.relationship r ON e.id = r.source_entity_id
     let anchor = entities::table
         .inner_join(relationships::table.on(entities::id.eq(relationships::source_entity_id)))
         .select((
@@ -32,22 +18,50 @@ fn main() {
             relationships::target_entity_id,
         ));
 
-    let cols = account_relationships::all_columns;
+    // 2. Define the Recursive Term
+    let recursive = entities::table
+        .inner_join(relationships::table.on(entities::id.eq(relationships::source_entity_id)))
+        .inner_join(
+            account_relationships::table
+                .on(account_relationships::target_entity_id.eq(entities::id)),
+        )
+        .select((
+            entities::id,
+            entities::_type,
+            entities::metadata,
+            relationships::_class,
+            relationships::target_entity_id,
+        ));
 
-    println!("{:?}", cols);
-
-    println!("{:?}", account_relationships::all_columns);
     let cols = Columns::for_table::<account_relationships::table>();
 
-    let a = conn.with_recursive(
-        "account_relationships",
-        cols,
-        RecursiveParts::new(
-            anchor,
-            account_relationships::table,
-            sql::<Integer>("SELECT n FROM series"),
-        ),
-    );
+    // 3. Define the Final Query
+    let final_query = account_relationships::table
+        .inner_join(entities::table.on(account_relationships::target_entity_id.eq(entities::id)))
+        .select((
+            account_relationships::id,
+            account_relationships::_type,
+            account_relationships::metadata,
+            account_relationships::relationship_class,
+            entities::all_columns,
+        ));
 
-    println!("{}", diesel::debug_query::<Pg, _>(&a).to_string());
+    let a = conn
+        .with_recursive(
+            "account_relationships",
+            cols,
+            RecursiveParts::new(anchor, recursive, final_query),
+        )
+        .get_results::<(
+            String,
+            String,
+            Option<serde_json::Value>,
+            Option<String>,
+            (String, String, String, Option<serde_json::Value>),
+        )>(&mut conn)
+        .expect("Failed Recursive query");
+
+    for i in a {
+        println!("{:?}", i);
+    }
 }
