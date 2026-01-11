@@ -1,4 +1,4 @@
-use crate::schema::graph_schema::{entities, relationships};
+use crate::schema::graph_schema::{account_relationships, entities, relationships};
 use diesel::{Associations, Identifiable, Insertable, Queryable, Selectable};
 
 #[derive(Identifiable, Selectable, Queryable, Debug, Insertable)]
@@ -17,4 +17,23 @@ pub struct Relationship {
     pub source_entity_id: String,
     pub target_entity_id: String,
     pub _class: Option<String>,
+}
+
+#[derive(Selectable, Queryable, Debug)]
+#[diesel(table_name = account_relationships)]
+pub struct AccountRelationship {
+    pub id: String,
+    pub _type: String,
+    pub metadata: Option<serde_json::Value>,
+    pub relationship_class: Option<String>,
+    pub target_entity_id: String,
+}
+
+#[derive(Selectable, Queryable, Debug)]
+#[diesel(table_name = account_relationships)]
+pub struct AccountRelationshipReturn {
+    pub id: String,
+    pub _type: String,
+    pub metadata: Option<serde_json::Value>,
+    pub relationship_class: Option<String>,
 }

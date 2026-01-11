@@ -1,7 +1,10 @@
-use diesel::{ExpressionMethods, RunQueryDsl};
+use diesel::{ExpressionMethods, RunQueryDsl, SelectableHelper};
 use diesel::{JoinOnDsl, QueryDsl};
 use diesel_cte_ext::{Columns, RecursiveCTEExt, RecursiveParts};
 use orm_module::establish_connection;
+use orm_module::model::graph::{
+    AccountRelationship, AccountRelationshipReturn, Entity, Relationship,
+};
 use orm_module::schema::graph_schema::{account_relationships, entities, relationships};
 
 fn main() {
@@ -11,9 +14,7 @@ fn main() {
     let anchor = entities::table
         .inner_join(relationships::table.on(entities::id.eq(relationships::source_entity_id)))
         .select((
-            entities::id,
-            entities::_type,
-            entities::metadata,
+            Entity::as_select(),
             relationships::_class,
             relationships::target_entity_id,
         ));
@@ -26,9 +27,7 @@ fn main() {
                 .on(account_relationships::target_entity_id.eq(entities::id)),
         )
         .select((
-            entities::id,
-            entities::_type,
-            entities::metadata,
+            Entity::as_select(),
             relationships::_class,
             relationships::target_entity_id,
         ));
@@ -38,13 +37,8 @@ fn main() {
     // 3. Define the Final Query
     let final_query = account_relationships::table
         .inner_join(entities::table.on(account_relationships::target_entity_id.eq(entities::id)))
-        .select((
-            account_relationships::id,
-            account_relationships::_type,
-            account_relationships::metadata,
-            account_relationships::relationship_class,
-            entities::all_columns,
-        ));
+        .distinct()
+        .select((AccountRelationshipReturn::as_select(), Entity::as_select()));
 
     let query = conn.with_recursive(
         "account_relationships",
@@ -58,13 +52,7 @@ fn main() {
     );
 
     let result = query
-        .get_results::<(
-            String,
-            String,
-            Option<serde_json::Value>,
-            Option<String>,
-            (String, String, String, Option<serde_json::Value>),
-        )>(&mut conn)
+        .get_results::<(AccountRelationshipReturn, Entity)>(&mut conn)
         .expect("Failed Recursive query");
 
     for i in result {
