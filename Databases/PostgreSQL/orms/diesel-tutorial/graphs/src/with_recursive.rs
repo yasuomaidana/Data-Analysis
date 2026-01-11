@@ -46,12 +46,18 @@ fn main() {
             entities::all_columns,
         ));
 
-    let a = conn
-        .with_recursive(
-            "account_relationships",
-            cols,
-            RecursiveParts::new(anchor, recursive, final_query),
-        )
+    let query = conn.with_recursive(
+        "account_relationships",
+        cols,
+        RecursiveParts::new(anchor, recursive, final_query),
+    );
+
+    println!(
+        "Executing query:\n{}",
+        diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
+    );
+
+    let result = query
         .get_results::<(
             String,
             String,
@@ -61,7 +67,7 @@ fn main() {
         )>(&mut conn)
         .expect("Failed Recursive query");
 
-    for i in a {
+    for i in result {
         println!("{:?}", i);
     }
 }
