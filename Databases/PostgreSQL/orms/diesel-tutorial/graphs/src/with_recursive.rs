@@ -41,6 +41,7 @@ fn main() {
             EntityReturn::as_select(),
         ));
 
+    // see https://docs.rs/crate/diesel-cte-ext/0.1.0/source/src/cte.rs
     let query = conn.with_recursive(
         "account_relationships",
         cols,
