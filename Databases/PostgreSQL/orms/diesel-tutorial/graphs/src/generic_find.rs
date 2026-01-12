@@ -4,6 +4,7 @@ use diesel::{BoolExpressionMethods, ExpressionMethods, SelectableHelper};
 use diesel::{Connection, JoinOnDsl, QueryDsl};
 use diesel::{PgConnection, RunQueryDsl, SqliteConnection};
 use diesel_cte_ext::{Columns, RecursiveCTEExt, RecursiveParts};
+use orm_module::get_url;
 use orm_module::model::graph::{AccountRelationshipReturn, EntityReturn};
 use orm_module::schema::graph_schema::{account_relationships, entities, relationships};
 
@@ -114,7 +115,7 @@ fn get_prs_sqlite(db_connection: &mut SqliteConnection) {
 }
 
 fn main() {
-    let database_url = std::env::var("DATABASE_URL").expect("DATABASE_URL must be set");
+    let database_url = get_url();
     let mut connection =
         DatabaseConnection::establish(&database_url).expect("Error connecting to database");
     match &mut connection {
