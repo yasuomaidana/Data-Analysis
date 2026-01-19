@@ -11,3 +11,6 @@ chrono = { workspace = true }
 serde = { workspace = true }
 serde_json = { workspace = true }
 utils = { workspace = true }
+diesel-cte-ext = { version = "0.1.0", features = [
+    "postgres", "sqlite"
+] }

@@ -699,6 +699,7 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "diesel",
+ "diesel-cte-ext",
  "diesel-derive-enum",
  "dotenvy",
  "serde",
