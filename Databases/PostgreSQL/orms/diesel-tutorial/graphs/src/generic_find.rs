@@ -1,6 +1,5 @@
 mod common;
 use crate::common::get_recursive;
-use diesel::sqlite::Sqlite;
 use diesel::{BoolExpressionMethods, ExpressionMethods, SelectableHelper};
 use diesel::{Connection, JoinOnDsl, QueryDsl};
 use diesel::{PgConnection, RunQueryDsl, SqliteConnection};
@@ -66,31 +65,37 @@ fn get_prs_pg(conn: &mut PgConnection) {
     }
 }
 
-fn get_prs_sqlite(db_connection: &mut SqliteConnection) {
-    let anchor = account_relationships::table
-        .inner_join(entities::table.on(account_relationships::target_entity_id.eq(entities::id)))
+fn get_prs_sqlite(conn: &mut SqliteConnection) {
+    // 1. Define the Anchor (The initial SELECT)
+    let anchor = entities::table
         .filter(
             entities::_class
                 .eq("Account")
                 .and(entities::id.eq("account_1")),
         )
-        .select((
-            AccountRelationshipReturn::as_select(),
-            EntityReturn::as_select(),
-        ))
-        .into_boxed::<Sqlite>();
-
-    let recursive = account_relationships::table
-        .inner_join(entities::table.on(account_relationships::target_entity_id.eq(entities::id)))
         .inner_join(relationships::table.on(entities::id.eq(relationships::source_entity_id)))
         .select((
-            AccountRelationshipReturn::as_select(),
             EntityReturn::as_select(),
-        ))
-        .into_boxed::<Sqlite>();
+            relationships::_class,
+            relationships::target_entity_id,
+        ));
+
+    // 2. Define the Recursive Term
+    let recursive = entities::table
+        .inner_join(relationships::table.on(entities::id.eq(relationships::source_entity_id)))
+        .inner_join(
+            account_relationships::table
+                .on(account_relationships::target_entity_id.eq(entities::id)),
+        )
+        .select((
+            EntityReturn::as_select(),
+            relationships::_class,
+            relationships::target_entity_id,
+        ));
 
     let cols = Columns::for_table::<account_relationships::table>();
 
+    // 3. Define the Final Query
     let final_query = account_relationships::table
         .inner_join(entities::table.on(account_relationships::target_entity_id.eq(entities::id)))
         .distinct()
@@ -98,18 +103,23 @@ fn get_prs_sqlite(db_connection: &mut SqliteConnection) {
             AccountRelationshipReturn::as_select(),
             EntityReturn::as_select(),
         ))
-        .filter(entities::_class.eq("CodeRepo"))
-        .into_boxed::<Sqlite>();
+        .filter(entities::_class.eq("CodeRepo"));
 
-    let query = db_connection.with_recursive(
+    // see https://docs.rs/crate/diesel-cte-ext/0.1.0/source/src/cte.rs
+    let query = conn.with_recursive(
         "account_relationships",
         cols,
         RecursiveParts::new(anchor, recursive, final_query),
     );
 
+    println!(
+        "Executing query:\n{}",
+        diesel::debug_query::<diesel::sqlite::Sqlite, _>(&query).to_string()
+    );
+
     let result = query
-        .load::<(AccountRelationshipReturn, EntityReturn)>(db_connection)
-        .expect("Failed Recursive query (Sqlite)");
+        .get_results::<(AccountRelationshipReturn, EntityReturn)>(conn)
+        .expect("Failed Recursive query");
 
     for i in result {
         println!("{:?}", i);
