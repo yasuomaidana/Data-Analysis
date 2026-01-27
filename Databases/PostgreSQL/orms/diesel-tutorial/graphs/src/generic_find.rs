@@ -15,6 +15,7 @@ enum DatabaseConnection {
 
 macro_rules! get_prs {
     ($conn:expr, $backend:ty) => {{
+
         // 1. Define the Anchor (The initial SELECT)
         let anchor = entities::table
             .filter(
@@ -55,7 +56,7 @@ macro_rules! get_prs {
             .filter(entities::_class.eq("CodeRepo"));
 
         // see https://docs.rs/crate/diesel-cte-ext/0.1.0/source/src/cte.rs
-        let query = $conn.with_recursive(
+        let query = $conn.with_recursive_not_all(
             "account_relationships",
             cols,
             RecursiveParts::new(anchor, recursive, final_query),

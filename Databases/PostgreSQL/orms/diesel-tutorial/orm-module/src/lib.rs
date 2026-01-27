@@ -3,7 +3,6 @@ use dotenvy::dotenv;
 
 pub mod model;
 pub mod schema;
-pub mod with_recursive_no_union;
 
 pub fn get_url() -> String {
     dotenv().ok();

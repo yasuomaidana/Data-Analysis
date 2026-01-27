@@ -309,8 +309,7 @@ dependencies = [
 [[package]]
 name = "diesel-cte-ext"
 version = "0.1.0"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "c3ac4abe4e95b48a0c92513b37c55ca99929bd01eeaf64076293439a29dfec23"
+source = "git+https://github.com/yasuomaidana/diesel-cte-ext?branch=with-recursive-not-all#3256e77b04f302ff8f909f4e183949ad43baf8c1"
 dependencies = [
  "diesel",
  "diesel-async",
@@ -699,7 +698,6 @@ version = "0.1.0"
 dependencies = [
  "chrono",
  "diesel",
- "diesel-cte-ext",
  "diesel-derive-enum",
  "dotenvy",
  "serde",
