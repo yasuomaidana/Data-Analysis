@@ -1,4 +1,5 @@
 mod common;
+use diesel::connection::LoadConnection;
 use diesel::{BoolExpressionMethods, ExpressionMethods, SelectableHelper};
 use diesel::{Connection, JoinOnDsl, QueryDsl};
 use diesel::{PgConnection, RunQueryDsl, SqliteConnection};
@@ -15,7 +16,6 @@ enum DatabaseConnection {
 
 macro_rules! get_prs {
     ($conn:expr, $backend:ty) => {{
-
         // 1. Define the Anchor (The initial SELECT)
         let anchor = entities::table
             .filter(
@@ -47,7 +47,9 @@ macro_rules! get_prs {
 
         // 3. Define the Final Query
         let final_query = account_relationships::table
-            .inner_join(entities::table.on(account_relationships::target_entity_id.eq(entities::id)))
+            .inner_join(
+                entities::table.on(account_relationships::target_entity_id.eq(entities::id)),
+            )
             .distinct()
             .select((
                 AccountRelationshipReturn::as_select(),
@@ -79,11 +81,12 @@ macro_rules! get_prs {
 
 fn main() {
     let database_url = get_url();
-    // TODO Create macro and check sqlite logic
     let mut connection =
         DatabaseConnection::establish(&database_url).expect("Error connecting to database");
     match &mut connection {
-        DatabaseConnection::Sqlite(db_connection) => get_prs!(db_connection, diesel::sqlite::Sqlite),
+        DatabaseConnection::Sqlite(db_connection) => {
+            get_prs!(db_connection, diesel::sqlite::Sqlite)
+        }
         DatabaseConnection::Postgres(db_connection) => get_prs!(db_connection, diesel::pg::Pg),
     }
 }
