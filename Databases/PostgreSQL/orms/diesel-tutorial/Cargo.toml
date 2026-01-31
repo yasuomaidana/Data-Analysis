@@ -4,16 +4,19 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
+diesel_migrations = "2.3.1"
 dotenvy = { workspace = true }
+orm-module = { workspace = true }
+diesel = { workspace = true }
 
 [workspace.dependencies]
 clap = { version = "4.5.56", features = ["derive"] }
-diesel = { version = "2.3.5", features = ["postgres", "chrono", "serde_json"] }
+diesel = { version = "2.3.6", features = ["postgres", "chrono", "serde_json"] }
 dotenvy = "0.15.7"
 orm-module = { path = "./orm-module" }
 utils = { path = "./utils" }
 diesel-derive-enum = { version = "3.0.0-beta.1", features = ["postgres"] }
-chrono = { version = "0.4.42", features = ["serde"] }
+chrono = { version = "0.4.43", features = ["serde"] }
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.149" }
 itertools = "0.14.0"
