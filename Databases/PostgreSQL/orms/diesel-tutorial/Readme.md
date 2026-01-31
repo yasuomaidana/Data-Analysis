@@ -71,6 +71,32 @@ I'll cover from the docker configuration, migrations, and raw queries calling
        Updates a user record using the `UpdateUser` struct defined in [User Model](./orm-module/src/model/user.rs). This
        struct implements `AsChangeset`, allowing for partial updates where only the specified fields (name, email, or
        birthdate) are modified. It also demonstrates how to return the updated record using `.returning()`.
+5. Relations:
+    1. One to Many:
+        1. [Fill Books](./relations/src/one_to_many/fill_books.rs)
+           Populates the database with authors and their books, establishing a one-to-many relationship.
+        2. [Get Books](./relations/src/one_to_many/get_books.rs)
+           Retrieves books along with their authors using `belonging_to` and `grouped_by` to efficiently load related data.
+    2. Many to Many:
+        1. [Enroll Student](./relations/src/many_to_many/enroll_student.rs)
+           Creates a many-to-many relationship between students and courses by inserting records into a join table.
+        2. [Get Enrollments](./relations/src/many_to_many/get_enrollments.rs)
+           Fetches students and their enrolled courses, demonstrating how to query many-to-many relationships.
+6. Stored Procedures:
+    1. [Call Procedure](./stored-procedures/src/main.rs)
+       Demonstrates how to call a PostgreSQL stored procedure or function using `sql_query`.
+7. Struct Encapsulation Update:
+    1. [Encapsulated Update](./struct-encap-update/src/main.rs)
+       Shows a pattern for encapsulating update logic within a struct method, promoting cleaner code and better separation of concerns.
+8. Graphs (Recursive Queries):
+    1. [Fill Graph Data](./graphs/src/fill.rs)
+       Populates the database with graph-like data (entities and relationships) to test recursive queries.
+    2. [With Recursive](./graphs/src/with_recursive.rs)
+       Executes a raw SQL `WITH RECURSIVE` query to traverse the graph and find connected entities.
+    3. [Generic Find](./graphs/src/generic_find.rs)
+       A more generic approach to graph traversal, likely parameterizing the starting point or relationship types.
+    4. [Find PRs](./graphs/src/find_prs.rs)
+       A specific use case of recursive queries to find Pull Requests related to a specific account or repository.
 
 ## Troubleshooting
 
