@@ -64,7 +64,6 @@ macro_rules! get_prs {
             .inner_join(
                 entities::table.on(account_relationships::target_entity_id.eq(entities::id)),
             )
-            //.distinct()
             .select((
                 AccountRelationshipReturn::as_select(),
                 EntityReturn::as_select(),
