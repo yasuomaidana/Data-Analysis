@@ -51,7 +51,7 @@ fn main() {
         .filter(entities::_class.eq("CodeRepo"));
 
     // see https://docs.rs/crate/diesel-cte-ext/0.1.0/source/src/cte.rs
-    let query = conn.with_recursive_not_all(
+    let query = conn.with_recursive(
         "account_relationships",
         cols,
         RecursiveParts::new(anchor, recursive, final_query),
@@ -66,6 +66,7 @@ fn main() {
         .get_results::<(AccountRelationshipReturn, EntityReturn)>(&mut conn)
         .expect("Failed Recursive query");
 
+    print!("--\n\n::");
     for i in result {
         println!("{:?}", i);
     }
