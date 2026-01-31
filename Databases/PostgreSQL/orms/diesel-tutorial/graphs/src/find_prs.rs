@@ -1,6 +1,6 @@
+#[macro_use]
 mod common;
 
-use crate::common::get_recursive;
 use clap::Parser;
 use diesel::{BoolExpressionMethods, ExpressionMethods, RunQueryDsl, SelectableHelper};
 use diesel::{JoinOnDsl, QueryDsl};
@@ -36,7 +36,7 @@ fn main() {
         ));
 
     // 2. Define the Recursive Term
-    let recursive = get_recursive();
+    let recursive = make_get_recursive!();
 
     let cols = Columns::for_table::<account_relationships::table>();
 
@@ -66,7 +66,7 @@ fn main() {
         .get_results::<(AccountRelationshipReturn, EntityReturn)>(&mut conn)
         .expect("Failed Recursive query");
 
-    print!("--\n\n::");
+    print!("--\n\n::\n");
     for i in result {
         println!("{:?}", i);
     }

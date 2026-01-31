@@ -1,6 +1,6 @@
+#[macro_use]
 mod common;
 
-use crate::common::get_recursive;
 use diesel::{ExpressionMethods, RunQueryDsl, SelectableHelper};
 use diesel::{JoinOnDsl, QueryDsl};
 use diesel_cte_ext::{Columns, RecursiveCTEExt, RecursiveParts};
@@ -21,7 +21,7 @@ fn main() {
         ));
 
     // 2. Define the Recursive Term
-    let recursive = get_recursive();
+    let recursive = make_get_recursive!();
 
     let cols = Columns::for_table::<account_relationships::table>();
 
@@ -42,7 +42,7 @@ fn main() {
     );
 
     println!(
-        "Executing query:\n{}",
+        "Executing query:\n{}\n--\n",
         diesel::debug_query::<diesel::pg::Pg, _>(&query).to_string()
     );
 

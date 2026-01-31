@@ -1,3 +1,6 @@
+#[macro_use]
+mod common;
+
 use clap::{Parser, ValueEnum};
 use diesel::connection::LoadConnection;
 use diesel::{BoolExpressionMethods, ExpressionMethods, SelectableHelper};
@@ -52,17 +55,7 @@ macro_rules! get_prs {
             ));
 
         // 2. Define the Recursive Term
-        let recursive = entities::table
-            .inner_join(relationships::table.on(entities::id.eq(relationships::source_entity_id)))
-            .inner_join(
-                account_relationships::table
-                    .on(account_relationships::target_entity_id.eq(entities::id)),
-            )
-            .select((
-                EntityReturn::as_select(),
-                relationships::_class,
-                relationships::target_entity_id,
-            ));
+        let recursive = make_get_recursive!();
 
         let cols = Columns::for_table::<account_relationships::table>();
 
@@ -89,7 +82,7 @@ macro_rules! get_prs {
             "Executing query:\n{}",
             diesel::debug_query::<$backend, _>(&query).to_string()
         );
-        println!("--\n\n--");
+        println!("--\n\n--\n");
 
         let result = query
             .get_results::<(AccountRelationshipReturn, EntityReturn)>($conn)
