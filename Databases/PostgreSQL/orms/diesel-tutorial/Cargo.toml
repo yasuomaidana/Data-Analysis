@@ -7,6 +7,7 @@ edition = "2024"
 dotenvy = { workspace = true }
 
 [workspace.dependencies]
+clap = { version = "4.5.56", features = ["derive"] }
 diesel = { version = "2.3.5", features = ["postgres", "chrono", "serde_json"] }
 dotenvy = "0.15.7"
 orm-module = { path = "./orm-module" }

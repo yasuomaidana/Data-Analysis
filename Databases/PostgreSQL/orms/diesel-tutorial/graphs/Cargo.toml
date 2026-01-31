@@ -8,6 +8,7 @@ orm-module = { workspace = true }
 diesel = { workspace = true, features = ["postgres", "sqlite", "r2d2"] }
 serde_json = { workspace = true }
 diesel-cte-ext = { git = "https://github.com/yasuomaidana/diesel-cte-ext", branch = "with-recursive-not-all", features = ["postgres", "sqlite"] }
+clap = { workspace = true }
 [[bin]]
 name = "fill"
 path = "src/fill.rs"
