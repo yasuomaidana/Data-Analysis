@@ -35,7 +35,7 @@ fn main() {
         ));
 
     // see https://docs.rs/crate/diesel-cte-ext/0.1.0/source/src/cte.rs
-    let query = conn.with_recursive(
+    let query = conn.with_recursive_not_all(
         "account_relationships",
         cols,
         RecursiveParts::new(anchor, recursive, final_query),
