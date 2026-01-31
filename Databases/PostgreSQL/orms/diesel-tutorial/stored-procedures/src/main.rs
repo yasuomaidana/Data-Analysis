@@ -25,7 +25,7 @@ fn main() {
     println!("Searching for users enrolled in {}", &course);
 
     let results: Vec<UserEmail> = sql_query(
-        "SELECT u.name, u.email FROM get_users_enrolled_in_course('rust') AS u(_,name, email)",
+        "SELECT u.name, u.email FROM get_users_enrolled_in_course($1) AS u(_,name, email)",
     )
     .bind::<Text, _>(course)
     .get_results(&mut conn)
