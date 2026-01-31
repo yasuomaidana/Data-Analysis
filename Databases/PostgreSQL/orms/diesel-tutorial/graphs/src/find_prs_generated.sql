@@ -7,7 +7,7 @@ WITH RECURSIVE "account_relationships" ("id", "_type", "metadata", "relationship
                        FROM ("entities" INNER JOIN "relationships"
                              ON ("entities"."id" = "relationships"."source_entity_id"))
                        WHERE (("entities"."_class" = 'Account') AND ("entities"."id" = 'account_1'))
-                       UNION ALL
+                       UNION
                        SELECT "entities"."id",
                               "entities"."_type",
                               "entities"."metadata",
