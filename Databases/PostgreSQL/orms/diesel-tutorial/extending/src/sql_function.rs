@@ -1,7 +1,10 @@
 use clap::Parser;
 use diesel::prelude::*;
-use diesel::sql_types::{Integer, Record, Text};
+//use diesel::sql_types::{Integer, Text};
+use diesel::sql_types::Text;
 use itertools::Itertools;
+use std::fmt;
+use std::fmt::Formatter;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about = "Create a book", long_about = None)]
@@ -15,26 +18,29 @@ define_sql_function! {
     fn get_users_enrolled_in_course(course_name: Text) -> Record<(Integer, Text, Text)>;
 }
 
-#[derive(QueryableByName, Debug, Queryable)]
+#[derive(QueryableByName, Debug)]
 struct UserRecord {
-    #[diesel(sql_type = Integer)]
-    user_id: i32,
+    //  #[diesel(sql_type = Integer)]
+    // _user_id: i32,
     #[diesel(sql_type = Text)]
     user_name: String,
     #[diesel(sql_type = Text)]
     user_email: String,
 }
 
-// Implement Queryable for the Record type returned by the function
-impl diesel::deserialize::Queryable<Record<(Integer, Text, Text)>, diesel::pg::Pg> for UserRecord {
-    type Row = (i32, String, String);
+impl From<(i32, String, String)> for UserRecord {
+    fn from(row: (i32, String, String)) -> Self {
+        let (_, user_name, user_email) = row;
+        UserRecord {
+            user_name,
+            user_email,
+        }
+    }
+}
 
-    fn build(row: Self::Row) -> diesel::deserialize::Result<Self> {
-        Ok(UserRecord {
-            user_id: row.0,
-            user_name: row.1,
-            user_email: row.2,
-        })
+impl fmt::Display for UserRecord {
+    fn fmt(&self, f: &mut Formatter<'_>) -> fmt::Result {
+        write!(f, "{} - {}", self.user_name, self.user_email)
     }
 }
 
@@ -45,17 +51,17 @@ fn main() {
     println!("Searching for users enrolled in {}", &course);
 
     let results = diesel::select(get_users_enrolled_in_course(course))
-        .load::<UserRecord>(&mut conn)
+        .load::<(i32, String, String)>(&mut conn)
+        .map(|rows| {
+            rows.into_iter()
+                .map(UserRecord::from)
+                .collect::<Vec<UserRecord>>()
+        })
         .unwrap_or_else(|e| {
             eprintln!("Query failed: {}", e);
             Vec::new()
         });
 
-    let result = results
-        .iter()
-        .map(|user| {
-            format!("\t{} - {} - {}", user.user_id, user.user_name, user.user_email)
-        })
-        .join("\n");
+    let result = results.iter().map(|user| format!("\t{:}", user)).join("\n");
     println!("{result}");
 }
