@@ -17,6 +17,7 @@
       <sourceFolder url="file://$MODULE_DIR$/relations/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/graphs/src" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/stored-procedures/src" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/extending/src" isTestSource="false" />
       <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
