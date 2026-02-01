@@ -21,4 +21,4 @@ serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.149" }
 itertools = "0.14.0"
 [workspace]
-members = ["all-about-select", "first-steps", "graphs", "orm-module", "relations", "stored-procedures", "struct-encap-update", "utils"]
+members = ["all-about-select", "first-steps", "graphs", "orm-module", "extending", "relations", "stored-procedures", "struct-encap-update", "utils"]
