@@ -39,6 +39,9 @@ diesel::table! {
         target_entity_id -> Text,
     }
 }
+diesel::allow_tables_to_appear_in_same_query!(entities, account_relationships);
+diesel::allow_tables_to_appear_in_same_query!(relationships, account_relationships);
+
 #[derive(Selectable, Queryable, Debug)]
 #[diesel(table_name = account_relationships)]
 pub struct AccountRelationshipReturn {

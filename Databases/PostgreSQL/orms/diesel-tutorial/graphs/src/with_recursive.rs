@@ -6,7 +6,8 @@ use diesel::{JoinOnDsl, QueryDsl};
 use diesel_cte_ext::{Columns, RecursiveCTEExt, RecursiveParts};
 use orm_module::establish_connection;
 use orm_module::model::graph::{AccountRelationshipReturn, EntityReturn};
-use orm_module::schema::graph_schema::{account_relationships, entities, relationships};
+use orm_module::schema::graph_schema::{entities, relationships};
+use orm_module::model::graph::account_relationships;
 
 fn main() {
     let mut conn = establish_connection();

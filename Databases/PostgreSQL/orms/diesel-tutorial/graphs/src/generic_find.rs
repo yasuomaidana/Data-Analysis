@@ -9,7 +9,8 @@ use diesel::{PgConnection, RunQueryDsl, SqliteConnection};
 use diesel_cte_ext::{Columns, RecursiveCTEExt, RecursiveParts};
 use orm_module::get_url;
 use orm_module::model::graph::{AccountRelationshipReturn, EntityReturn};
-use orm_module::schema::graph_schema::{account_relationships, entities, relationships};
+use orm_module::schema::graph_schema::{ entities, relationships};
+use orm_module::model::graph::account_relationships;
 
 #[derive(diesel::MultiConnection)]
 enum DatabaseConnection {
