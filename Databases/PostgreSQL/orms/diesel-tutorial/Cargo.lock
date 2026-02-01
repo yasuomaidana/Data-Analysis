@@ -331,7 +331,6 @@ dependencies = [
 name = "diesel-tutorial"
 version = "0.1.0"
 dependencies = [
- "diesel",
  "diesel_migrations",
  "dotenvy",
  "orm-module",

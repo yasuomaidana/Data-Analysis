@@ -15,14 +15,27 @@ define_sql_function! {
     fn get_users_enrolled_in_course(course_name: Text) -> Record<(Integer, Text, Text)>;
 }
 
-#[derive(QueryableByName, Debug)]
+#[derive(QueryableByName, Debug, Queryable)]
 struct UserRecord {
     #[diesel(sql_type = Integer)]
-    id: i32,
+    user_id: i32,
     #[diesel(sql_type = Text)]
-    name: String,
+    user_name: String,
     #[diesel(sql_type = Text)]
-    email: String,
+    user_email: String,
+}
+
+// Implement Queryable for the Record type returned by the function
+impl diesel::deserialize::Queryable<Record<(Integer, Text, Text)>, diesel::pg::Pg> for UserRecord {
+    type Row = (i32, String, String);
+
+    fn build(row: Self::Row) -> diesel::deserialize::Result<Self> {
+        Ok(UserRecord {
+            user_id: row.0,
+            user_name: row.1,
+            user_email: row.2,
+        })
+    }
 }
 
 fn main() {
@@ -32,7 +45,7 @@ fn main() {
     println!("Searching for users enrolled in {}", &course);
 
     let results = diesel::select(get_users_enrolled_in_course(course))
-        .load::<(i32, String, String)>(&mut conn)
+        .load::<UserRecord>(&mut conn)
         .unwrap_or_else(|e| {
             eprintln!("Query failed: {}", e);
             Vec::new()
@@ -40,7 +53,9 @@ fn main() {
 
     let result = results
         .iter()
-        .map(|(id, name, email)| format!("\t{} - {} - {}", id, name, email))
+        .map(|user| {
+            format!("\t{} - {} - {}", user.user_id, user.user_name, user.user_email)
+        })
         .join("\n");
     println!("{result}");
 }

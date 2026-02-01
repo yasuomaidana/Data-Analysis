@@ -7,7 +7,6 @@ edition = "2024"
 diesel_migrations = "2.3.1"
 dotenvy = { workspace = true }
 orm-module = { workspace = true }
-diesel = { workspace = true }
 
 [workspace.dependencies]
 clap = { version = "4.5.56", features = ["derive"] }
