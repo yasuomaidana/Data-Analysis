@@ -4,12 +4,18 @@ version = "0.1.0"
 edition = "2024"
 
 [dependencies]
-clap = {workspace = true}
+clap = { workspace = true }
 diesel = { workspace = true }
+#diesel_filter = { workspace = true }
+diesel_pagination = { workspace = true }
 itertools = "0.14.0"
-orm-module = {workspace = true}
+orm-module = { workspace = true }
 
 
 [[bin]]
 name = "sql-function"
 path = "src/sql_function.rs"
+
+[[bin]]
+name = "pagination"
+path = "src/pagination.rs"

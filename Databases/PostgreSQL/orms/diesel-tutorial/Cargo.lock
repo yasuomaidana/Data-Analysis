@@ -361,6 +361,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "diesel_pagination"
+version = "2.0.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "b25ca691b6021465e3da6e3297cac439685671016889645c1c58d071a1a1d06b"
+dependencies = [
+ "diesel",
+]
+
+[[package]]
 name = "diesel_table_macro_syntax"
 version = "0.3.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -418,6 +427,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "diesel",
+ "diesel_pagination",
  "itertools",
  "orm-module",
 ]
