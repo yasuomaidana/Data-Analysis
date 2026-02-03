@@ -32,6 +32,12 @@ file = "orm-module/src/schema/graph_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 filter = { only_tables = ["entities", "relationships"] }
 
+[print_schema.sentences]
+file = "orm-modules/src/schema/sentences_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["sentences"] }
+
+
 [migrations_directory]
 dir = "migrations"
 

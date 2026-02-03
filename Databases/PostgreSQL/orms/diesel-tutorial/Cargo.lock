@@ -430,6 +430,7 @@ dependencies = [
  "diesel_pagination",
  "itertools",
  "orm-module",
+ "pgtrgm",
 ]
 
 [[package]]
@@ -788,6 +789,15 @@ name = "percent-encoding"
 version = "2.3.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "9b4f627cb1b25917193a259e49bdad08f671f8d9708acfd5fe0a8c1455d87220"
+
+[[package]]
+name = "pgtrgm"
+version = "0.4.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "9f114db5c8742a971d637fc684e4656e7de293eb947a16b0145e05dc3d999a60"
+dependencies = [
+ "diesel",
+]
 
 [[package]]
 name = "phf"
