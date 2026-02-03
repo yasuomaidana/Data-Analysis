@@ -8,11 +8,12 @@ diesel_migrations = "2.3.1"
 dotenvy = { workspace = true }
 orm-module = { workspace = true }
 
+
 [workspace.dependencies]
 clap = { version = "4.5.56", features = ["derive"] }
 diesel = { version = "2.3.6", features = ["postgres", "chrono", "serde_json"] }
 # diesel_filter = { version = "2.0.0" }
-diesel_pagination = {version = "2.0.0"}
+diesel_pagination = { version = "2.0.0" }
 dotenvy = "0.15.7"
 orm-module = { path = "./orm-module" }
 utils = { path = "./utils" }
@@ -21,5 +22,6 @@ chrono = { version = "0.4.43", features = ["serde"] }
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.149" }
 itertools = "0.14.0"
+pgtrgm = { version = "0.4.0", features = ["diesel"] }
 [workspace]
 members = ["all-about-select", "first-steps", "graphs", "orm-module", "extending", "relations", "stored-procedures", "struct-encap-update", "utils"]
