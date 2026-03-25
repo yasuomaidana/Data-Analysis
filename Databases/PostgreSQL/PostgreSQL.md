@@ -19,7 +19,9 @@
 8. [[Regular Expressions]]
 	1. [[Using regex]]
 	2. [[PostgreSQL/regex/Multiple matches]]
-9. Exercises
+9. [[Natural Language]]
+	1. [[Full-Text Search]]
+10. Exercises
 	1. [[Inserting data]]
 	2. [[Retrieving data]]
 	3. [[Building a many-to-many roster]]
