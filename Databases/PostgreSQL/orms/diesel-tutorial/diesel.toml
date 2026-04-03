@@ -37,6 +37,10 @@ file = "orm-module/src/schema/sentences_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 filter = { only_tables = ["sentences"] }
 
+[print_schema.docs]
+file = "orm-module/src/schema/docs_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["docs", "stop_words", "stem_words"] }
 
 [migrations_directory]
 dir = "migrations"
