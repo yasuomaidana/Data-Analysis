@@ -722,6 +722,15 @@ dependencies = [
 ]
 
 [[package]]
+name = "nlp"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "diesel",
+ "orm-module",
+]
+
+[[package]]
 name = "num-conv"
 version = "0.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
