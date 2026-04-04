@@ -150,6 +150,8 @@ fn main() {
             // Use the defined SQL functions in a raw SQL query to expand each
             // document into keywords (words), lower-cased, split on spaces,
             // and return distinct (id, keyword) pairs.
+
+            // see https://diesel.rs/guides/extending-diesel.html
             let sql = "SELECT DISTINCT d.id, s.keyword \
                        FROM docs AS d, unnest(string_to_array(lower(d.doc), ' ')) s(keyword);";
 
