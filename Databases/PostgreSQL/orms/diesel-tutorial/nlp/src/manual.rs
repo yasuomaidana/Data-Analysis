@@ -1,12 +1,15 @@
 use clap::Parser;
-use diesel::ExpressionMethods;
 use diesel::QueryDsl;
+use diesel::QueryableByName;
 use diesel::query_dsl::RunQueryDsl;
+use diesel::sql_query;
+use diesel::sql_types::Integer;
+use diesel::{ExpressionMethods, define_sql_function};
 use std::collections::HashSet;
 
 use clap::Subcommand;
 use diesel::SelectableHelper;
-
+use diesel::sql_types::{Array, Text};
 // diesel::dsl::not/select are not needed for get-keywords; keep imports minimal
 use orm_module::establish_connection;
 use orm_module::model::doc::Doc;
@@ -21,6 +24,18 @@ struct Cli {
     /// Command to execute
     #[command(subcommand)]
     command: Commands,
+}
+
+define_sql_function! {
+    fn string_to_array(x:Text, sep: Text) -> Array<Text>;
+}
+
+define_sql_function! {
+    fn unnest(arr: Array<Text>) -> Text;
+}
+
+define_sql_function! {
+    fn lower(x: Text) -> Text;
 }
 
 #[derive(Subcommand, Debug)]
@@ -40,7 +55,18 @@ enum Commands {
         words: Vec<String>,
     },
     /// Get a list of words that are keywords
-    GetKeywords { words: Vec<String> },
+    GetKeywords {
+        words: Vec<String>,
+    },
+    Unnest,
+}
+
+#[derive(QueryableByName, Debug)]
+struct DocKeyword {
+    #[diesel(sql_type = Integer)]
+    id: i32,
+    #[diesel(sql_type = Text)]
+    keyword: String,
 }
 
 fn get_keywords(conn: &mut diesel::PgConnection, words: Vec<String>) -> Vec<String> {
@@ -119,6 +145,21 @@ fn main() {
         Commands::GetKeywords { words } => {
             let keywords: Vec<String> = get_keywords(&mut conn, words);
             println!("Keywords: {:?}", keywords);
+        }
+        Commands::Unnest => {
+            // Use the defined SQL functions in a raw SQL query to expand each
+            // document into keywords (words), lower-cased, split on spaces,
+            // and return distinct (id, keyword) pairs.
+            let sql = "SELECT DISTINCT d.id, s.keyword \
+                       FROM docs AS d, unnest(string_to_array(lower(d.doc), ' ')) s(keyword);";
+
+            let rows: Vec<DocKeyword> = sql_query(sql)
+                .load(&mut conn)
+                .expect("Error executing unnest query");
+
+            for r in rows {
+                println!("{}->{}", r.id, r.keyword);
+            }
         }
     };
 }
