@@ -1,0 +1,13 @@
+[package]
+name = "nlp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+orm-module = { workspace = true }
+clap = { workspace = true }
+diesel = {workspace = true}
+
+[[bin]]
+name = "manual"
+path = "src/manual.rs"
