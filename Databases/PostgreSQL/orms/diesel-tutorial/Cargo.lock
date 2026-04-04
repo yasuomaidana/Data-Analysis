@@ -728,6 +728,7 @@ dependencies = [
  "clap",
  "diesel",
  "orm-module",
+ "pgtrgm",
 ]
 
 [[package]]
