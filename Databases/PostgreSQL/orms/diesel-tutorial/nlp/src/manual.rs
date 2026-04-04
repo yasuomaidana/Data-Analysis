@@ -1,9 +1,8 @@
 use clap::Parser;
+use diesel::ExpressionMethods;
 use diesel::QueryDsl;
-use diesel::QueryableByName;
 use diesel::query_dsl::RunQueryDsl;
-use diesel::sql_query;
-use diesel::sql_types::{Array, Text};
+use std::collections::HashSet;
 
 use clap::Subcommand;
 use diesel::SelectableHelper;
@@ -12,6 +11,7 @@ use diesel::SelectableHelper;
 use orm_module::establish_connection;
 use orm_module::model::doc::Doc;
 use orm_module::schema::docs_schema::docs::dsl::docs;
+use orm_module::schema::docs_schema::{stem_words, stop_words};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about, long_about = None)]
@@ -40,6 +40,7 @@ enum Commands {
     /// Get a list of words that are keywords
     GetKeywords { words: Vec<String> },
 }
+
 fn main() {
     let cli = Cli::parse();
     let mut conn = establish_connection();
@@ -65,29 +66,46 @@ fn main() {
             // unnest it into rows, left join to stop_words and stem_words, then
             // select the stem when present or the original word otherwise.
             // This returns only words that are NOT stop words.
-            let query = r#"
-WITH input(word) AS (
-  SELECT unnest($1::text[])
-)
-SELECT COALESCE(stem_words.stem, input.word) AS keyword
-FROM input
-LEFT JOIN stop_words ON stop_words.word = input.word
-LEFT JOIN stem_words ON stem_words.word = input.word
-WHERE stop_words.word IS NULL
-"#;
+            // let query = r#"
+            // WITH input(word) AS (
+            //   SELECT unnest($1::text[])
+            // )
+            // SELECT COALESCE(stem_words.stem, input.word) AS keyword
+            // FROM input
+            // LEFT JOIN stop_words ON stop_words.word = input.word
+            // LEFT JOIN stem_words ON stem_words.word = input.word
+            // WHERE stop_words.word IS NULL
+            // "#;
+            // Diesel-only approach without creating helper tables or using raw SQL.
+            // We query the DB for which of the provided words are stop words and which
+            // have stems, then perform the removal and replacement in-memory.
+            // This keeps all lookups in SQL (via Diesel DSL) and avoids persisting the input words.
 
-            #[derive(QueryableByName)]
-            struct KeywordRow {
-                #[diesel(sql_type = Text)]
-                keyword: String,
-            }
+            // Fetch stop words that match any of the input words
+            let stops: HashSet<String> = stop_words::table
+                .filter(stop_words::word.eq_any(&lower_words))
+                .select(stop_words::word)
+                .load::<String>(&mut conn)
+                .expect("Error loading stop words")
+                .into_iter()
+                .collect();
 
-            let rows: Vec<KeywordRow> = sql_query(query)
-                .bind::<Array<Text>, _>(lower_words)
+            // Fetch stems for words that have them
+            let stems_vec: Vec<(String, String)> = stem_words::table
+                .filter(stem_words::word.eq_any(&lower_words))
+                .select((stem_words::word, stem_words::stem))
                 .load(&mut conn)
-                .expect("Error executing keyword query");
+                .expect("Error loading stem words");
 
-            let keywords: Vec<String> = rows.into_iter().map(|r| r.keyword).collect();
+            let stems_map: std::collections::HashMap<String, String> =
+                stems_vec.into_iter().collect();
+
+            // Remove stop words (DB-driven detection) and replace with stems when available
+            let keywords: Vec<String> = lower_words
+                .into_iter()
+                .filter(|w| !stops.contains(w))
+                .map(|w| stems_map.get(&w).cloned().unwrap_or(w))
+                .collect();
 
             println!("Keywords: {:?}", keywords);
         }
