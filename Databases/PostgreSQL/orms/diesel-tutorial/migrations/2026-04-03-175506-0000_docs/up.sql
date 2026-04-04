@@ -87,8 +87,9 @@ VALUES ('running', 'run'),
 
 CREATE TABLE IF NOT EXISTS doc_gin
 (
-    key_word TEXT,
-    doc_id   INTEGER REFERENCES docs (id) ON DELETE CASCADE
+    key_word TEXT    NOT NULL,
+    doc_id   INTEGER NOT NULL REFERENCES docs (id) ON DELETE CASCADE,
+    PRIMARY KEY (key_word, doc_id)
 );
 
 
