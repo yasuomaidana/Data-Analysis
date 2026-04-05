@@ -97,6 +97,13 @@ I'll cover from the docker configuration, migrations, and raw queries calling
        A more generic approach to graph traversal, likely parameterizing the starting point or relationship types.
     4. [Find PRs](./graphs/src/find_prs.rs)
        A specific use case of recursive queries to find Pull Requests related to a specific account or repository.
+9. Natural Language Processing (NLP):
+    1. [Manual NLP](./nlp/src/manual.rs)
+       Demonstrates advanced query execution for full-text search fundamentals using pure SQL translated to Diesel DSL. It handles processing arrays of strings directly in PostgreSQL, performing joins against `stop_words` to remove low-information terms and `stem_words` to reduce words to their base forms before searching.
+    2. [Array GIN](./nlp/src/array_gin.rs)
+       Demonstrates utilizing PostgreSQL's GIN (Generalized Inverted Index) indexes with array data types to efficiently perform complex document and keyword searches across extensive data sets.
+    3. [Trigrams](./nlp/src/trigrams.rs)
+       Shows how to leverage the `pg_trgm` extension in PostgreSQL to support fuzzy string matching and similarity searches. This is highly useful for typo tolerance and finding similar textual content.
 
 ## Troubleshooting
 

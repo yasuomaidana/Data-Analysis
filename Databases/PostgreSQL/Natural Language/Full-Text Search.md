@@ -179,8 +179,8 @@ WHERE G.keyword = 'UMSI';
 
 ### Explanation
 - `docs_gin` tells us which `doc_id` values match the keyword.
-- The `JOIN` connects those ids back to the original `docs` table.
-- The result is the full matching documents instead of only ids.
+- The `JOIN` connects those IDs back to the original `docs` table.
+- The result is the full matching documents instead of only the IDs.
 - `DISTINCT` avoids repeated documents if duplication exists.
 
 ### 2.9 Search for several keywords at once
@@ -559,7 +559,7 @@ LEFT JOIN docs_stem AS S ON K.keyword = S.word;
 ### Explanation
 - The inner query extracts lowercase keywords.
 - The `LEFT JOIN` adds stem values where available.
-- `CASE WHEN stem IS NOT NULL THEN stem ELSE keyword END` chooses the stem if it exists; otherwise it keeps the original keyword.
+- `CASE WHEN stem IS NOT NULL THEN stem ELSE keyword END` chooses the stem if it exists; otherwise, it keeps the original keyword.
 - The result is labeled `awesome`, meaning “the final normalized token to index”.
 
 ### 5.5 Demonstrate `COALESCE`
