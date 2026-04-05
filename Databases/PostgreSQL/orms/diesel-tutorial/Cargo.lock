@@ -350,6 +350,16 @@ dependencies = [
 ]
 
 [[package]]
+name = "diesel_full_text_search"
+version = "2.3.0"
+source = "registry+https://github.com/rust-lang/crates.io-index"
+checksum = "ae98dca9bec8bf7013b819a46b5e3bdb94f1e49269452f5f01477220045888ea"
+dependencies = [
+ "byteorder",
+ "diesel",
+]
+
+[[package]]
 name = "diesel_migrations"
 version = "2.3.1"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -727,6 +737,7 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "diesel",
+ "diesel_full_text_search",
  "orm-module",
  "pgtrgm",
 ]

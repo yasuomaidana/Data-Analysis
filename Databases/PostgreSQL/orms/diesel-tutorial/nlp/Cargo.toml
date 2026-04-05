@@ -8,6 +8,7 @@ orm-module = { workspace = true }
 clap = { workspace = true }
 diesel = { workspace = true }
 pgtrgm = { workspace = true }
+diesel_full_text_search = { workspace = true }
 
 [[bin]]
 name = "manual"
@@ -20,3 +21,7 @@ path = "src/trigrams.rs"
 [[bin]]
 name = "array_gin"
 path = "src/array_gin.rs"
+
+[[bin]]
+name = "ts_query"
+path = "src/ts_query.rs"

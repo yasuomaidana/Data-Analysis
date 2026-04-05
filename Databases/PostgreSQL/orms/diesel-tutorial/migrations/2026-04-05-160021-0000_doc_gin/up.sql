@@ -27,7 +27,10 @@ CREATE INDEX gin_ts ON gin_ts_docs USING gin (to_tsvector('english', doc));
 INSERT INTO gin_ts_docs (doc)
 VALUES ('This is SQL and Python and other fun teaching stuff'),
        ('More people should learn SQL from UMSI'),
-       ('UMSI also teaches Python and also SQL');
+       ('UMSI also teaches Python and also SQL'),
+       ('Hola este es un ejemplo de una oración en español'),
+       ('A veces un texto puede estar en otros idiomas')
+;
 
 -- Filler rows
 INSERT INTO gin_ts_docs (doc)
