@@ -72,3 +72,33 @@ If you are working with text or complex data, you should also consider these alt
 
 1. **JSONB Indexing (`jsonb_ops` / `jsonb_path_ops`)**: If your data is in JSON format, GIN is the default way to index keys and values for lightning-fast lookups.
 2. **`btree_gin`**: A standard B-tree index is usually better for simple equals (`=`), but if you have a multi-column index where one column is a UUID and the other is a text array, the `btree_gin` extension allows you to combine them into one GIN index.
+
+---
+
+## Appendix: PostgreSQL Access Methods (Index Types)
+
+PostgreSQL uses different access methods (index types) for different kinds of data and queries. These methods are cataloged internally in the `pg_am` system catalog. Here is a comparison of the primary access methods, their advantages, disadvantages, and use cases:
+
+### 1. B-Tree (`btree`)
+* **What it is**: The default and most common index type in PostgreSQL. It stores data in a balanced tree, maintaining strict ordering.
+* **Advantages**: Exceptionally fast for exact matches (`=`) and range queries (`<`, `<=`, `>=`, `>`). It can also be used to retrieve data in sorted order (avoiding an explicit sort step).
+* **Disadvantages**: Not suitable for complex composite data types like arrays, JSON documents, or full-text vectors where a single value contains multiple searchable elements.
+* **Use Cases**: Primary keys, unique constraints, dates, numerical values, and standard text columns where you query exact matches or ranges.
+
+### 2. Hash (`hash`)
+* **What it is**: Uses a hash table to map keys to table rows.
+* **Advantages**: Can be slightly faster and take up less space than B-Tree for simple equality (`=`) checks on very large tables.
+* **Disadvantages**: Only supports equality (`=`) operations. It cannot handle range queries (`<`, `>`), sorting, or complex types. 
+* **Use Cases**: Fast lookups on long strings (like session IDs, URLs, or UUIDs) where only exact equality is ever checked.
+
+### 3. GIN (`gin` - Generalized Inverted Index)
+* **What it is**: An "inverted index" designed to handle composite data types where one row contains multiple searchable values.
+* **Advantages**: Excellent for searching for elements *inside* a container (e.g., does this array contain `X`? does this JSON document have key `Y`? does this text contain word `Z`?).
+* **Disadvantages**: Slower to update than B-Tree. Heavy write operations (inserts/updates) can incur a performance penalty because one row change might require updating multiple index entries (e.g., one for each word in a document).
+* **Use Cases**: Full-Text Search (`tsvector`), Arrays, JSONB, and Trigrams (`pg_trgm`).
+
+### 4. GiST (`gist` - Generalized Search Tree)
+* **What it is**: A flexible, tree-based structure that allows developers to define custom indexing rules for complex data types.
+* **Advantages**: Supports "nearest-neighbor" searches and overlapping conditions. It is lossy, meaning it can keep index sizes very small (though it may require checking the actual row to confirm an exact match).
+* **Disadvantages**: Slower to query than GIN for full-text search. Index creation and querying can be CPU-intensive.
+* **Use Cases**: Geographic/Spatial data (PostGIS), overlapping ranges (e.g., scheduling/time ranges), and occasionally full-text search when disk space is severely limited or when updating speed is prioritized over read speed.
