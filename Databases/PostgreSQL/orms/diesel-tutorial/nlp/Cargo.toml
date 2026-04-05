@@ -16,3 +16,7 @@ path = "src/manual.rs"
 [[bin]]
 name = "trigrams"
 path = "src/trigrams.rs"
+
+[[bin]]
+name = "array_gin"
+path = "src/array_gin.rs"
