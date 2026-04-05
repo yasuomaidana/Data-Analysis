@@ -15,7 +15,7 @@ struct Cli {
     spanish: bool,
 }
 
-use diesel_full_text_search::configuration::TsConfiguration;
+use diesel_full_text_search::configuration::TsConfigurationByName;
 
 fn main() {
     let cli = Cli::parse();
@@ -25,10 +25,11 @@ fn main() {
     let mut query = gin_ts_docs::table.into_boxed::<Pg>();
 
     if cli.spanish {
+        let config = TsConfigurationByName("spanish");
+        // let config = TsConfiguration::SIMPLE;
         query = query.filter(
-            to_tsvector_with_search_config(TsConfiguration::SPANISH, gin_ts_docs::doc).matches(
-                to_tsquery_with_search_config(&TsConfiguration::SPANISH, &cli.ts_query),
-            ),
+            to_tsvector_with_search_config(config, gin_ts_docs::doc)
+                .matches(to_tsquery_with_search_config(config, &cli.ts_query)),
         );
     } else {
         query = query.filter(to_tsvector(gin_ts_docs::doc).matches(to_tsquery(&cli.ts_query)));
