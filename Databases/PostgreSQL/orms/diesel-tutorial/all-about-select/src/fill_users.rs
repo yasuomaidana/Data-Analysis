@@ -4,7 +4,7 @@ use diesel::{insert_into, RunQueryDsl};
 use orm_module::model::user::{NewUser, UserRole};
 use orm_module::schema::user_schema::users::dsl::users;
 use rand::distr::Alphanumeric;
-use rand::{random_bool, random_range, rng, Rng};
+use rand::{random_bool, random_range, rng, RngExt};
 use crate::utils_::random_birth_date;
 
 fn random_string(len: usize) -> String {
