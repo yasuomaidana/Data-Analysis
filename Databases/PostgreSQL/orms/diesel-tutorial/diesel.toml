@@ -42,6 +42,11 @@ file = "orm-module/src/schema/docs_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 filter = { only_tables = ["docs", "stop_words", "stem_words", "doc_gin", "gin_array_docs", "gin_ts_docs"] }
 
+[print_schema.jtrack]
+file = "orm-module/src/schema/jtrack_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["jtrack"] }
+
 [migrations_directory]
 dir = "migrations"
 
