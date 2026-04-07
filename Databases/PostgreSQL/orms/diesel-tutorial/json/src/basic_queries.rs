@@ -19,6 +19,10 @@ enum Command {
         #[arg(default_value = "Summer Nights")]
         search: String,
     },
+    ContainsCasted {
+        #[arg(default_value = "Summer Nights")]
+        search: String,
+    },
     /// Use the ->> operator in WHERE to match name text
     Contains {
         #[arg(default_value = "Summer Nights")]
@@ -44,31 +48,57 @@ fn main() {
     let mut conn = establish_connection();
 
     match args.command {
-        Command::Arrow { search } => {
+        Command::Contains { search } => {
             // SELECT (body->>'count')::int FROM jtrack WHERE body @> '{"name": "Summer Nights"}';
-            let results: Vec<Option<String>> = jtrack
+            let query = jtrack
                 .filter(body.contains(serde_json::json!({"name": search})))
-                .select(body.retrieve_as_text("count"))
-                .load(&mut conn)
-                .expect("Error executing arrow query");
+                .select(body.retrieve_as_text("count"));
+            println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
+
+            let results: Vec<Option<String>> =
+                query.load(&mut conn).expect("Error executing arrow query");
 
             show_number_results(results);
         }
-        Command::Contains { search } => {
+        Command::ContainsCasted { search } => {
+            use diesel::sql_types::Integer;
             // SELECT (body->>'count')::int FROM jtrack WHERE body->>'name' = 'Summer Nights';
-            let results: Vec<Option<String>> = jtrack
-                .filter(body.retrieve_as_text("name").eq(search))
-                .select(body.retrieve_as_text("count"))
+
+            // create an expression Diesel knows is Nullable<Integer>
+            let query = jtrack
+                .filter(body.contains(serde_json::json!({"name": search})))
+                .select(diesel::dsl::sql::<diesel::sql_types::Nullable<Integer>>(
+                    "(body->>'count')::int",
+                ));
+
+            println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
+
+            // load into Option<i32>
+            let results: Vec<Option<i32>> = query
                 .load(&mut conn)
+                .expect("Error executing arrow casted query");
+            println!("Parsed counts: {:?}", results);
+        }
+        Command::Arrow { search } => {
+            // SELECT (body->>'count')::int FROM jtrack WHERE body @> '{"name": "Summer Nights"}';
+            let query = jtrack
+                .filter(body.retrieve_as_text("name").eq(search))
+                .select(body.retrieve_as_text("count"));
+
+            println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
+
+            let results: Vec<Option<String>> = query
+                .load::<Option<String>>(&mut conn)
                 .expect("Error executing contains query");
 
             show_number_results(results);
         }
         Command::ContainsKey => {
             // SELECT COUNT(*) FROM jtrack WHERE body ? 'favorite';
-            let count: i64 = jtrack
-                .filter(body.has_key("favorite"))
-                .count()
+            let query = jtrack.filter(body.has_key("favorite")).count();
+            println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
+
+            let count: i64 = query
                 .get_result(&mut conn)
                 .expect("Error executing contains key query");
 
@@ -76,8 +106,10 @@ fn main() {
         }
         Command::GetNames => {
             // SELECT (body->>'name')::text FROM jtrack;
-            let results: Vec<Option<String>> = jtrack
-                .select(body.retrieve_as_text("name"))
+            let query = jtrack.select(body.retrieve_as_text("name"));
+            println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
+
+            let results: Vec<Option<String>> = query
                 .load(&mut conn)
                 .expect("Error executing get names query");
             results
