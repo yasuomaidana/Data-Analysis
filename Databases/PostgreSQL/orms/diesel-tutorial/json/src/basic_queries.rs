@@ -14,7 +14,7 @@ struct Cli {
 
 #[derive(Debug, Clone, Subcommand)]
 enum Command {
-    /// Use the containment operator @> to find rows where body contains {"name":"Summer Nights"}
+    /// Use the containment operator ->> to find rows where body contains {"name":"Summer Nights"}
     Arrow {
         #[arg(default_value = "Summer Nights")]
         search: String,
@@ -23,13 +23,16 @@ enum Command {
         #[arg(default_value = "Summer Nights")]
         search: String,
     },
-    /// Use the ->> operator in WHERE to match name text
+    /// Use the @> operator in WHERE to match name text
     Contains {
         #[arg(default_value = "Summer Nights")]
         search: String,
     },
     /// Count rows where the top-level key 'favorite' exists (jsonb ? 'favorite')
-    ContainsKey,
+    ContainsKey {
+        #[arg(default_value = "favorite")]
+        key: String,
+    },
     GetNames,
 }
 
@@ -93,9 +96,9 @@ fn main() {
 
             show_number_results(results);
         }
-        Command::ContainsKey => {
+        Command::ContainsKey { key } => {
             // SELECT COUNT(*) FROM jtrack WHERE body ? 'favorite';
-            let query = jtrack.filter(body.has_key("favorite")).count();
+            let query = jtrack.filter(body.has_key(key)).count();
             println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
 
             let count: i64 = query

@@ -13,3 +13,7 @@ serde_json = { workspace = true }
 [[bin]]
 name = "fill"
 path = "src/fill.rs"
+
+[[bin]]
+name = "basic_queries"
+path = "src/basic_queries.rs"
