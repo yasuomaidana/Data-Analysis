@@ -1,6 +1,7 @@
 use clap::{Parser, Subcommand};
 use diesel::PgJsonbExpressionMethods;
 use diesel::RunQueryDsl;
+use diesel::dsl::sql;
 use diesel::prelude::*;
 use orm_module::establish_connection;
 use orm_module::schema::jtrack_schema::jtrack::dsl::*;
@@ -70,14 +71,12 @@ fn main() {
             // create an expression Diesel knows is Nullable<Integer>
             let query = jtrack
                 .filter(body.contains(serde_json::json!({"name": search})))
-                .select(diesel::dsl::sql::<diesel::sql_types::Nullable<Integer>>(
-                    "(body->>'count')::int",
-                ));
+                .select(sql::<Integer>("(body->>'count')::int"));
 
             println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
 
             // load into Option<i32>
-            let results: Vec<Option<i32>> = query
+            let results: Vec<i32> = query
                 .load(&mut conn)
                 .expect("Error executing arrow casted query");
             println!("Parsed counts: {:?}", results);

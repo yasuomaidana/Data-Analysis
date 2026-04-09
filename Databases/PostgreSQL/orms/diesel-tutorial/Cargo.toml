@@ -24,6 +24,6 @@ serde_json = { version = "1.0.149" }
 itertools = "0.14.0"
 pgtrgm = { version = "0.4.0", features = ["diesel"] }
 diesel_full_text_search = "2.3.0"
-# diesel_json = "0.3.0"
+diesel_json = "0.3.0"
 [workspace]
 members = ["all-about-select", "first-steps", "graphs", "orm-module", "extending", "relations", "stored-procedures", "struct-encap-update", "utils", "nlp", "json"]

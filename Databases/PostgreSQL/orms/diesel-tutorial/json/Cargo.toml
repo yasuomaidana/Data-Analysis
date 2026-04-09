@@ -8,6 +8,8 @@ orm-module = { workspace = true }
 clap = { workspace = true }
 diesel = { workspace = true }
 reqwest = { version = "0.13.2", features = ["json", "blocking"] }
+diesel_json = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
 
 [[bin]]
@@ -17,3 +19,7 @@ path = "src/fill.rs"
 [[bin]]
 name = "basic_queries"
 path = "src/basic_queries.rs"
+
+[[bin]]
+name = "handled"
+path = "src/handled.rs"
