@@ -1,10 +1,11 @@
 use clap::Parser;
 use diesel::dsl::insert_into;
 use diesel::{Connection, ConnectionResult, Insertable, PgConnection, RunQueryDsl, sql_query};
-use excersices::build_database_url;
+use excersices::{build_database_url, impl_get_connection};
 
 #[derive(Parser, Debug)]
 #[command(author, version, about = "Create a book", long_about = None)]
+
 struct Args {
     host: String,
     port: u16,
@@ -12,18 +13,7 @@ struct Args {
     user: String,
     password: String,
 }
-
-impl Args {
-    fn get_connection(&self) -> ConnectionResult<PgConnection> {
-        PgConnection::establish(&build_database_url(
-            &self.host,
-            self.port,
-            &self.database,
-            &self.user,
-            &self.password,
-        ))
-    }
-}
+impl_get_connection!(Args);
 
 diesel::table! {
     pythonseq (iter) {

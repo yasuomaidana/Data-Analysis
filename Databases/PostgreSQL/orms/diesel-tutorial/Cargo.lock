@@ -619,8 +619,8 @@ version = "0.1.0"
 dependencies = [
  "clap",
  "diesel",
- "orm-module",
- "utils",
+ "reqwest",
+ "serde_json",
 ]
 
 [[package]]

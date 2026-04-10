@@ -19,6 +19,7 @@ orm-module = { path = "./orm-module" }
 utils = { path = "./utils" }
 diesel-derive-enum = { version = "3.0.0-beta.1", features = ["postgres"] }
 chrono = { version = "0.4.43", features = ["serde"] }
+reqwest = { version = "0.13.2", features = ["json", "blocking"] }
 serde = { version = "1.0.228", features = ["derive"] }
 serde_json = { version = "1.0.149" }
 itertools = "0.14.0"
