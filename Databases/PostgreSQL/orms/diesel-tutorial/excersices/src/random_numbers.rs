@@ -1,16 +1,7 @@
 use clap::Parser;
 use diesel::dsl::insert_into;
 use diesel::{Connection, ConnectionResult, Insertable, PgConnection, RunQueryDsl, sql_query};
-
-pub fn build_database_url(
-    host: &str,
-    port: u16,
-    database: &str,
-    user: &str,
-    password: &str,
-) -> String {
-    format!("postgres://{user}:{password}@{host}:{port}/{database}")
-}
+use excersices::build_database_url;
 
 #[derive(Parser, Debug)]
 #[command(author, version, about = "Create a book", long_about = None)]
@@ -61,7 +52,7 @@ fn main() {
     for i in 0..300 {
         println!("{} {}", i + 1, value);
         let new_row = NewPythonSeq {
-            iter: i+1,
+            iter: i + 1,
             val: value as i32,
         };
         insert_into(pythonseq)
