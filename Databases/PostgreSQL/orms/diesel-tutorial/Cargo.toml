@@ -26,4 +26,4 @@ pgtrgm = { version = "0.4.0", features = ["diesel"] }
 diesel_full_text_search = "2.3.0"
 diesel_json = "0.3.0"
 [workspace]
-members = ["all-about-select", "first-steps", "graphs", "orm-module", "extending", "relations", "stored-procedures", "struct-encap-update", "utils", "nlp", "json"]
+members = ["all-about-select", "first-steps", "graphs", "orm-module", "extending", "relations", "stored-procedures", "struct-encap-update", "utils", "nlp", "json", "excersices"]

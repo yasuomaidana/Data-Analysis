@@ -7,7 +7,6 @@ edition = "2024"
 orm-module = { workspace = true }
 diesel = { workspace = true }
 utils = { workspace = true }
-clap = { workspace = true , features = ["derive"]}
 
 [[bin]]
 name = "check-connection"
@@ -36,7 +35,3 @@ path = "src/delete_car.rs"
 [[bin]]
 name = "insert-user-json"
 path = "src/insert_user_json.rs"
-
-[[bin]]
-name = "random_numbers"
-path = "src/random_numbers.rs"
