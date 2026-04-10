@@ -1,11 +1,7 @@
-use diesel::dsl::sql;
-use diesel::sql_types::{Integer, Text};
-use diesel::{
-    BoolExpressionMethods, ExpressionMethods, PgTextExpressionMethods, TextExpressionMethods,
-};
+use diesel::{BoolExpressionMethods, ExpressionMethods, TextExpressionMethods};
 use diesel::{QueryDsl, RunQueryDsl};
 use diesel_json::Json;
-use json::JTrack;
+use json::{JTrack, Track};
 use orm_module::establish_connection;
 use orm_module::schema::jtrack_schema::jtrack;
 
@@ -13,9 +9,9 @@ fn main() {
     let mut conn = establish_connection();
 
     let query = jtrack::table.filter(
-        sql::<Integer>("(body->>'count')::int")
+        Track::count_sql()
             .ge(20)
-            .and(sql::<Text>("(body->>'name')::text").like("%Summer%")),
+            .and(Track::name_sql().like("%Summer%")),
     );
     println!("SQL: {}", diesel::debug_query::<diesel::pg::Pg, _>(&query));
 

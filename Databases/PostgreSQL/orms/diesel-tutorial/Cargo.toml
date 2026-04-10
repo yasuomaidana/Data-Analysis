@@ -11,7 +11,7 @@ orm-module = { workspace = true }
 
 [workspace.dependencies]
 clap = { version = "4.5.56", features = ["derive"] }
-diesel = { version = "2.3.6", features = ["postgres", "chrono", "serde_json"] }
+diesel = { version = "2.3.7", features = ["postgres", "chrono", "serde_json"] }
 # diesel_filter = { version = "2.0.0" }
 diesel_pagination = { version = "2.0.0" }
 dotenvy = "0.15.7"

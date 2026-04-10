@@ -392,9 +392,9 @@ dependencies = [
 
 [[package]]
 name = "diesel"
-version = "2.3.6"
+version = "2.3.7"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d9b6c2fc184a6fb6ebcf5f9a5e3bbfa84d8fd268cdfcce4ed508979a6259494d"
+checksum = "f4ae09a41a4b89f94ec1e053623da8340d996bc32c6517d325a9daad9b239358"
 dependencies = [
  "bitflags",
  "byteorder",
@@ -485,6 +485,26 @@ checksum = "3b4e35cdca3d007ccca4cac79b2dd52469b74f7baf0cbdeac47bdcc7a31662e5"
 dependencies = [
  "diesel",
  "serde",
+ "serde_json",
+]
+
+[[package]]
+name = "diesel_json_derive"
+version = "0.1.0"
+source = "git+https://github.com/yasuomaidana/diesel_json_path#d0eb6d67dd3a659527146cccd9f17269fc689870"
+dependencies = [
+ "proc-macro2",
+ "quote",
+ "syn",
+]
+
+[[package]]
+name = "diesel_json_path"
+version = "0.1.0"
+source = "git+https://github.com/yasuomaidana/diesel_json_path#d0eb6d67dd3a659527146cccd9f17269fc689870"
+dependencies = [
+ "diesel",
+ "diesel_json_derive",
  "serde_json",
 ]
 
@@ -1190,6 +1210,7 @@ dependencies = [
  "clap",
  "diesel",
  "diesel_json",
+ "diesel_json_path",
  "orm-module",
  "reqwest",
  "serde",

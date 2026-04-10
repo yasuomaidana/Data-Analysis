@@ -1,9 +1,10 @@
 use diesel::{Queryable, Selectable};
 use diesel_json::Json;
+use diesel_json_path::SqlFields;
 use orm_module::schema::jtrack_schema::jtrack;
 use serde::{Deserialize, Serialize};
 
-#[derive(Debug, Clone, Serialize, Deserialize)]
+#[derive(Debug, Clone, Serialize, Deserialize, SqlFields)]
 pub struct Track {
     pub name: String,
     pub album: String,

@@ -11,6 +11,7 @@ reqwest = { version = "0.13.2", features = ["json", "blocking"] }
 diesel_json = { workspace = true }
 serde = { workspace = true, features = ["derive"] }
 serde_json = { workspace = true }
+diesel_json_path = { git = "https://github.com/yasuomaidana/diesel_json_path", version = "0.1.0" }
 
 [[bin]]
 name = "fill"
