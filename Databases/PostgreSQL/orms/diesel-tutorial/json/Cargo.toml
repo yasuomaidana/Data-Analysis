@@ -24,3 +24,7 @@ path = "src/basic_queries.rs"
 [[bin]]
 name = "handled"
 path = "src/handled.rs"
+
+[[bin]]
+name = "update_favorite"
+path = "src/update_favorite.rs"
