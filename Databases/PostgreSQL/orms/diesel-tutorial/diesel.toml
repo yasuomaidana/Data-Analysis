@@ -10,11 +10,11 @@ file = "orm-module/src/schema/car_schema.rs"
 custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
 filter = { only_tables = ["cars"] }
 
-# Turning off to avoid unnecesary user, book and course schema modifications
+#Turning off to avoid unnecesary user, book and course schema modifications
 #[print_schema.users]
 #file = "orm-module/src/schema/user_schema.rs"
 #custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
-#filter = { only_tables = ["users"] }
+#filter = { only_tables = ["users", "user_configs"] }
 #
 #[print_schema.books]
 #file = "orm-module/src/schema/book_schema.rs"
