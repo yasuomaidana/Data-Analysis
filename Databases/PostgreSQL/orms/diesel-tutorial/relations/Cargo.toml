@@ -1,0 +1,26 @@
+[package]
+name = "relations"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+clap = { version = "4.5.53", features = ["derive"] }
+orm-module = { workspace = true }
+diesel = { workspace = true }
+itertools =  {workspace = true }
+
+[[bin]]
+name = "fill-books"
+path = "src/one_to_many/fill_books.rs"
+
+[[bin]]
+name = "get-books"
+path = "src/one_to_many/get_books.rs"
+
+[[bin]]
+name = "enroll-student"
+path = "src/many_to_many/enroll_student.rs"
+
+[[bin]]
+name = "get-enrollments"
+path = "src/many_to_many/get_enrollments.rs"

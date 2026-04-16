@@ -1,0 +1,18 @@
+[package]
+name = "excersices"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+diesel = { workspace = true }
+clap = { workspace = true, features = ["derive"] }
+reqwest = { workspace = true, features = ["json", "blocking"] }
+serde_json = { workspace = true }
+
+[[bin]]
+name = "random_numbers"
+path = "src/random_numbers.rs"
+
+[[bin]]
+name = "poke"
+path = "src/poke.rs"

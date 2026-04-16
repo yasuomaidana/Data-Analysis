@@ -1,0 +1,27 @@
+[package]
+name = "nlp"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+orm-module = { workspace = true }
+clap = { workspace = true }
+diesel = { workspace = true }
+pgtrgm = { workspace = true }
+diesel_full_text_search = { workspace = true }
+
+[[bin]]
+name = "manual"
+path = "src/manual.rs"
+
+[[bin]]
+name = "trigrams"
+path = "src/trigrams.rs"
+
+[[bin]]
+name = "array_gin"
+path = "src/array_gin.rs"
+
+[[bin]]
+name = "ts_query"
+path = "src/ts_query.rs"

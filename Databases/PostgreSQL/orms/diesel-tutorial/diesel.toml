@@ -1,0 +1,52 @@
+# For documentation on how to configure this file,
+# see https://diesel.rs/guides/configuring-diesel-cli
+
+#[print_schema]
+#file = "src/schema.rs"
+#custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+
+[print_schema.cars]
+file = "orm-module/src/schema/car_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["cars"] }
+
+# Turning off to avoid unnecesary user, book and course schema modifications
+#[print_schema.users]
+#file = "orm-module/src/schema/user_schema.rs"
+#custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+#filter = { only_tables = ["users"] }
+#
+#[print_schema.books]
+#file = "orm-module/src/schema/book_schema.rs"
+#custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+#filter = { only_tables = ["books", "pages"] }
+
+#[print_schema.courses]
+#file = "orm-module/src/schema/courses_schema.rs"
+#custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+#filter = { only_tables = ["courses", "enrollments"] }
+
+
+[print_schema.graph]
+file = "orm-module/src/schema/graph_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["entities", "relationships"] }
+
+[print_schema.sentences]
+file = "orm-module/src/schema/sentences_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["sentences"] }
+
+[print_schema.docs]
+file = "orm-module/src/schema/docs_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["docs", "stop_words", "stem_words", "doc_gin", "gin_array_docs", "gin_ts_docs"] }
+
+[print_schema.jtrack]
+file = "orm-module/src/schema/jtrack_schema.rs"
+custom_type_derives = ["diesel::query_builder::QueryId", "Clone"]
+filter = { only_tables = ["jtrack"] }
+
+[migrations_directory]
+dir = "migrations"
+

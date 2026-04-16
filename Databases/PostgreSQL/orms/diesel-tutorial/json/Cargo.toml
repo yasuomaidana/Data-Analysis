@@ -1,0 +1,30 @@
+[package]
+name = "json"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+orm-module = { workspace = true }
+clap = { workspace = true }
+diesel = { workspace = true }
+reqwest = { workspace = true, features = ["json", "blocking"] }
+diesel_json = { workspace = true }
+serde = { workspace = true, features = ["derive"] }
+serde_json = { workspace = true }
+diesel_json_path = { git = "https://github.com/yasuomaidana/diesel_json_path", version = "0.1.0" }
+
+[[bin]]
+name = "fill"
+path = "src/fill.rs"
+
+[[bin]]
+name = "basic_queries"
+path = "src/basic_queries.rs"
+
+[[bin]]
+name = "handled"
+path = "src/handled.rs"
+
+[[bin]]
+name = "update_favorite"
+path = "src/update_favorite.rs"

@@ -1,0 +1,26 @@
+[package]
+name = "graphs"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+orm-module = { workspace = true }
+diesel = { workspace = true, features = ["postgres", "sqlite", "r2d2"] }
+serde_json = { workspace = true }
+diesel-cte-ext = { git = "https://github.com/yasuomaidana/diesel-cte-ext", branch = "with-recursive-not-all", features = ["postgres", "sqlite"] }
+clap = { workspace = true }
+[[bin]]
+name = "fill"
+path = "src/fill.rs"
+
+[[bin]]
+name = "with-recursive"
+path = "src/with_recursive.rs"
+
+[[bin]]
+name = "find-prs"
+path = "src/find_prs.rs"
+
+[[bin]]
+name = "generic-find"
+path = "src/generic_find.rs"
