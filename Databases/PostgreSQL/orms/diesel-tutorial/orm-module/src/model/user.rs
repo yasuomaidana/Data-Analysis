@@ -1,10 +1,10 @@
-use crate::schema::user_schema::users;
+use crate::schema::user_schema::{user_configs, users};
 use chrono::{NaiveDate, NaiveDateTime};
 use diesel::dsl::insert_into;
 use diesel::result::Error;
 use diesel::{
-    AsChangeset, HasQuery, Identifiable, Insertable, OptionalExtension, Queryable, RunQueryDsl,
-    Selectable,
+    AsChangeset, Associations, HasQuery, Identifiable, Insertable, OptionalExtension, Queryable,
+    RunQueryDsl, Selectable,
 };
 use diesel_derive_enum::DbEnum;
 use serde::{Deserialize, Serialize};
@@ -82,5 +82,53 @@ impl NewUser {
             .values(self)
             .get_result(conn)
             .optional()
+    }
+}
+
+#[derive(Identifiable, Selectable, Queryable, Associations, Debug, AsChangeset)]
+#[diesel(belongs_to(User, foreign_key = user_id))]
+pub struct UserConfig {
+    pub id: i32,
+    pub user_id: i32,
+    pub enabled: bool,
+    pub points: i32,
+}
+
+#[derive(Insertable)]
+#[diesel(table_name = user_configs)]
+pub struct NewUserConfig {
+    pub user_id: i32,
+    pub enabled: bool,
+    pub points: i32,
+}
+
+pub struct UserConfigBuilder {
+    pub enabled: bool,
+    pub points: i32,
+}
+
+impl UserConfigBuilder {
+    pub fn default() -> UserConfigBuilder {
+        UserConfigBuilder {
+            enabled: true,
+            points: 0,
+        }
+    }
+
+    pub fn enabled(mut self, enabled: bool) -> Self {
+        self.enabled = enabled;
+        self
+    }
+    pub fn points(mut self, points: i32) -> Self {
+        self.points = points;
+        self
+    }
+    pub fn build(&self) -> UserConfig {
+        UserConfig {
+            id: 0, // This will be set by the database
+            user_id: 0,
+            enabled: self.enabled,
+            points: self.points,
+        }
     }
 }
